@@ -1,0 +1,45 @@
+@font-face {
+	font-family: 'Ubuntu';
+	src: url('./assets/fonts/Ubuntu-Bold.ttf');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Ubuntu';
+	src: url('./assets/fonts/Ubuntu-Medium.ttf');
+	font-weight: bolder;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Ubuntu';
+	src: url('./assets/fonts/Ubuntu-Regular.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+
+input:focus,
+button:focus {
+	outline: none;
+}
+
+input::placeholder {
+	font-family: 100%;
+}
+
+input[type='text'] {
+	font-size: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: 'Ubuntu';
+	box-sizing: border-box;
+	border-bottom: 2px solid black;
+}
+
+.user,
+.password {
+	width: 1.75rem;
+}
