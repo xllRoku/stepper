@@ -1,8 +1,9 @@
-import { ReactNode } from 'react';
+import React, { ReactNode, memo } from 'react';
 import styled from 'styled-components';
 
 type Input = {
 	name: string;
+	value?: string;
 	icon: ReactNode;
 	handleOnChnage: (eve: any) => void;
 };
@@ -114,14 +115,39 @@ const H1Form = styled.h1`
 	color: #00afa8;
 `;
 
-const InputText: React.FC<Input> = ({ name, icon, handleOnChnage }) => {
-	return (
-		<Label>
-			{icon}
-			<Input placeholder={name} name={name} onChange={handleOnChnage} />
-		</Label>
-	);
-};
+const InputPassword: React.FC<Input> = memo(
+	({ name, value, icon, handleOnChnage }) => {
+		return (
+			<Label>
+				{icon}
+				<Input
+					placeholder={name}
+					name={name}
+					onChange={handleOnChnage}
+					value={value}
+					type='password'
+				/>
+			</Label>
+		);
+	}
+);
+
+const InputText: React.FC<Input> = memo(
+	({ name, value, icon, handleOnChnage }) => {
+		return (
+			//This can be a compound component
+			<Label>
+				{icon}
+				<Input
+					placeholder={name}
+					name={name}
+					value={value}
+					onChange={handleOnChnage}
+				/>
+			</Label>
+		);
+	}
+);
 
 export {
 	User,
@@ -136,5 +162,6 @@ export {
 	Center,
 	Button,
 	H1Form,
-	InputText
+	InputText,
+	InputPassword
 };
