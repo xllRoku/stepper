@@ -1,6 +1,14 @@
 import styled from 'styled-components';
 import { colors } from './colors';
 
+interface IButton {
+	isSelected: boolean;
+}
+
+interface ISwitch {
+	isSelected: boolean;
+}
+
 const Container = styled.div`
 	display: flex;
 	gap: 7rem;
@@ -84,7 +92,7 @@ const ContainerButton = styled.div`
 	margin-top: 3rem;
 `;
 
-const ButtonPlan = styled.button`
+const ButtonPlan = styled.button<IButton>`
 	width: 8rem;
 	height: 10rem;
 	display: flex;
@@ -92,7 +100,8 @@ const ButtonPlan = styled.button`
 	align-items: start;
 	justify-content: space-between;
 	border: 1px solid ${colors.CoolGray};
-	background: none;
+	background: ${props =>
+		props.isSelected ? `${colors.PastelBlue}` : 'none'};
 	border-radius: 0.5rem;
 	padding: 1rem;
 	cursor: pointer;
@@ -114,6 +123,95 @@ const PricePlan = styled.span`
 	color: ${colors.CoolGray};
 `;
 
+const SwitchDiv = styled.div`
+	width: 2rem;
+	height: 1.5rem;
+	background: ${colors.MarineBlue};
+	display: flex;
+	align-items: center;
+	border-radius: 100vh;
+	padding-inline: 0.5rem;
+`;
+
+const SwitchContainer = styled.div`
+	width: 100%;
+	height: 100%;
+	position: relative;
+	display: flex;
+	align-items: center;
+`;
+
+const Circle = styled.button<ISwitch>`
+	width: 1rem;
+	height: 1rem;
+	position: absolute;
+	border-radius: 100vh;
+	transition: all;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: 500ms;
+	animation-duration: 500;
+	cursor: pointer;
+	background-color: white;
+	border: none;
+	margin-left: ${props => (props.isSelected ? '1rem' : '')};
+`;
+
+const Align = styled.div`
+	height: 4rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: ${colors.Alabaster};
+	gap: 2rem;
+	border-radius: 0.5rem;
+	margin-top: 2rem;
+`;
+
+const Monthly = styled.span`
+	text-transform: capitalize;
+	font-weight: bold;
+`;
+
+const Yearly = styled.span`
+	text-transform: capitalize;
+	font-weight: bold;
+`;
+
+const ButtonPlanSkeleton = styled.button`
+	width: 8rem;
+	height: 10rem;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	justify-content: space-between;
+	border: 1px solid ${colors.CoolGray};
+	border-radius: 0.5rem;
+	padding: 1rem;
+`;
+
+const ButtonImageSkeleton = styled.div`
+	width: 40px;
+	height: 42px;
+	border-radius: 100vh;
+`;
+
+const ButtonInfoSkeleton = styled.div`
+	text-align: start;
+`;
+
+const TitlePlanSkeleton = styled.h3`
+	width: 80px;
+	height: 16px;
+	text-transform: capitalize;
+	border-radius: 100vh;
+`;
+const PricePlanSkeleton = styled.div`
+	width: 52px;
+	height: 16px;
+	border-radius: 100vh;
+	margin-top: 0.5rem;
+`;
+
 export {
 	Bg,
 	ButtonPlan,
@@ -132,5 +230,16 @@ export {
 	PricePlan,
 	ButtonInfo,
 	Description,
-	HeaderContent
+	HeaderContent,
+	SwitchDiv,
+	SwitchContainer,
+	Circle,
+	Monthly,
+	Yearly,
+	Align,
+	ButtonPlanSkeleton,
+	ButtonInfoSkeleton,
+	TitlePlanSkeleton,
+	PricePlanSkeleton,
+	ButtonImageSkeleton
 };

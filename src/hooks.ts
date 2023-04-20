@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { IPlanApi, PlanMemoryService } from './services';
+import { useAnnualityStore } from './store';
 
 const PlanMapper = (plans: IPlanApi): IPlanApi => ({
 	id: plans.id,
@@ -10,6 +11,10 @@ const PlanMapper = (plans: IPlanApi): IPlanApi => ({
 });
 
 const usePlans = () => {
+	const store = useAnnualityStore();
+
+	console.log(store.annuality);
+
 	const [plans, setPlans] = useState<{
 		data: Array<IPlanApi>;
 		loading: boolean;
@@ -24,7 +29,7 @@ const usePlans = () => {
 			loading: true
 		});
 		PlanMemoryService()
-			.getPlan('monthly')
+			.getPlan(store.annuality)
 			.then(data =>
 				setPlans({
 					...plans,
@@ -32,7 +37,7 @@ const usePlans = () => {
 					loading: false
 				})
 			);
-	}, []);
+	}, [store.annuality]);
 
 	const { data, loading } = plans;
 

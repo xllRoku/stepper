@@ -1,20 +1,39 @@
 import { create } from 'zustand';
-import { IPlan } from './home';
+import { ANNUALITY } from './constans';
 
-type PlanStore = {
+interface IPlan {
+	id?: string;
+	title?: string;
+	price?: number;
+	annuality?: string;
+}
+
+interface PlanStore {
 	plan: IPlan | undefined;
 	setPlan: (plan: IPlan) => void;
 	changePrice: (price: number) => void;
 	setAnnuality: (annuality: string) => void;
 	removePlan: () => void;
-};
+}
 
-const usePlan = create<PlanStore>(set => ({
+const usePlanStore = create<PlanStore>(set => ({
 	plan: undefined,
-	setPlan: (plan: IPlan) => set(() => ({ plan })),
-	changePrice: (price: number) =>
-		set(state => ({ plan: { ...state.plan, price } })),
-	setAnnuality: (annuality: string) =>
-		set(state => ({ plan: { ...state.plan, annuality } })),
+	setPlan: plan => set(() => ({ plan })),
+	changePrice: price =>
+		set(({ plan }) => ({ plan: { ...plan, price: price } })),
+	setAnnuality: annuality =>
+		set(({ plan }) => ({ plan: { ...plan, annuality: annuality } })),
 	removePlan: () => set(() => ({ plan: undefined }))
 }));
+
+interface AnnualityStore {
+	annuality: string;
+	setAnnuality: (annuality: string) => void;
+}
+
+const useAnnualityStore = create<AnnualityStore>(set => ({
+	annuality: ANNUALITY.MONTHLY,
+	setAnnuality: annuality => set(state => ({ ...state, annuality }))
+}));
+
+export { usePlanStore, useAnnualityStore };

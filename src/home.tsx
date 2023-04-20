@@ -19,15 +19,31 @@ import {
 	PricePlan,
 	ButtonInfo,
 	Description,
-	HeaderContent
+	HeaderContent,
+	SwitchDiv,
+	SwitchContainer,
+	Circle,
+	Align,
+	Monthly,
+	Yearly,
+	ButtonInfoSkeleton,
+	TitlePlanSkeleton,
+	PricePlanSkeleton,
+	ButtonPlanSkeleton,
+	ButtonImageSkeleton
 } from './home.components';
 import { usePlans } from './hooks';
+import { useAnnualityStore, usePlanStore } from './store';
+import { useState } from 'react';
+import { ANNUALITY } from './constans';
+import { colors } from './colors';
 
 interface IPlan {
 	id: string;
 	title: string;
 	image: string;
 	price: number;
+	annuality: string;
 }
 
 interface IPlanObject {
@@ -46,7 +62,6 @@ interface IStepObject {
 }
 
 const Home = () => {
-	const { data, loading } = usePlans();
 	return (
 		<Container>
 			<ContainerStep>
@@ -69,21 +84,30 @@ const Home = () => {
 					</HeaderContent>
 				</header>
 				<div>
-					<ContainerButton>
-						<If predicate={loading}>
-							<Then predicate>
-								<p style={{ color: 'red' }}>loading...</p>
-							</Then>
-							<Else predicate>
-								{data.map(p => (
-									<Plan key={p.id} plan={p} />
-								))}
-							</Else>
-						</If>
-					</ContainerButton>
+					<Plans />
+					<SwitchPlan />
 				</div>
 			</main>
 		</Container>
+	);
+};
+
+const Plans = () => {
+	const { data, loading } = usePlans();
+
+	return (
+		<ContainerButton>
+			<If predicate={loading}>
+				<Then predicate>
+					<Skeleton />
+				</Then>
+				<Else predicate>
+					{data.map(p => (
+						<Plan key={p.id} plan={p} />
+					))}
+				</Else>
+			</If>
+		</ContainerButton>
 	);
 };
 
@@ -105,14 +129,86 @@ const Step: React.FC<IStepObject> = ({ step }) => {
 
 const Plan: React.FC<IPlanObject> = ({ plan }) => {
 	const { image, price, title } = plan;
+	const store = usePlanStore();
+
+	const isPlanSelected = store.plan?.title === title;
+
 	return (
-		<ButtonPlan>
+		<ButtonPlan
+			isSelected={isPlanSelected}
+			onClick={() =>
+				store.setPlan({
+					id: plan.id,
+					title: plan.title,
+					price: plan.price,
+					annuality: plan.annuality
+				})
+			}
+		>
 			<img src={image} alt='' />
 			<ButtonInfo>
 				<TitlePlan> {title} </TitlePlan>
 				<PricePlan>${price}/mo</PricePlan>
 			</ButtonInfo>
 		</ButtonPlan>
+	);
+};
+
+const SwitchPlan = () => {
+	const [isSelected, setIsSelected] = useState(false);
+	const storeAnnuality = useAnnualityStore();
+
+	const isMonthly = storeAnnuality.annuality === ANNUALITY.MONTHLY;
+	const isYearly = storeAnnuality.annuality === ANNUALITY.YEARLY;
+
+	const changeAnnuality = () =>
+		isYearly ? ANNUALITY.MONTHLY : ANNUALITY.YEARLY;
+
+	const handleOnClick = () => {
+		setIsSelected(!isSelected);
+		storeAnnuality.setAnnuality(changeAnnuality());
+	};
+
+	return (
+		<Align>
+			<Monthly
+				style={{
+					color: `${isMonthly ? colors.MarineBlue : colors.LightGray}`
+				}}
+			>
+				monthly
+			</Monthly>
+			<SwitchDiv>
+				<SwitchContainer>
+					<Circle onClick={handleOnClick} isSelected={isSelected} />
+				</SwitchContainer>
+			</SwitchDiv>
+			<Yearly
+				style={{
+					color: `${isYearly ? colors.MarineBlue : colors.LightGray}`
+				}}
+			>
+				yearly
+			</Yearly>
+		</Align>
+	);
+};
+
+const Skeleton = () => {
+	const COUNTER = 3;
+
+	return (
+		<>
+			{Array(COUNTER).fill(
+				<ButtonPlanSkeleton>
+					<ButtonImageSkeleton className='loader' />
+					<ButtonInfoSkeleton>
+						<TitlePlanSkeleton className='loader'></TitlePlanSkeleton>
+						<PricePlanSkeleton className='loader'></PricePlanSkeleton>
+					</ButtonInfoSkeleton>
+				</ButtonPlanSkeleton>
+			)}
+		</>
 	);
 };
 
