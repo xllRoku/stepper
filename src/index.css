@@ -32,11 +32,28 @@ input[type='text'] {
 	font-size: 100%;
 }
 
+* {
+	font-family: 'Ubuntu';
+}
+
 body {
 	margin: 0;
-	font-family: 'Ubuntu';
 	box-sizing: border-box;
 	border-bottom: 2px solid black;
+	background: #eeeeee;
+}
+
+ol {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	marker: none;
+}
+
+p,
+h3,
+h1 {
+	margin: 0;
 }
 
 .user,

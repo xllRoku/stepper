@@ -13,7 +13,7 @@ import {
 	ObvImageForm,
 	Password,
 	User
-} from './components';
+} from './auth.components';
 import { useNavigate } from '@tanstack/react-location';
 
 const FORM_NAMES = {

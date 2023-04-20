@@ -1,9 +1,7 @@
-import { Container, ContainerForm, ObvImage, ObvImageForm } from './components';
+import { Container } from './auth.components';
 import { Router, Route, ReactLocation, Outlet } from '@tanstack/react-location';
+import Home from './home';
 
-const Home = () => {
-	return <div>hello world</div>;
-};
 const routes: Array<Route> = [
 	{
 		path: '/',
