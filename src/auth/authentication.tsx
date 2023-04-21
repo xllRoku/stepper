@@ -1,4 +1,4 @@
-import obv from '../assets/images/bg-sidebar-desktop.svg';
+import obv from '../assets/images/obvli.jpg';
 import { Outlet } from 'react-router-dom';
 import {
 	Button,
