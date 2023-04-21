@@ -96,4 +96,14 @@ const Margin = styled.div<MarginProps>`
 	margin-bottom: ${({ marginBlock }) => marginBlock};
 `;
 
+const breakpoints = {
+	sm: '576px',
+	md: '768px',
+	lg: '992px',
+	xl: '1200px'
+};
+
+export const getMediaQuery = (key: keyof typeof breakpoints): string =>
+	`@media (min-width: ${breakpoints[key]})`;
+
 export { Flex, Grid, Padding, Margin };

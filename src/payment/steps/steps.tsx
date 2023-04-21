@@ -1,4 +1,4 @@
-import bg from './assets/images/bg-sidebar-desktop.svg';
+import bg from '../../assets/images/bg-sidebar-desktop.svg';
 import { STEPS } from '../../constans';
 import {
 	Bg,
