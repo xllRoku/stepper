@@ -6,21 +6,16 @@ interface ISwitch {
 }
 
 const SwitchDiv = styled.div`
-	width: 2rem;
+	width: 3rem;
 	height: 1.5rem;
 	background: ${colors.MarineBlue};
-	display: flex;
-	align-items: center;
 	border-radius: 100vh;
-	padding-inline: 0.5rem;
 `;
 
 const SwitchContainer = styled.div`
 	width: 100%;
 	height: 100%;
 	position: relative;
-	display: flex;
-	align-items: center;
 `;
 
 const Circle = styled.button<ISwitch>`

@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import { colors } from './colors';
 
 const HomeContainer = styled.div`
-	display: flex;
-	gap: 7rem;
 	background: white;
 	padding: 1rem;
 	padding-right: 7rem;

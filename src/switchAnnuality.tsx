@@ -1,4 +1,5 @@
 import { colors } from './colors';
+import { Flex, Padding } from './functional.component';
 import { useSwitchAnnuality } from './hooks';
 import {
 	Align,
@@ -23,9 +24,22 @@ const SwitchAnnuality = () => {
 				monthly
 			</Monthly>
 			<SwitchDiv>
-				<SwitchContainer>
-					<Circle onClick={handleOnClick} isSelected={isSelected} />
-				</SwitchContainer>
+				<Padding paddingInline='0.5rem'>
+					<Flex width='100%' height='100%' alignItems='center'>
+						<SwitchContainer>
+							<Flex
+								width='100%'
+								height='100%'
+								alignItems='center'
+							>
+								<Circle
+									onClick={handleOnClick}
+									isSelected={isSelected}
+								/>
+							</Flex>
+						</SwitchContainer>
+					</Flex>
+				</Padding>
 			</SwitchDiv>
 			<Yearly
 				style={{

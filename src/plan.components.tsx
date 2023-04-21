@@ -7,18 +7,13 @@ interface IButton {
 
 const ContainerButton = styled.div`
 	width: 100%;
-	display: flex;
-	gap: 1rem;
+
 	margin-top: 3rem;
 `;
 
 const ButtonPlan = styled.button<IButton>`
 	width: 8rem;
 	height: 10rem;
-	display: flex;
-	flex-direction: column;
-	align-items: start;
-	justify-content: space-between;
 	border: 1px solid
 		${props =>
 			props.isSelected
@@ -27,7 +22,6 @@ const ButtonPlan = styled.button<IButton>`
 	background: ${props =>
 		props.isSelected ? `${colors.PastelBlue}` : 'none'};
 	border-radius: 0.5rem;
-	padding: 1rem;
 	cursor: pointer;
 	&:hover {
 		border: 1px solid ${colors.PurplishBlue};
@@ -50,10 +44,6 @@ const PricePlan = styled.span`
 const ButtonPlanSkeleton = styled.button`
 	width: 8rem;
 	height: 10rem;
-	display: flex;
-	flex-direction: column;
-	align-items: start;
-	justify-content: space-between;
 	border: 1px solid ${colors.CoolGray};
 	border-radius: 0.5rem;
 	padding: 1rem;

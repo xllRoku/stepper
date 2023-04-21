@@ -1,5 +1,6 @@
 import React, { ReactNode, memo } from 'react';
 import styled from 'styled-components';
+import { Flex } from './functional.component';
 
 type Input = {
 	name: string;
@@ -44,8 +45,6 @@ const Password = () => (
 
 const Container = styled.div`
 	height: 100vh;
-	display: grid;
-	place-items: center;
 `;
 
 const ObvImage = styled.img`
@@ -70,14 +69,11 @@ const ContainerForm = styled.div`
 `;
 
 const Label = styled.label`
-	display: flex;
 	width: 100%;
 	border-bottom: 3px solid black;
 	border-radius: 100vh;
 	padding-inline: 1rem;
 	padding-block: 0.5rem;
-	gap: 0.5rem;
-	justify-content: center;
 `;
 
 const Input = styled.input`
@@ -89,12 +85,6 @@ const Input = styled.input`
 		text-transform: capitalize;
 		font-weight: bold;
 	}
-`;
-
-const Center = styled.div`
-	display: grid;
-	place-items: center;
-	gap: 1rem;
 `;
 
 const Button = styled.button`
@@ -119,14 +109,16 @@ const InputPassword: React.FC<Input> = memo(
 	({ name, value, icon, handleOnChnage }) => {
 		return (
 			<Label>
-				{icon}
-				<Input
-					placeholder={name}
-					name={name}
-					onChange={handleOnChnage}
-					value={value}
-					type='password'
-				/>
+				<Flex justifyContent='center' gap='0.5rem'>
+					{icon}
+					<Input
+						placeholder={name}
+						name={name}
+						onChange={handleOnChnage}
+						value={value}
+						type='password'
+					/>
+				</Flex>
 			</Label>
 		);
 	}
@@ -137,13 +129,15 @@ const InputText: React.FC<Input> = memo(
 		return (
 			//This can be a compound component
 			<Label>
-				{icon}
-				<Input
-					placeholder={name}
-					name={name}
-					value={value}
-					onChange={handleOnChnage}
-				/>
+				<Flex justifyContent='center' gap='0.5rem'>
+					{icon}
+					<Input
+						placeholder={name}
+						name={name}
+						value={value}
+						onChange={handleOnChnage}
+					/>
+				</Flex>
 			</Label>
 		);
 	}
@@ -159,7 +153,6 @@ export {
 	ContainerForm,
 	Label,
 	Input,
-	Center,
 	Button,
 	H1Form,
 	InputText,

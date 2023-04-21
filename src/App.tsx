@@ -1,6 +1,6 @@
 import { Container } from './auth.components';
 import { Router, Route, ReactLocation, Outlet } from '@tanstack/react-location';
-import Home from './home';
+import { Grid } from './functional.component';
 
 const routes: Array<Route> = [
 	{
@@ -19,7 +19,9 @@ function App() {
 	return (
 		<Router routes={routes} location={location}>
 			<Container>
-				<Outlet />
+				<Grid gridPlaceItems='center' height='100%'>
+					<Outlet />
+				</Grid>
 			</Container>
 		</Router>
 	);

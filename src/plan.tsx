@@ -1,4 +1,4 @@
-import { Else, If, Then } from './functional.component';
+import { Else, Flex, If, Padding, Then } from './functional.component';
 import { usePlans } from './hooks';
 import {
 	ButtonImageSkeleton,
@@ -31,16 +31,18 @@ const Plans = () => {
 
 	return (
 		<ContainerButton>
-			<If predicate={loading}>
-				<Then predicate>
-					<Skeleton />
-				</Then>
-				<Else predicate>
-					{data.map(p => (
-						<Plan key={p.id} plan={p} />
-					))}
-				</Else>
-			</If>
+			<Flex gap='1rem'>
+				<If predicate={loading}>
+					<Then predicate>
+						<Skeleton />
+					</Then>
+					<Else predicate>
+						{data.map(p => (
+							<Plan key={p.id} plan={p} />
+						))}
+					</Else>
+				</If>
+			</Flex>
 		</ContainerButton>
 	);
 };
@@ -63,11 +65,21 @@ const Plan: React.FC<IPlanObject> = ({ plan }) => {
 				})
 			}
 		>
-			<img src={image} alt='' />
-			<ButtonInfo>
-				<TitlePlan> {title} </TitlePlan>
-				<PricePlan>${price}/mo</PricePlan>
-			</ButtonInfo>
+			<Padding padding='1rem'>
+				<Flex
+					width='100%'
+					height='100%'
+					flexDirection='column'
+					alignItems='start'
+					justifyContent='space-between'
+				>
+					<img src={image} alt='' />
+					<ButtonInfo>
+						<TitlePlan> {title} </TitlePlan>
+						<PricePlan>${price}/mo</PricePlan>
+					</ButtonInfo>
+				</Flex>
+			</Padding>
 		</ButtonPlan>
 	);
 };
@@ -79,11 +91,17 @@ const Skeleton = () => {
 		<>
 			{Array(COUNTER).fill(
 				<ButtonPlanSkeleton>
-					<ButtonImageSkeleton className='loader' />
-					<ButtonInfoSkeleton>
-						<TitlePlanSkeleton className='loader'></TitlePlanSkeleton>
-						<PricePlanSkeleton className='loader'></PricePlanSkeleton>
-					</ButtonInfoSkeleton>
+					<Flex
+						flexDirection='column'
+						alignItems='center'
+						justifyContent='space-between'
+					>
+						<ButtonImageSkeleton className='loader' />
+						<ButtonInfoSkeleton>
+							<TitlePlanSkeleton className='loader'></TitlePlanSkeleton>
+							<PricePlanSkeleton className='loader'></PricePlanSkeleton>
+						</ButtonInfoSkeleton>
+					</Flex>
 				</ButtonPlanSkeleton>
 			)}
 		</>

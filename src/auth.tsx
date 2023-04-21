@@ -1,7 +1,6 @@
 import obv from './assets/images/obvli.jpg';
 import {
 	Button,
-	Center,
 	ContainerForm,
 	Form,
 	H1Form,
@@ -12,6 +11,7 @@ import {
 	Password,
 	User
 } from './auth.components';
+import { Grid } from './functional.component';
 import { useLogin } from './hooks';
 
 const FORM_NAMES = {
@@ -24,7 +24,7 @@ const FormSignup = () => {
 
 	return (
 		<Form onSubmit={handleOnSubmit}>
-			<Center>
+			<Grid gridPlaceItems='center' gap='1rem'>
 				<H1Form>user login</H1Form>
 				<InputText
 					icon={<User />}
@@ -37,7 +37,7 @@ const FormSignup = () => {
 					handleOnChnage={handleOnChange}
 				/>
 				<Button>sign up</Button>
-			</Center>
+			</Grid>
 		</Form>
 	);
 };
