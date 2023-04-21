@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IPlanApi, PlanMemoryService } from './services';
 import { useAnnualityStore } from './store';
+import { ANNUALITY } from './constans';
 
 const PlanMapper = (plans: IPlanApi): IPlanApi => ({
 	id: plans.id,
@@ -44,4 +45,22 @@ const usePlans = () => {
 	return { data, loading };
 };
 
-export { usePlans };
+const useSwitchAnnuality = () => {
+	const [isSelected, setIsSelected] = useState(false);
+	const storeAnnuality = useAnnualityStore();
+
+	const isMonthly = storeAnnuality.annuality === ANNUALITY.MONTHLY;
+	const isYearly = storeAnnuality.annuality === ANNUALITY.YEARLY;
+
+	const changeAnnuality = () =>
+		isYearly ? ANNUALITY.MONTHLY : ANNUALITY.YEARLY;
+
+	const handleOnClick = () => {
+		setIsSelected(!isSelected);
+		storeAnnuality.setAnnuality(changeAnnuality());
+	};
+
+	return { isSelected, handleOnClick, isMonthly, isYearly };
+};
+
+export { usePlans, useSwitchAnnuality };
