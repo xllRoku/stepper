@@ -1,6 +1,4 @@
 import obv from './assets/images/obvli.jpg';
-import { useState, FormEvent, useCallback } from 'react';
-import axios from 'axios';
 import {
 	Button,
 	Center,
@@ -14,7 +12,7 @@ import {
 	Password,
 	User
 } from './auth.components';
-import { useNavigate } from '@tanstack/react-location';
+import { useLogin } from './hooks';
 
 const FORM_NAMES = {
 	EMAIL: 'email',
@@ -22,31 +20,8 @@ const FORM_NAMES = {
 };
 
 const FormSignup = () => {
-	const navigate = useNavigate();
-	const [data, setData] = useState({
-		email: '',
-		password: ''
-	});
+	const { handleOnChange, handleOnSubmit } = useLogin();
 
-	const handleOnChange = useCallback((event: any) => {
-		const { name, value } = event.target;
-		setData(prevData => ({ ...prevData, [name]: value }));
-	}, []);
-
-	const handleOnSubmit = (event: FormEvent) => {
-		event.preventDefault();
-		const url = 'http://localhost:3000';
-		const endpoint = 'user/register';
-		axios
-			.post(`${url}/${endpoint}`, {
-				email: data.email,
-				password: data.password
-			})
-			.then(res => console.log(res.data))
-			.catch(err => console.log(err.response?.data.errorMessage));
-
-		navigate({ to: '/dashboard' });
-	};
 	return (
 		<Form onSubmit={handleOnSubmit}>
 			<Center>

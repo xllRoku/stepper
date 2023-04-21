@@ -19,7 +19,11 @@ const ButtonPlan = styled.button<IButton>`
 	flex-direction: column;
 	align-items: start;
 	justify-content: space-between;
-	border: 1px solid ${colors.CoolGray};
+	border: 1px solid
+		${props =>
+			props.isSelected
+				? `${colors.PurplishBlue}`
+				: `${colors.PastelBlue}`};
 	background: ${props =>
 		props.isSelected ? `${colors.PastelBlue}` : 'none'};
 	border-radius: 0.5rem;

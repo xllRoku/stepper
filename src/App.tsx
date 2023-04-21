@@ -9,7 +9,7 @@ const routes: Array<Route> = [
 	},
 	{
 		path: '/dashboard',
-		element: <Home />
+		element: () => import('./home').then(module => <module.default />)
 	}
 ];
 

@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, FormEvent } from 'react';
 import { IPlanApi, PlanMemoryService } from './services';
 import { useAnnualityStore } from './store';
 import { ANNUALITY } from './constans';
+import { useNavigate } from '@tanstack/react-location';
+import axios from 'axios';
 
 const PlanMapper = (plans: IPlanApi): IPlanApi => ({
 	id: plans.id,
@@ -13,8 +15,6 @@ const PlanMapper = (plans: IPlanApi): IPlanApi => ({
 
 const usePlans = () => {
 	const store = useAnnualityStore();
-
-	console.log(store.annuality);
 
 	const [plans, setPlans] = useState<{
 		data: Array<IPlanApi>;
@@ -63,4 +63,34 @@ const useSwitchAnnuality = () => {
 	return { isSelected, handleOnClick, isMonthly, isYearly };
 };
 
-export { usePlans, useSwitchAnnuality };
+const useLogin = () => {
+	const navigate = useNavigate();
+	const [data, setData] = useState({
+		email: '',
+		password: ''
+	});
+
+	const handleOnChange = useCallback((event: any) => {
+		const { name, value } = event.target;
+		setData(prevData => ({ ...prevData, [name]: value }));
+	}, []);
+
+	const handleOnSubmit = (event: FormEvent) => {
+		event.preventDefault();
+		const url = 'http://localhost:3000';
+		const endpoint = 'user/register';
+		axios
+			.post(`${url}/${endpoint}`, {
+				email: data.email,
+				password: data.password
+			})
+			.then(res => console.log(res.data))
+			.catch(err => console.log(err.response?.data.errorMessage));
+
+		navigate({ to: '/dashboard' });
+	};
+
+	return { handleOnChange, handleOnSubmit };
+};
+
+export { usePlans, useSwitchAnnuality, useLogin };
