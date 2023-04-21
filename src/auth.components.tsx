@@ -1,6 +1,6 @@
 import React, { ReactNode, memo } from 'react';
 import styled from 'styled-components';
-import { Flex } from './functional.component';
+import { Flex, Padding } from './functional.component';
 
 type Input = {
 	name: string;
@@ -59,10 +59,7 @@ const ObvImageForm = styled.img`
 	height: 20rem;
 `;
 
-const Form = styled.form`
-	padding-inline: 6rem;
-	padding-block: 1rem;
-`;
+const Form = styled.form``;
 
 const ContainerForm = styled.div`
 	background: white;
@@ -72,8 +69,6 @@ const Label = styled.label`
 	width: 100%;
 	border-bottom: 3px solid black;
 	border-radius: 100vh;
-	padding-inline: 1rem;
-	padding-block: 0.5rem;
 `;
 
 const Input = styled.input`
@@ -101,7 +96,6 @@ const Button = styled.button`
 `;
 
 const H1Form = styled.h1`
-	margin-bottom: 0;
 	color: #00afa8;
 `;
 
@@ -109,16 +103,18 @@ const InputPassword: React.FC<Input> = memo(
 	({ name, value, icon, handleOnChnage }) => {
 		return (
 			<Label>
-				<Flex justifyContent='center' gap='0.5rem'>
-					{icon}
-					<Input
-						placeholder={name}
-						name={name}
-						onChange={handleOnChnage}
-						value={value}
-						type='password'
-					/>
-				</Flex>
+				<Padding paddingInline='1rem' paddingBlock='0.5rem'>
+					<Flex justifyContent='center' gap='0.5rem'>
+						{icon}
+						<Input
+							placeholder={name}
+							name={name}
+							onChange={handleOnChnage}
+							value={value}
+							type='password'
+						/>
+					</Flex>
+				</Padding>
 			</Label>
 		);
 	}
@@ -129,15 +125,17 @@ const InputText: React.FC<Input> = memo(
 		return (
 			//This can be a compound component
 			<Label>
-				<Flex justifyContent='center' gap='0.5rem'>
-					{icon}
-					<Input
-						placeholder={name}
-						name={name}
-						value={value}
-						onChange={handleOnChnage}
-					/>
-				</Flex>
+				<Padding paddingInline='1rem' paddingBlock='0.5rem'>
+					<Flex justifyContent='center' gap='0.5rem'>
+						{icon}
+						<Input
+							placeholder={name}
+							name={name}
+							value={value}
+							onChange={handleOnChnage}
+						/>
+					</Flex>
+				</Padding>
 			</Label>
 		);
 	}

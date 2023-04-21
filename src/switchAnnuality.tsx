@@ -1,8 +1,8 @@
 import { colors } from './colors';
-import { Flex, Padding } from './functional.component';
+import { Flex, Margin, Padding } from './functional.component';
 import { useSwitchAnnuality } from './hooks';
 import {
-	Align,
+	Switch,
 	Circle,
 	Monthly,
 	SwitchContainer,
@@ -15,40 +15,58 @@ const SwitchAnnuality = () => {
 		useSwitchAnnuality();
 
 	return (
-		<Align>
-			<Monthly
-				style={{
-					color: `${isMonthly ? colors.MarineBlue : colors.LightGray}`
-				}}
-			>
-				monthly
-			</Monthly>
-			<SwitchDiv>
-				<Padding paddingInline='0.5rem'>
-					<Flex width='100%' height='100%' alignItems='center'>
-						<SwitchContainer>
+		<Switch>
+			<Margin marginTop='2rem'>
+				<Flex
+					width='100%'
+					height='100%'
+					alignItems='center'
+					justifyContent='center'
+					gap='2rem'
+				>
+					<Monthly
+						style={{
+							color: `${
+								isMonthly ? colors.MarineBlue : colors.LightGray
+							}`
+						}}
+					>
+						monthly
+					</Monthly>
+					<SwitchDiv>
+						<Padding paddingInline='0.5rem'>
 							<Flex
 								width='100%'
 								height='100%'
 								alignItems='center'
 							>
-								<Circle
-									onClick={handleOnClick}
-									isSelected={isSelected}
-								/>
+								<SwitchContainer>
+									<Flex
+										width='100%'
+										height='100%'
+										alignItems='center'
+									>
+										<Circle
+											onClick={handleOnClick}
+											isSelected={isSelected}
+										/>
+									</Flex>
+								</SwitchContainer>
 							</Flex>
-						</SwitchContainer>
-					</Flex>
-				</Padding>
-			</SwitchDiv>
-			<Yearly
-				style={{
-					color: `${isYearly ? colors.MarineBlue : colors.LightGray}`
-				}}
-			>
-				yearly
-			</Yearly>
-		</Align>
+						</Padding>
+					</SwitchDiv>
+					<Yearly
+						style={{
+							color: `${
+								isYearly ? colors.MarineBlue : colors.LightGray
+							}`
+						}}
+					>
+						yearly
+					</Yearly>
+				</Flex>
+			</Margin>
+		</Switch>
 	);
 };
 

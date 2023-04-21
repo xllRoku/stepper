@@ -38,11 +38,6 @@ const StepTitle = styled.h3`
 	font-size: 1rem;
 `;
 
-const Padding = styled.div`
-	padding-top: 2rem;
-	padding-inline: 2rem;
-`;
-
 export {
 	ContainerStep,
 	Bg,
@@ -50,6 +45,5 @@ export {
 	StepSpan,
 	StepContent,
 	StepP,
-	StepTitle,
-	Padding
+	StepTitle
 };

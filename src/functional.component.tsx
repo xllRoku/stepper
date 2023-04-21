@@ -21,6 +21,16 @@ type PaddingProps = {
 	paddingBlock?: CSSProperties['paddingBlock'];
 };
 
+type MarginProps = {
+	margin?: CSSProperties['margin'];
+	marginTop?: CSSProperties['marginTop'];
+	marginRight?: CSSProperties['marginRight'];
+	marginBottom?: CSSProperties['marginBottom'];
+	marginLeft?: CSSProperties['marginLeft'];
+	marginInline?: CSSProperties['marginInline'];
+	marginBlock?: CSSProperties['marginBlock'];
+};
+
 type FlexProps = {
 	width?: CSSProperties['width'];
 	height?: CSSProperties['height'];
@@ -111,4 +121,16 @@ const Padding = styled.div<PaddingProps>`
 	padding-bottom: ${({ paddingBlock }) => paddingBlock};
 `;
 
-export { If, Else, Then, When, Flex, Grid, Padding };
+const Margin = styled.div<MarginProps>`
+	width: 100%;
+	height: 100%;
+	margin: ${({ margin }) => margin};
+	margin-top: ${({ marginTop }) => marginTop};
+	margin-right: ${({ marginRight }) => marginRight};
+	margin-bottom: ${({ marginBottom }) => marginBottom};
+	margin-left: ${({ marginLeft }) => marginLeft};
+	margin-inline: ${({ marginInline }) => marginInline};
+	margin-bottom: ${({ marginBlock }) => marginBlock};
+`;
+
+export { If, Else, Then, When, Flex, Grid, Padding, Margin };

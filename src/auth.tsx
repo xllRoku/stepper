@@ -11,7 +11,7 @@ import {
 	Password,
 	User
 } from './auth.components';
-import { Grid } from './functional.component';
+import { Grid, Margin, Padding } from './functional.component';
 import { useLogin } from './hooks';
 
 const FORM_NAMES = {
@@ -24,20 +24,22 @@ const FormSignup = () => {
 
 	return (
 		<Form onSubmit={handleOnSubmit}>
-			<Grid gridPlaceItems='center' gap='1rem'>
-				<H1Form>user login</H1Form>
-				<InputText
-					icon={<User />}
-					name={FORM_NAMES.EMAIL}
-					handleOnChnage={handleOnChange}
-				/>
-				<InputPassword
-					icon={<Password />}
-					name={FORM_NAMES.PASSWORD}
-					handleOnChnage={handleOnChange}
-				/>
-				<Button>sign up</Button>
-			</Grid>
+			<Padding paddingInline='6rem' paddingBlock='1rem'>
+				<Grid gridPlaceItems='center' gap='1rem'>
+					<H1Form>user login</H1Form>
+					<InputText
+						icon={<User />}
+						name={FORM_NAMES.EMAIL}
+						handleOnChnage={handleOnChange}
+					/>
+					<InputPassword
+						icon={<Password />}
+						name={FORM_NAMES.PASSWORD}
+						handleOnChnage={handleOnChange}
+					/>
+					<Button>sign up</Button>
+				</Grid>
+			</Padding>
 		</Form>
 	);
 };

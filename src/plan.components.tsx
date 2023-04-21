@@ -7,8 +7,6 @@ interface IButton {
 
 const ContainerButton = styled.div`
 	width: 100%;
-
-	margin-top: 3rem;
 `;
 
 const ButtonPlan = styled.button<IButton>`
@@ -46,7 +44,6 @@ const ButtonPlanSkeleton = styled.button`
 	height: 10rem;
 	border: 1px solid ${colors.CoolGray};
 	border-radius: 0.5rem;
-	padding: 1rem;
 `;
 
 const ButtonImageSkeleton = styled.div`
@@ -69,7 +66,6 @@ const PricePlanSkeleton = styled.div`
 	width: 52px;
 	height: 16px;
 	border-radius: 100vh;
-	margin-top: 0.5rem;
 `;
 
 export {

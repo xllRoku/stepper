@@ -1,10 +1,9 @@
 import bg from './assets/images/bg-sidebar-desktop.svg';
 import { STEPS } from './constans';
-import { Flex, Grid } from './functional.component';
+import { Flex, Grid, Padding } from './functional.component';
 import {
 	Bg,
 	ContainerStep,
-	Padding,
 	StepContainers,
 	StepContent,
 	StepP,
@@ -28,7 +27,7 @@ const Steps = () => {
 		<ContainerStep>
 			<Bg src={bg} />
 			<StepContainers>
-				<Padding>
+				<Padding paddingTop='2rem' paddingInline='2rem'>
 					<Grid gap='2rem'>
 						{STEPS.map(s => (
 							<Step key={s.id} step={s} />

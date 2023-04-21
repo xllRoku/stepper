@@ -1,19 +1,7 @@
 import { Container } from './auth.components';
-import { Router, Route, ReactLocation, Outlet } from '@tanstack/react-location';
+import { Router, Outlet } from '@tanstack/react-location';
 import { Grid } from './functional.component';
-
-const routes: Array<Route> = [
-	{
-		path: '/',
-		element: () => import('./auth').then(module => <module.default />)
-	},
-	{
-		path: '/dashboard',
-		element: () => import('./home').then(module => <module.default />)
-	}
-];
-
-const location = new ReactLocation();
+import { routes, location } from './routes';
 
 function App() {
 	return (

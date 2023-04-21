@@ -33,15 +33,10 @@ const Circle = styled.button<ISwitch>`
 	margin-left: ${props => (props.isSelected ? '1rem' : '')};
 `;
 
-const Align = styled.div`
+const Switch = styled.div`
 	height: 4rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	background: ${colors.Alabaster};
-	gap: 2rem;
 	border-radius: 0.5rem;
-	margin-top: 2rem;
 `;
 
 const Monthly = styled.span`
@@ -54,4 +49,4 @@ const Yearly = styled.span`
 	font-weight: bold;
 `;
 
-export { SwitchDiv, SwitchContainer, Circle, Align, Monthly, Yearly };
+export { SwitchDiv, SwitchContainer, Circle, Switch, Monthly, Yearly };
