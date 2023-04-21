@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { REGISTER_USER_ENDPOINT } from './constans';
+import { REGISTER_USER_ENDPOINT } from '../constans';
 
 const registerUser = (data: { email: string; password: string }) =>
 	axios

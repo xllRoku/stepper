@@ -1,5 +1,6 @@
-import { Else, Flex, If, Margin, Padding, Then } from './functional.component';
-import { useAnnuality, usePlans } from './hooks';
+import { Flex, Margin, Padding } from '../../custom.styled.components';
+import { Else, If, Then } from '../../functional.component';
+import { useAnnuality, usePlans } from '../../hooks';
 import {
 	ButtonImageSkeleton,
 	ButtonInfo,

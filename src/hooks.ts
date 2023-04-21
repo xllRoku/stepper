@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as auth from './auth';
+import * as auth from './auth/auth';
 import * as api from './api';
 import { useAnnualityStore, usePlanStore } from './store';
 import { ANNUALITY } from './constans';
-import { IPlan } from './plan';
+import { IPlan } from './payment/plan/plan';
 import { IPlanApi } from './api';
 
 const PlanMapper = (plans: IPlanApi): IPlanApi => ({

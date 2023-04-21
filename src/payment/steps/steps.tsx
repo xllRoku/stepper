@@ -1,6 +1,5 @@
 import bg from './assets/images/bg-sidebar-desktop.svg';
-import { STEPS } from './constans';
-import { Flex, Grid, Padding } from './functional.component';
+import { STEPS } from '../../constans';
 import {
 	Bg,
 	ContainerStep,
@@ -10,6 +9,7 @@ import {
 	StepSpan,
 	StepTitle
 } from './steps.components';
+import { Flex, Grid, Padding } from '../../custom.styled.components';
 
 interface IStep {
 	id: string;

@@ -13,8 +13,8 @@ import {
 	Password,
 	User
 } from './auth.components';
-import { Grid, Padding } from './functional.component';
-import { useLogin } from './hooks';
+import { Grid, Padding } from '../functional.component';
+import { useLogin } from '../hooks';
 
 const FORM_NAMES = {
 	EMAIL: 'email',

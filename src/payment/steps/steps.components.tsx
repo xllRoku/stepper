@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from './colors';
+import { colors } from '../../colors';
 
 const ContainerStep = styled.div`
 	border-radius: 0.5rem;

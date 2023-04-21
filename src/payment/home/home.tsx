@@ -7,11 +7,11 @@ import {
 	HeaderHome,
 	SectionMainHome
 } from './home.components';
-import { Steps } from './steps';
-import { SwitchAnnuality } from './switchAnnuality';
-import { Flex, Grid, Margin, Padding } from './functional.component';
+import { Steps } from '../steps/steps';
+import { SwitchAnnuality } from '../switch/switchAnnuality';
 import { Outlet } from 'react-router';
-import { Container } from './auth.components';
+import { Container } from '../../auth/auth.components';
+import { Flex, Grid, Margin, Padding } from '../../custom.styled.components';
 
 const Home = () => {
 	return (

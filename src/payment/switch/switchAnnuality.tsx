@@ -1,6 +1,6 @@
-import { colors } from './colors';
-import { Flex, Margin, Padding } from './functional.component';
-import { useSwitchAnnuality } from './hooks';
+import { colors } from '../../colors';
+import { Flex, Margin, Padding } from '../../custom.styled.components';
+import { useSwitchAnnuality } from '../../hooks';
 import {
 	Switch,
 	Circle,

@@ -2,13 +2,15 @@ import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const Auth = lazy(() =>
-	import('./authentication').then(module => ({ default: module.default }))
+	import('./auth/authentication').then(module => ({
+		default: module.default
+	}))
 );
 const SingUp = lazy(() =>
-	import('./authentication').then(module => ({ default: module.SingUp }))
+	import('./auth/authentication').then(module => ({ default: module.SingUp }))
 );
-const Home = lazy(() => import('./home'));
-const Plans = lazy(() => import('./plan'));
+const Home = lazy(() => import('./payment/home/home'));
+const Plans = lazy(() => import('./payment/plan/plan'));
 
 function App() {
 	return (

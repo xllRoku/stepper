@@ -1,6 +1,6 @@
 import React, { ReactNode, memo } from 'react';
 import styled from 'styled-components';
-import { Flex, Padding } from './functional.component';
+import { Flex, Padding } from '../functional.component';
 
 type Input = {
 	name: string;
