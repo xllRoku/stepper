@@ -1,9 +1,11 @@
 import { useEffect, useState, useCallback, FormEvent } from 'react';
-import { IPlanApi, PlanMemoryService } from './services';
-import { useAnnualityStore } from './store';
+import { useNavigate } from 'react-router-dom';
+import * as auth from './auth';
+import * as api from './api';
+import { useAnnualityStore, usePlanStore } from './store';
 import { ANNUALITY } from './constans';
-import { useNavigate } from '@tanstack/react-location';
-import axios from 'axios';
+import { IPlan } from './plan';
+import { IPlanApi } from './api';
 
 const PlanMapper = (plans: IPlanApi): IPlanApi => ({
 	id: plans.id,
@@ -24,20 +26,25 @@ const usePlans = () => {
 		loading: false
 	});
 
-	useEffect(() => {
+	const startGetPlans = () => {
 		setPlans({
 			...plans,
 			loading: true
 		});
-		PlanMemoryService()
-			.getPlan(store.annuality)
-			.then(data =>
-				setPlans({
-					...plans,
-					data: data.map(p => PlanMapper(p)),
-					loading: false
-				})
-			);
+	};
+
+	const getPlansSuccess = () => {
+		api.getPlan(store.annuality).then(data =>
+			setPlans({
+				...plans,
+				data: data.map(p => PlanMapper(p))
+			})
+		);
+	};
+
+	useEffect(() => {
+		startGetPlans();
+		getPlansSuccess();
 	}, [store.annuality]);
 
 	const { data, loading } = plans;
@@ -64,7 +71,7 @@ const useSwitchAnnuality = () => {
 };
 
 const useLogin = () => {
-	const navigate = useNavigate();
+	const nagivate = useNavigate();
 	const [data, setData] = useState({
 		email: '',
 		password: ''
@@ -77,20 +84,30 @@ const useLogin = () => {
 
 	const handleOnSubmit = (event: FormEvent) => {
 		event.preventDefault();
-		const url = 'http://localhost:3000';
-		const endpoint = 'user/register';
-		axios
-			.post(`${url}/${endpoint}`, {
-				email: data.email,
-				password: data.password
-			})
-			.then(res => console.log(res.data))
-			.catch(err => console.log(err.response?.data.errorMessage));
 
-		navigate({ to: '/dashboard' });
+		auth.registerUser(data);
+
+		nagivate('/payment/plan');
 	};
 
 	return { handleOnChange, handleOnSubmit };
 };
 
-export { usePlans, useSwitchAnnuality, useLogin };
+const useAnnuality = (plan: IPlan) => {
+	const store = usePlanStore();
+
+	const handleOnClick = () => {
+		store.setPlan({
+			id: plan.id,
+			title: plan.title,
+			price: plan.price,
+			annuality: plan.annuality
+		});
+	};
+
+	const isPlanSelected = store.plan?.title === plan.title;
+
+	return { handleOnClick, isPlanSelected };
+};
+
+export { usePlans, useSwitchAnnuality, useLogin, useAnnuality };

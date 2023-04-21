@@ -1,5 +1,5 @@
 import { Else, Flex, If, Margin, Padding, Then } from './functional.component';
-import { usePlans } from './hooks';
+import { useAnnuality, usePlans } from './hooks';
 import {
 	ButtonImageSkeleton,
 	ButtonInfo,
@@ -12,9 +12,8 @@ import {
 	TitlePlan,
 	TitlePlanSkeleton
 } from './plan.components';
-import { usePlanStore } from './store';
 
-interface IPlan {
+export interface IPlan {
 	id: string;
 	title: string;
 	image: string;
@@ -28,6 +27,8 @@ interface IPlanObject {
 
 const Plans = () => {
 	const { data, loading } = usePlans();
+
+	console.log(data);
 
 	return (
 		<ContainerButton>
@@ -50,23 +51,11 @@ const Plans = () => {
 };
 
 const Plan: React.FC<IPlanObject> = ({ plan }) => {
-	const store = usePlanStore();
+	const { handleOnClick, isPlanSelected } = useAnnuality(plan);
 	const { image, price, title } = plan;
 
-	const isPlanSelected = store.plan?.title === title;
-
 	return (
-		<ButtonPlan
-			isSelected={isPlanSelected}
-			onClick={() =>
-				store.setPlan({
-					id: plan.id,
-					title: plan.title,
-					price: plan.price,
-					annuality: plan.annuality
-				})
-			}
-		>
+		<ButtonPlan isSelected={isPlanSelected} onClick={handleOnClick}>
 			<Padding padding='1rem'>
 				<Flex
 					width='100%'
@@ -116,4 +105,4 @@ const Skeleton = () => {
 	);
 };
 
-export { Plans };
+export default Plans;

@@ -1,6 +1,8 @@
 import obv from './assets/images/obvli.jpg';
+import { Outlet } from 'react-router-dom';
 import {
 	Button,
+	Container,
 	ContainerForm,
 	Form,
 	H1Form,
@@ -11,7 +13,7 @@ import {
 	Password,
 	User
 } from './auth.components';
-import { Grid, Margin, Padding } from './functional.component';
+import { Grid, Padding } from './functional.component';
 import { useLogin } from './hooks';
 
 const FORM_NAMES = {
@@ -44,7 +46,7 @@ const FormSignup = () => {
 	);
 };
 
-const SingUp = () => {
+export const SingUp = () => {
 	return (
 		<>
 			<ObvImage src={obv} />
@@ -56,4 +58,14 @@ const SingUp = () => {
 	);
 };
 
-export default SingUp;
+const Auth = () => {
+	return (
+		<Container>
+			<Grid gridPlaceItems='center' height='100%'>
+				<Outlet />
+			</Grid>
+		</Container>
+	);
+};
+
+export default Auth;
