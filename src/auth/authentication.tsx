@@ -1,4 +1,4 @@
-import obv from './assets/images/obvli.jpg';
+import obv from '../assets/images/bg-sidebar-desktop.svg';
 import { Outlet } from 'react-router-dom';
 import {
 	Button,
@@ -13,8 +13,8 @@ import {
 	Password,
 	User
 } from './auth.components';
-import { Grid, Padding } from '../functional.component';
 import { useLogin } from '../hooks';
+import { Grid, Padding } from '../custom.styled.components';
 
 const FORM_NAMES = {
 	EMAIL: 'email',
