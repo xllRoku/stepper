@@ -80,4 +80,53 @@ const PLANS_YEARLY = [
 	}
 ];
 
-export { PLANS_MONTHLY, PLANS_YEARLY, STEPS, ANNUALITY };
+const ADDONS_MONTHLY = [
+	{
+		title: 'Online service',
+		content: 'Access to multiplaer games',
+		price: 1,
+		annuality: 'monthly'
+	},
+	{
+		title: 'Larger storage',
+		content: 'Extra 1TB of cloud save',
+		price: 2,
+		annuality: 'monthly'
+	},
+	{
+		title: 'Customizable profile',
+		content: 'Custom theme on your profile',
+		price: 3,
+		annuality: 'monthly'
+	}
+];
+
+const ADDNOS_YEARLY = [
+	{
+		title: 'Online service',
+		content: 'Access to multiplaer games',
+		price: 10,
+		annuality: 'yearly'
+	},
+	{
+		title: 'Larger storage',
+		content: 'Extra 1TB of cloud save',
+		price: 20,
+		annuality: 'yearly'
+	},
+	{
+		title: 'Customizable profile',
+		content: 'Custom theme on your profile',
+		price: 20,
+		annuality: 'yearly'
+	}
+];
+
+export {
+	PLANS_MONTHLY,
+	PLANS_YEARLY,
+	STEPS,
+	ANNUALITY,
+	ADDONS_MONTHLY,
+	ADDNOS_YEARLY
+};

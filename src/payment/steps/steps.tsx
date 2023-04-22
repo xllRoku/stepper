@@ -27,7 +27,12 @@ const Steps = () => {
 		<ContainerStep>
 			<Bg src={bg} />
 			<StepContainers>
-				<Padding paddingTop='2rem' paddingInline='2rem'>
+				<Padding
+					width='100%'
+					height='100%'
+					paddingTop='2rem'
+					paddingInline='2rem'
+				>
 					<Grid gap='2rem'>
 						{STEPS.map(s => (
 							<Step key={s.id} step={s} />
@@ -58,8 +63,8 @@ const Step: React.FC<IStepObject> = ({ step }) => {
 					</Flex>
 				</StepSpan>
 				<StepContent>
-					<StepP>{title}</StepP>
-					<StepTitle>step {stepNumber} </StepTitle>
+					<StepP>step {stepNumber}</StepP>
+					<StepTitle>{title} </StepTitle>
 				</StepContent>
 			</Flex>
 		</li>

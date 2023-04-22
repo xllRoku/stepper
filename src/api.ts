@@ -1,4 +1,10 @@
-import { ANNUALITY, PLANS_MONTHLY, PLANS_YEARLY } from './constans';
+import {
+	ADDNOS_YEARLY,
+	ADDONS_MONTHLY,
+	ANNUALITY,
+	PLANS_MONTHLY,
+	PLANS_YEARLY
+} from './constans';
 
 export interface IPlanApi {
 	id: string;
@@ -8,7 +14,14 @@ export interface IPlanApi {
 	image: string;
 }
 
-function getPlan(annuality: string) {
+export interface AddonApi {
+	title: string;
+	content: string;
+	price: number;
+	annuality: string;
+}
+
+const getPlan = (annuality: string) => {
 	return new Promise<Array<IPlanApi>>((resolve, _) => {
 		setTimeout(() => {
 			if (
@@ -21,6 +34,21 @@ function getPlan(annuality: string) {
 			}
 		}, 1000);
 	});
-}
+};
 
-export { getPlan };
+const getAddons = (annuality: string) => {
+	return new Promise<Array<AddonApi>>((resolve, _) => {
+		setTimeout(() => {
+			if (
+				annuality === ANNUALITY.MONTHLY ||
+				annuality === ANNUALITY.YEARLY
+			) {
+				if (annuality === ANNUALITY.MONTHLY) resolve(ADDONS_MONTHLY);
+
+				if (annuality === ANNUALITY.YEARLY) resolve(ADDNOS_YEARLY);
+			}
+		}, 1000);
+	});
+};
+
+export { getPlan, getAddons };

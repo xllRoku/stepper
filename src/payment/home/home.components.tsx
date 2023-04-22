@@ -22,6 +22,29 @@ const Description = styled.p`
 	color: ${colors.CoolGray};
 `;
 
+const GoBack = styled.button`
+	width: 6rem;
+	height: 3rem;
+	background: transparent;
+	border: none;
+	color: ${colors.MarineBlue};
+	font-weight: bold;
+	text-transform: capitalize;
+	cursor: pointer;
+`;
+
+const NextStep = styled.button`
+	width: 6rem;
+	height: 3rem;
+	border-radius: 0.5rem;
+	background: ${colors.MarineBlue};
+	color: white;
+	font-weight: bold;
+	border: none;
+	text-transform: capitalize;
+	cursor: pointer;
+`;
+
 export {
 	HomeContainer,
 	MainHome,
@@ -29,5 +52,7 @@ export {
 	SectionMainHome,
 	Title,
 	Description,
-	HeaderContent
+	HeaderContent,
+	GoBack,
+	NextStep
 };

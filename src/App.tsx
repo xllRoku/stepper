@@ -1,5 +1,8 @@
 import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Addons from './payment/addons/addon';
+import Home from './payment/home/home';
+import Plans from './payment/plan/plan';
 
 const Auth = lazy(() =>
 	import('./auth/authentication').then(module => ({
@@ -9,8 +12,14 @@ const Auth = lazy(() =>
 const SingUp = lazy(() =>
 	import('./auth/authentication').then(module => ({ default: module.SingUp }))
 );
-const Home = lazy(() => import('./payment/home/home'));
-const Plans = lazy(() => import('./payment/plan/plan'));
+
+// caught Error: A component suspended while responding to synchronous input. This will cause the UI to be replaced with a loading indicator. To fix, updates that suspend should be wrapped with startTransition.
+// const Home = lazy(() =>
+// 	import('./payment/home/home').then(module => ({ default: module.default }))
+// );
+// const Plans = lazy(() =>
+// 	import('./payment/plan/plan').then(module => ({ default: module.default }))
+// );
 
 function App() {
 	return (
@@ -21,6 +30,7 @@ function App() {
 				</Route>
 				<Route path='/payment/' element={<Home />}>
 					<Route index path='plan' element={<Plans />} />
+					<Route path='addon' element={<Addons />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

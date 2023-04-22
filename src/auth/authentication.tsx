@@ -14,7 +14,7 @@ import {
 	User
 } from './auth.components';
 import { useLogin } from '../hooks';
-import { Grid, Padding } from '../custom.styled.components';
+import { Flex, Grid, Padding } from '../custom.styled.components';
 
 const FORM_NAMES = {
 	EMAIL: 'email',

@@ -16,7 +16,7 @@ const SwitchAnnuality = () => {
 
 	return (
 		<Switch>
-			<Margin marginTop='2rem'>
+			<Margin width='100%' height='100%' marginTop='2rem'>
 				<Flex
 					width='100%'
 					height='100%'
@@ -34,7 +34,11 @@ const SwitchAnnuality = () => {
 						monthly
 					</Monthly>
 					<SwitchDiv>
-						<Padding paddingInline='0.5rem'>
+						<Padding
+							width='100%'
+							height='100%'
+							paddingInline='0.5rem'
+						>
 							<Flex
 								width='100%'
 								height='100%'

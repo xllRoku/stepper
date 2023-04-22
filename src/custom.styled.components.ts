@@ -1,6 +1,8 @@
 import styled, { CSSProperties } from 'styled-components';
 
 type PaddingProps = {
+	width?: CSSProperties['width'];
+	height?: CSSProperties['height'];
 	padding?: CSSProperties['padding'];
 	paddingTop?: CSSProperties['paddingTop'];
 	paddingRight?: CSSProperties['paddingRight'];
@@ -11,6 +13,8 @@ type PaddingProps = {
 };
 
 type MarginProps = {
+	width?: CSSProperties['width'];
+	height?: CSSProperties['height'];
 	margin?: CSSProperties['margin'];
 	marginTop?: CSSProperties['marginTop'];
 	marginRight?: CSSProperties['marginRight'];
@@ -73,8 +77,8 @@ const Grid = styled.div<GridProps>`
 `;
 
 const Padding = styled.div<PaddingProps>`
-	width: 100%;
-	height: 100%;
+	width: ${({ width }) => width || 'auto'};
+	height: ${({ height }) => height || 'auto'};
 	padding: ${({ padding }) => padding};
 	padding-top: ${({ paddingTop }) => paddingTop};
 	padding-right: ${({ paddingRight }) => paddingRight};
@@ -85,8 +89,8 @@ const Padding = styled.div<PaddingProps>`
 `;
 
 const Margin = styled.div<MarginProps>`
-	width: 100%;
-	height: 100%;
+	width: ${({ width }) => width || 'auto'};
+	height: ${({ height }) => height || 'auto'};
 	margin: ${({ margin }) => margin};
 	margin-top: ${({ marginTop }) => marginTop};
 	margin-right: ${({ marginRight }) => marginRight};

@@ -33,7 +33,7 @@ const Plans = () => {
 
 	return (
 		<ContainerButton>
-			<Margin marginTop='3rem'>
+			<Margin width='100%' height='100%' marginTop='3rem'>
 				<Flex gap='1rem'>
 					<If predicate={loading}>
 						<Then predicate>
@@ -57,7 +57,7 @@ const Plan: React.FC<IPlanObject> = ({ plan }) => {
 
 	return (
 		<ButtonPlan isSelected={isPlanSelected} onClick={handleOnClick}>
-			<Padding padding='1rem'>
+			<Padding width='100%' height='100%' padding='1rem'>
 				<Flex
 					width='100%'
 					height='100%'
@@ -83,7 +83,7 @@ const Skeleton = () => {
 		<>
 			{Array(COUNTER).fill(
 				<ButtonPlanSkeleton>
-					<Padding padding='1rem'>
+					<Padding width='100%' height='100%' padding='1rem'>
 						<Flex
 							width='100%'
 							height='100%'

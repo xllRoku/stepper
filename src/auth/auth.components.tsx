@@ -50,6 +50,7 @@ const Container = styled.div`
 const ObvImage = styled.img`
 	width: 100%;
 	height: 100%;
+	display: block;
 	position: absolute;
 	z-index: -1;
 `;
@@ -63,6 +64,8 @@ const Form = styled.form``;
 
 const ContainerForm = styled.div`
 	background: white;
+	display: flex;
+	flex-direction: column;
 `;
 
 const Label = styled.label`
@@ -103,7 +106,12 @@ const InputPassword: React.FC<Input> = memo(
 	({ name, value, icon, handleOnChnage }) => {
 		return (
 			<Label>
-				<Padding paddingInline='1rem' paddingBlock='0.5rem'>
+				<Padding
+					width='100%'
+					height='100%'
+					paddingInline='1rem'
+					paddingBlock='0.5rem'
+				>
 					<Flex justifyContent='center' gap='0.5rem'>
 						{icon}
 						<Input
@@ -123,9 +131,13 @@ const InputPassword: React.FC<Input> = memo(
 const InputText: React.FC<Input> = memo(
 	({ name, value, icon, handleOnChnage }) => {
 		return (
-			//This can be a compound component
 			<Label>
-				<Padding paddingInline='1rem' paddingBlock='0.5rem'>
+				<Padding
+					width='100%'
+					height='100%'
+					paddingInline='1rem'
+					paddingBlock='0.5rem'
+				>
 					<Flex justifyContent='center' gap='0.5rem'>
 						{icon}
 						<Input

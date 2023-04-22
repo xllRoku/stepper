@@ -5,7 +5,7 @@ import * as api from './api';
 import { useAnnualityStore, usePlanStore } from './store';
 import { ANNUALITY } from './constans';
 import { IPlan } from './payment/plan/plan';
-import { IPlanApi } from './api';
+import { IPlanApi, AddonApi } from './api';
 
 const PlanMapper = (plans: IPlanApi): IPlanApi => ({
 	id: plans.id,
@@ -13,6 +13,13 @@ const PlanMapper = (plans: IPlanApi): IPlanApi => ({
 	image: plans.image,
 	price: plans.price,
 	annuality: plans.annuality
+});
+
+const AddonMapper = (addons: AddonApi): AddonApi => ({
+	title: addons.title,
+	content: addons.content,
+	price: addons.price,
+	annuality: addons.annuality
 });
 
 const usePlans = () => {
@@ -48,6 +55,42 @@ const usePlans = () => {
 	}, [store.annuality]);
 
 	const { data, loading } = plans;
+
+	return { data, loading };
+};
+
+const useAddons = () => {
+	const store = useAnnualityStore();
+	const [addons, setAddons] = useState<{
+		data: Array<api.AddonApi>;
+		loading: boolean;
+	}>({
+		data: [],
+		loading: false
+	});
+
+	const startGetAddons = () => {
+		setAddons({
+			...addons,
+			loading: true
+		});
+	};
+
+	const getAddonsSuccess = () => {
+		api.getAddons(store.annuality).then(data =>
+			setAddons({
+				...addons,
+				data: data.map(a => AddonMapper(a))
+			})
+		);
+	};
+
+	useEffect(() => {
+		startGetAddons();
+		getAddonsSuccess();
+	}, [store.annuality]);
+
+	const { data, loading } = addons;
 
 	return { data, loading };
 };
@@ -110,4 +153,4 @@ const useAnnuality = (plan: IPlan) => {
 	return { handleOnClick, isPlanSelected };
 };
 
-export { usePlans, useSwitchAnnuality, useLogin, useAnnuality };
+export { usePlans, useSwitchAnnuality, useLogin, useAnnuality, useAddons };
