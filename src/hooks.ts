@@ -117,7 +117,14 @@ const useLogin = () => {
 	const nagivate = useNavigate();
 	const [data, setData] = useState({
 		email: '',
-		password: ''
+		password: '',
+		loading: false,
+		errors: [
+			{
+				message: '',
+				name: ''
+			}
+		]
 	});
 
 	const handleOnChange = useCallback((event: any) => {
@@ -125,15 +132,38 @@ const useLogin = () => {
 		setData(prevData => ({ ...prevData, [name]: value }));
 	}, []);
 
+	console.log('0', data.loading);
+
 	const handleOnSubmit = (event: FormEvent) => {
+		setData({ ...data, loading: true, errors: [] });
+
+		console.log('1', data.loading);
+
 		event.preventDefault();
 
-		auth.registerUser(data);
+		setTimeout(() => {
+			auth.registerUser(data)
+				.then(_ => setData({ ...data, loading: false }))
+				.catch(err =>
+					setData({
+						...data,
+						loading: false,
+						errors: err.response?.data?.errorMessage
+					})
+				);
+		}, 1000);
 
-		nagivate('/payment/plan');
+		// nagivate('/payment/plan');
 	};
 
-	return { handleOnChange, handleOnSubmit };
+	const errors = data.errors.map(err => ({
+		errorMessage: err.message,
+		InputName: err.name
+	}));
+
+	const { loading } = data;
+
+	return { handleOnChange, handleOnSubmit, loading, errors };
 };
 
 const useAnnuality = (plan: IPlan) => {

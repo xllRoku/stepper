@@ -15,6 +15,8 @@ import {
 } from './auth.components';
 import { useLogin } from '../hooks';
 import { Flex, Grid, Padding } from '../custom.styled.components';
+import { When } from '../functional.component';
+import Spinner from '../spinner';
 
 const FORM_NAMES = {
 	EMAIL: 'email',
@@ -22,7 +24,9 @@ const FORM_NAMES = {
 };
 
 const FormSignup = () => {
-	const { handleOnChange, handleOnSubmit } = useLogin();
+	const { handleOnChange, handleOnSubmit, loading, errors } = useLogin();
+
+	console.log(errors);
 
 	return (
 		<Form onSubmit={handleOnSubmit}>
@@ -33,13 +37,20 @@ const FormSignup = () => {
 						icon={<User />}
 						name={FORM_NAMES.EMAIL}
 						handleOnChnage={handleOnChange}
+						error={errors}
 					/>
 					<InputPassword
 						icon={<Password />}
 						name={FORM_NAMES.PASSWORD}
 						handleOnChnage={handleOnChange}
+						error={errors}
 					/>
-					<Button>sign up</Button>
+					<Button>
+						<When predicate={loading}>
+							<Spinner />
+						</When>
+						<When predicate={!loading}>sign up</When>
+					</Button>
 				</Grid>
 			</Padding>
 		</Form>

@@ -6,6 +6,7 @@ type Input = {
 	name: string;
 	value?: string;
 	icon: ReactNode;
+	error: any;
 	handleOnChnage: (eve: any) => void;
 };
 
@@ -102,56 +103,65 @@ const H1Form = styled.h1`
 	color: #00afa8;
 `;
 
-const InputPassword: React.FC<Input> = memo(
-	({ name, value, icon, handleOnChnage }) => {
-		return (
-			<Label>
-				<Padding
-					width='100%'
-					height='100%'
-					paddingInline='1rem'
-					paddingBlock='0.5rem'
-				>
-					<Flex justifyContent='center' gap='0.5rem'>
-						{icon}
-						<Input
-							placeholder={name}
-							name={name}
-							onChange={handleOnChnage}
-							value={value}
-							type='password'
-						/>
-					</Flex>
-				</Padding>
-			</Label>
-		);
-	}
-);
+const InputPassword: React.FC<Input> = ({
+	name,
+	value,
+	icon,
+	handleOnChnage
+}) => {
+	return (
+		<Label>
+			<Padding
+				width='100%'
+				height='100%'
+				paddingInline='1rem'
+				paddingBlock='0.5rem'
+			>
+				<Flex justifyContent='center' gap='0.5rem'>
+					{icon}
+					<Input
+						placeholder={name}
+						name={name}
+						onChange={handleOnChnage}
+						value={value}
+						type='password'
+					/>
+				</Flex>
+			</Padding>
+		</Label>
+	);
+};
 
-const InputText: React.FC<Input> = memo(
-	({ name, value, icon, handleOnChnage }) => {
-		return (
-			<Label>
-				<Padding
-					width='100%'
-					height='100%'
-					paddingInline='1rem'
-					paddingBlock='0.5rem'
-				>
-					<Flex justifyContent='center' gap='0.5rem'>
-						{icon}
-						<Input
-							placeholder={name}
-							name={name}
-							value={value}
-							onChange={handleOnChnage}
-						/>
-					</Flex>
-				</Padding>
-			</Label>
-		);
-	}
-);
+const InputText: React.FC<Input> = ({
+	name,
+	value,
+	icon,
+	handleOnChnage,
+	error
+}) => {
+	const errorMessage = error[name];
+
+	return (
+		<Label>
+			<Padding
+				width='100%'
+				height='100%'
+				paddingInline='1rem'
+				paddingBlock='0.5rem'
+			>
+				<Flex justifyContent='center' gap='0.5rem'>
+					{icon}
+					<Input
+						placeholder={name}
+						name={name}
+						value={value}
+						onChange={handleOnChnage}
+					/>
+				</Flex>
+			</Padding>
+		</Label>
+	);
+};
 
 export {
 	User,
