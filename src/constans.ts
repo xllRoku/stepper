@@ -2,11 +2,6 @@ import arcade from './assets/images/icon-arcade.svg';
 import advanced from './assets/images/icon-advanced.svg';
 import iconPro from './assets/images/icon-pro.svg';
 
-const api = 'http://localhost:3000';
-const register_user = '/user/register';
-
-export const REGISTER_USER_ENDPOINT = `${api}${register_user}`;
-
 const STEPS = [
 	{
 		id: '1',

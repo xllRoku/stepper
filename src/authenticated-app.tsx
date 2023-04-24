@@ -1,19 +1,18 @@
 import {
-	Title,
+	Container,
 	Description,
+	GoBack,
 	HeaderContent,
+	HeaderHome,
 	HomeContainer,
 	MainHome,
-	HeaderHome,
+	NextStep,
 	SectionMainHome,
-	GoBack,
-	NextStep
-} from './home.components';
-import { Steps } from '../steps/steps';
-import { SwitchAnnuality } from '../switch/switchAnnuality';
-import { Outlet } from 'react-router';
-import { Container } from '../../auth/auth.components';
-import { Flex, Grid, Margin, Padding } from '../../custom.styled.components';
+	Steps,
+	SwitchAnnuality,
+	Title
+} from './components';
+import { Flex, Grid, Margin, Padding } from './custom.styled.components';
 
 const Buttons = () => {
 	return (
@@ -28,7 +27,7 @@ const Buttons = () => {
 	);
 };
 
-const Home = () => {
+const AuthenticatedApp = () => {
 	return (
 		<Container>
 			<Grid gridPlaceItems='center' height='100%'>
@@ -50,7 +49,7 @@ const Home = () => {
 								>
 									<Header />
 									<SectionMainHome>
-										<Outlet />
+										<Steps />
 										<SwitchAnnuality />
 									</SectionMainHome>
 									<Buttons />
@@ -81,4 +80,4 @@ const Header = () => {
 	);
 };
 
-export default Home;
+export default AuthenticatedApp;
