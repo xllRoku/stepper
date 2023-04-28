@@ -36,6 +36,23 @@ type Switch = {
 	isSelected?: boolean;
 };
 
+const Header = () => {
+	return (
+		<HeaderHome>
+			<HeaderContent>
+				<Margin width='100%' height='100%' marginTop='2rem'>
+					<Title>Select your plan</Title>
+					<Margin width='100%' height='100%' marginTop='1rem'>
+						<Description>
+							You have the option of monthly of yearly billing.
+						</Description>
+					</Margin>
+				</Margin>
+			</HeaderContent>
+		</HeaderHome>
+	);
+};
+
 const User = () => (
 	<svg
 		xmlns='http://www.w3.org/2000/svg'
@@ -451,6 +468,19 @@ const Addon: React.FC<AddonObject> = ({ addon }) => {
 	);
 };
 
+const Buttons = () => {
+	return (
+		<Flex justifyContent='space-between'>
+			<Margin marginBottom='2rem'>
+				<GoBack>go back</GoBack>
+			</Margin>
+			<Margin marginBottom='2rem'>
+				<NextStep>next step</NextStep>
+			</Margin>
+		</Flex>
+	);
+};
+
 export {
 	User,
 	Password,
@@ -474,5 +504,7 @@ export {
 	NextStep,
 	Steps,
 	SwitchAnnuality,
-	Addons
+	Addons,
+	Header,
+	Buttons
 };

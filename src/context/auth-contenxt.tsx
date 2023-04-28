@@ -1,23 +1,78 @@
-import {
-	createContext,
-	useState,
-	useCallback,
-	useMemo,
-	useContext
-} from 'react';
+import { createContext, useState, useContext } from 'react';
 import * as auth from '../auth-provider';
+import { User } from '../components';
 
-const AuthContext = createContext({});
+export type Token = {
+	token: string;
+};
+
+export type Error = {
+	error: string;
+};
+
+export type User = {
+	email: string;
+	password: string;
+};
+
+type AuthContextType = {
+	user?: string;
+	error?: string;
+	isLoading?: boolean;
+	register: (form: User) => Promise<void>;
+	login: (form: User) => Promise<void>;
+};
+
+const AuthContext = createContext<AuthContextType>({
+	user: undefined,
+	error: undefined,
+	isLoading: false,
+	register: () => Promise.resolve(),
+	login: () => Promise.resolve()
+});
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-	const [user, setUser] = useState();
+	const [response, setResponse] = useState({
+		token: '',
+		error: '',
+		isLoading: false
+	});
 
-	const register = useCallback(
-		(form: any) => auth.register(form).then(user => setUser(user)),
-		[setUser]
-	);
+	const register = (form: User) => {
+		setResponse({ ...response, isLoading: true });
+		return auth
+			.register(form)
+			.then(token =>
+				setResponse({ ...response, token, error: '', isLoading: false })
+			)
+			.catch(err =>
+				setResponse({
+					...response,
+					error: err.response?.data.errorMessage,
+					isLoading: false
+				})
+			);
+	};
 
-	const value = useMemo(() => ({ user, register }), [register, user]);
+	const login = (form: User) => {
+		setResponse({ ...response, isLoading: true });
+		return auth
+			.register(form)
+			.then(token =>
+				setResponse({ ...response, token, error: '', isLoading: false })
+			)
+			.catch(err =>
+				setResponse({
+					...response,
+					error: err.response?.data.errorMessage,
+					isLoading: false
+				})
+			);
+	};
+
+	const { error, token, isLoading } = response;
+
+	const value = { register, login, user: token, error, isLoading };
 
 	return (
 		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
