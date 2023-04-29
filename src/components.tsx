@@ -192,6 +192,7 @@ const InputText: React.FC<Input> = ({ name, value, icon }) => {
 const HomeContainer = styled.div`
 	background: white;
 	border-radius: 1rem;
+	position: relative;
 `;
 
 const Title = styled.h1`

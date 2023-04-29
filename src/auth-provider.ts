@@ -18,9 +18,9 @@ function handleUserResponse({ data }: { data: Token }) {
 	return data.token;
 }
 
-// function login({ email, password }: User) {
-// 	return client('login', { email, password }).then(res => console.log(res));
-// }
+function login({ email, password }: User) {
+	return client('users/login', { email, password }).then(handleUserResponse);
+}
 
 function register({ email, password }: User) {
 	return client('users/register', { email, password }).then(
@@ -38,4 +38,4 @@ async function client(endpoint: string, data: User) {
 	return axios.post(`${authURL}/${endpoint}`, data);
 }
 
-export { getToken, register, logout, localStorageKey };
+export { getToken, register, login, logout, localStorageKey };

@@ -21,6 +21,7 @@ type AuthContextType = {
 	isLoading?: boolean;
 	register: (form: User) => Promise<void>;
 	login: (form: User) => Promise<void>;
+	logout: any;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -28,7 +29,8 @@ const AuthContext = createContext<AuthContextType>({
 	error: undefined,
 	isLoading: false,
 	register: () => Promise.resolve(),
-	login: () => Promise.resolve()
+	login: () => Promise.resolve(),
+	logout: () => Promise.resolve()
 });
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -57,7 +59,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const login = (form: User) => {
 		setResponse({ ...response, isLoading: true });
 		return auth
-			.register(form)
+			.login(form)
 			.then(token =>
 				setResponse({ ...response, token, error: '', isLoading: false })
 			)
@@ -70,9 +72,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 			);
 	};
 
+	const logout = () => {
+		auth.logout();
+		setResponse({ token: '', isLoading: false, error: '' });
+	};
+
 	const { error, token, isLoading } = response;
 
-	const value = { register, login, user: token, error, isLoading };
+	const value = { register, login, logout, user: token, error, isLoading };
 
 	return (
 		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>

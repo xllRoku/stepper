@@ -12,6 +12,7 @@ import { usePlans } from './hooks';
 import { Else, If, Then } from './functional.component';
 import Spinner from './spinner';
 import { Plan } from './api';
+import { useAuth } from './context/auth-contenxt';
 
 type PlanObject = {
 	plan: Plan;
@@ -34,6 +35,24 @@ const Title = styled.p`
 
 const Img = styled.img`
 	width: 3rem;
+`;
+
+const Logout = styled.button`
+	width: 4rem;
+	height: 2rem;
+	text-transform: capitalize;
+	background: ${colors.MarineBlue};
+	border: none;
+	color: white;
+	cursor: pointer;
+	font-weight: bold;
+	border-radius: 0.5rem;
+`;
+
+const Position = styled.div`
+	position: absolute;
+	right: 30px;
+	top: 10px;
 `;
 
 const PlanComponent = ({ plan }: PlanObject) => {
@@ -95,8 +114,13 @@ const Plans = () => {
 };
 
 const AuthenticatedApp = () => {
+	const { logout } = useAuth();
+
 	return (
 		<HomeContainer>
+			<Position>
+				<Logout onClick={logout}>log out</Logout>
+			</Position>
 			<Padding
 				width='100%'
 				height='100%'

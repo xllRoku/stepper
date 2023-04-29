@@ -66,7 +66,7 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 						>
 							<When predicate={!isLoading}>sign up</When>
 							<When predicate={isLoading}>
-								<Spinner />
+								<Spinner widht='24px' height='24px' />
 							</When>
 						</Flex>
 					</Button>
