@@ -115,7 +115,7 @@ const Padding = styled.div<PaddingProps>`
 	padding-bottom: ${({ paddingBottom }) => paddingBottom};
 	padding-left: ${({ paddingLeft }) => paddingLeft};
 	padding-inline: ${({ paddingInline }) => paddingInline};
-	padding-bottom: ${({ paddingBlock }) => paddingBlock};
+	padding-block: ${({ paddingBlock }) => paddingBlock};
 	${({ mediaQueries }) =>
 		mediaQueries &&
 		Object.entries(mediaQueries).map(([key, styles]) => {
@@ -136,7 +136,7 @@ const Margin = styled.div<MarginProps>`
 	margin-bottom: ${({ marginBottom }) => marginBottom};
 	margin-left: ${({ marginLeft }) => marginLeft};
 	margin-inline: ${({ marginInline }) => marginInline};
-	margin-bottom: ${({ marginBlock }) => marginBlock};
+	margin-block: ${({ marginBlock }) => marginBlock};
 	${({ mediaQueries }) =>
 		mediaQueries &&
 		Object.entries(mediaQueries).map(([key, styles]) => {

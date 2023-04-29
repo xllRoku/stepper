@@ -15,6 +15,8 @@ import { Flex, Grid, Padding } from './custom.styled.components';
 import { Else, If, Then, When } from './functional.component';
 import Spinner from './spinner';
 import { User as TypeUSer, useAuth } from './context/auth-contenxt';
+import styled from 'styled-components';
+import { colors } from './colors';
 
 const FORM_NAMES = {
 	EMAIL: 'email',
@@ -24,6 +26,16 @@ const FORM_NAMES = {
 type Login = {
 	onSubmit: ({ email, password }: TypeUSer) => void;
 };
+
+const Submit = styled.button`
+	height: 2rem;
+	text-transform: capitalize;
+	border: none;
+	background: none;
+	cursor: pointer;
+	color: ${colors.PurplishBlue};
+	font-weight: bold;
+`;
 
 export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 	const { error, isLoading } = useAuth();
@@ -69,56 +81,35 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 
 const UnauthenticatedApp = () => {
 	const { login, register } = useAuth();
-	const [which, setWhich] = useState({
-		which: false,
-		loading: false
-	});
+	const [which, setWhich] = useState(false);
 
-	const handleOnClick = () => {
-		setWhich({ ...which, loading: true });
-		setTimeout(() => {
-			setWhich({ ...which, which: !which });
-		}, 1000);
-		setWhich({ ...which, loading: false });
-	};
+	const handleOnClick = () => setWhich(!which);
 
 	return (
 		<>
 			<ObvImage src={obv} />
 			<ContainerForm>
 				<ObvImageForm src={obv} />
-				<If predicate={which.which}>
+				<If predicate={which}>
 					<Then predicate>
-						<If predicate={which.loading}>
-							<Then predicate>
-								<Spinner />
-							</Then>
-							<Else predicate>
-								<LoginForm onSubmit={login} />
-							</Else>
-						</If>
+						<LoginForm onSubmit={login} />
 					</Then>
 					<Else predicate>
-						<If predicate={which.loading}>
-							<Then predicate>
-								<Spinner />
-							</Then>
-							<Else predicate>
-								<LoginForm onSubmit={login} />
-							</Else>
-						</If>
+						<LoginForm onSubmit={register} />
 					</Else>
 				</If>
-				<button onClick={handleOnClick}>
-					<When predicate={which.which}>
-						Don't have an account yet?
-						<span style={{ color: 'red' }}>register</span>
-					</When>
-					<When predicate={!which.which}>
-						do u have an account already?
-						<span style={{ color: 'red' }}>log in</span>
-					</When>
-				</button>
+				<p>
+					<Grid width='100%' gridPlaceItems='center'>
+						<When predicate={which}>
+							don't have an account yet?
+							<Submit onClick={handleOnClick}>register</Submit>
+						</When>
+						<When predicate={!which}>
+							do u have an account already?
+							<Submit onClick={handleOnClick}>log in</Submit>
+						</When>
+					</Grid>
+				</p>
 			</ContainerForm>
 		</>
 	);

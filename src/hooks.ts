@@ -1,7 +1,9 @@
-import { useMutation } from 'react-query';
-import { useAuth } from './context/auth-contenxt';
+import { useEffect, useState } from 'react';
+import { useAnnualityStore } from './store';
+import type { Plan } from './api';
+import * as api from './api';
+import { ANNUALITY } from './constans';
 
-// import { useEffect, useState, useCallback, FormEvent } from 'react';
 // import { createSignal } from 'solid-js';
 // import { useNavigate } from 'react-router-dom';
 // import * as auth from './auth/auth';
@@ -26,42 +28,42 @@ import { useAuth } from './context/auth-contenxt';
 // 	annuality: addons.annuality
 // });
 
-// const usePlans = () => {
-// 	const store = useAnnualityStore();
+const usePlans = () => {
+	const store = useAnnualityStore();
 
-// 	const [plans, setPlans] = useState<{
-// 		data: Array<IPlanApi>;
-// 		loading: boolean;
-// 	}>({
-// 		data: [],
-// 		loading: false
-// 	});
+	const [plans, setPlans] = useState<{
+		data: Array<Plan>;
+		loading: boolean;
+	}>({
+		data: [],
+		loading: false
+	});
 
-// 	const startGetPlans = () => {
-// 		setPlans({
-// 			...plans,
-// 			loading: true
-// 		});
-// 	};
+	const startGetPlans = () => {
+		setPlans({
+			...plans,
+			loading: true
+		});
+	};
 
-// 	const getPlansSuccess = () => {
-// 		api.getPlan(store.annuality).then(data =>
-// 			setPlans({
-// 				...plans,
-// 				data: data.map(p => PlanMapper(p))
-// 			})
-// 		);
-// 	};
+	const getPlansSuccess = () => {
+		api.getPlan(store.annuality).then(data =>
+			setPlans({
+				...plans,
+				data
+			})
+		);
+	};
 
-// 	useEffect(() => {
-// 		startGetPlans();
-// 		getPlansSuccess();
-// 	}, [store.annuality]);
+	useEffect(() => {
+		startGetPlans();
+		getPlansSuccess();
+	}, [store.annuality]);
 
-// 	const { data, loading } = plans;
+	const { data, loading } = plans;
 
-// 	return { data, loading };
-// };
+	return { data, loading };
+};
 
 // const useAddons = () => {
 // 	const store = useAnnualityStore();
@@ -99,73 +101,23 @@ import { useAuth } from './context/auth-contenxt';
 // 	return { data, loading };
 // };
 
-// const useSwitchAnnuality = () => {
-// 	const [isSelected, setIsSelected] = useState(false);
-// 	const storeAnnuality = useAnnualityStore();
+const useSwitchAnnuality = () => {
+	const [isSelected, setIsSelected] = useState(false);
+	const storeAnnuality = useAnnualityStore();
 
-// 	const isMonthly = storeAnnuality.annuality === ANNUALITY.MONTHLY;
-// 	const isYearly = storeAnnuality.annuality === ANNUALITY.YEARLY;
+	const isMonthly = storeAnnuality.annuality === ANNUALITY.MONTHLY;
+	const isYearly = storeAnnuality.annuality === ANNUALITY.YEARLY;
 
-// 	const changeAnnuality = () =>
-// 		isYearly ? ANNUALITY.MONTHLY : ANNUALITY.YEARLY;
+	const changeAnnuality = () =>
+		isYearly ? ANNUALITY.MONTHLY : ANNUALITY.YEARLY;
 
-// 	const handleOnClick = () => {
-// 		setIsSelected(!isSelected);
-// 		storeAnnuality.setAnnuality(changeAnnuality());
-// 	};
+	const handleOnClick = () => {
+		setIsSelected(!isSelected);
+		storeAnnuality.setAnnuality(changeAnnuality());
+	};
 
-// 	return { isSelected, handleOnClick, isMonthly, isYearly };
-// };
-
-// const useLogin = () => {
-// 	// const nagivate = useNavigate();
-
-// 	const [data, setData] = useState({
-// 		email: '',
-// 		password: '',
-// 		loading: false,
-// 		error: ''
-// 	});
-
-// 	const handleOnChange = useCallback((event: any) => {
-// 		const { name, value } = event.target;
-// 		setData(prevData => ({ ...prevData, [name]: value }));
-// 	}, []);
-
-// 	const handleOnSubmit = (event: FormEvent) => {
-// 		const { email, password } = data;
-// 		setData({ ...data, loading: true, error: '' });
-
-// 		event.preventDefault();
-
-// 		setTimeout(() => {
-// 			auth.registerUser({ email, password })
-// 				.then(response => {
-// 					if (response.status === 200) {
-// 						setData(prevData => ({
-// 							...prevData,
-// 							loading: false,
-// 							error: ''
-// 						}));
-// 						// nagivate('/payment/plan');
-// 					}
-// 				})
-// 				.catch(error => {
-// 					setData(prevData => ({
-// 						...prevData,
-// 						loading: false,
-// 						error:
-// 							error.response?.data.errorMessage ||
-// 							'Unknown error occurred'
-// 					}));
-// 				});
-// 		}, 1000);
-// 	};
-
-// 	const { loading, error } = data;
-
-// 	return { handleOnChange, handleOnSubmit, loading, error };
-// };
+	return { isSelected, handleOnClick, isMonthly, isYearly };
+};
 
 // const useAnnuality = (plan: IPlan) => {
 // 	const store = usePlanStore();
@@ -184,4 +136,4 @@ import { useAuth } from './context/auth-contenxt';
 // 	return { handleOnClick, isPlanSelected };
 // };
 
-// export { usePlans, useSwitchAnnuality, useAnnuality, useAddons };
+export { usePlans, useSwitchAnnuality };

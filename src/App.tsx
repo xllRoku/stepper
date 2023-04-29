@@ -7,7 +7,7 @@ function App() {
 
 	console.log(user);
 
-	return <>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</>;
+	return <>{'user' ? <AuthenticatedApp /> : <UnauthenticatedApp />}</>;
 }
 
 export default App;

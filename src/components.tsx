@@ -4,6 +4,8 @@ import { colors } from './colors';
 import { Flex, Grid, Margin, Padding } from './custom.styled.components';
 import { STEPS } from './constans';
 import bg from './assets/images/bg-sidebar-desktop.svg';
+import { If, Then } from './functional.component';
+import { useSwitchAnnuality } from './hooks';
 
 type Input = {
 	name: string;
@@ -38,8 +40,8 @@ type Switch = {
 
 const Header = () => {
 	return (
-		<HeaderHome>
-			<HeaderContent>
+		<header>
+			<header>
 				<Margin width='100%' height='100%' marginTop='2rem'>
 					<Title>Select your plan</Title>
 					<Margin width='100%' height='100%' marginTop='1rem'>
@@ -48,8 +50,8 @@ const Header = () => {
 						</Description>
 					</Margin>
 				</Margin>
-			</HeaderContent>
-		</HeaderHome>
+			</header>
+		</header>
 	);
 };
 
@@ -191,14 +193,6 @@ const HomeContainer = styled.div`
 	background: white;
 	border-radius: 1rem;
 `;
-
-const MainHome = styled.main``;
-
-const HeaderHome = styled.header``;
-
-const SectionMainHome = styled.section``;
-
-const HeaderContent = styled.div``;
 
 const Title = styled.h1`
 	color: ${colors.MarineBlue};
@@ -362,43 +356,55 @@ const Yearly = styled.span`
 `;
 
 const SwitchAnnuality = () => {
+	const { handleOnClick, isMonthly, isSelected, isYearly } =
+		useSwitchAnnuality();
+
 	return (
 		<Switch>
-			<Margin width='100%' height='100%' marginTop='2rem'>
-				<Flex
-					width='100%'
-					height='100%'
-					alignItems='center'
-					justifyContent='center'
-					gap='2rem'
+			<Flex
+				width='100%'
+				height='100%'
+				alignItems='center'
+				justifyContent='center'
+				gap='2rem'
+			>
+				<Monthly
+					style={{
+						color: `${
+							isMonthly ? colors.CoolGray : colors.MarineBlue
+						}`
+					}}
 				>
-					<Monthly>monthly</Monthly>
-					<SwitchDiv>
-						<Padding
-							width='100%'
-							height='100%'
-							paddingInline='0.5rem'
-						>
-							<Flex
-								width='100%'
-								height='100%'
-								alignItems='center'
-							>
-								<SwitchContainer>
-									<Flex
-										width='100%'
-										height='100%'
-										alignItems='center'
-									>
-										<Circle />
-									</Flex>
-								</SwitchContainer>
-							</Flex>
-						</Padding>
-					</SwitchDiv>
-					<Yearly>yearly</Yearly>
-				</Flex>
-			</Margin>
+					monthly
+				</Monthly>
+				<SwitchDiv>
+					<Padding width='100%' height='100%' paddingInline='0.5rem'>
+						<Flex width='100%' height='100%' alignItems='center'>
+							<SwitchContainer>
+								<Flex
+									width='100%'
+									height='100%'
+									alignItems='center'
+								>
+									<Circle
+										onClick={handleOnClick}
+										isSelected={isSelected}
+									/>
+								</Flex>
+							</SwitchContainer>
+						</Flex>
+					</Padding>
+				</SwitchDiv>
+				<Yearly
+					style={{
+						color: `${
+							isYearly ? colors.CoolGray : colors.MarineBlue
+						}`
+					}}
+				>
+					yearly
+				</Yearly>
+			</Flex>
 		</Switch>
 	);
 };
@@ -494,10 +500,6 @@ export {
 	InputPassword,
 	InputText,
 	HomeContainer,
-	MainHome,
-	HeaderHome,
-	SectionMainHome,
-	HeaderContent,
 	Title,
 	Description,
 	GoBack,
