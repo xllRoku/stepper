@@ -3,6 +3,7 @@ import styled from 'styled-components';
 type Dimension = {
 	widht: string;
 	height: string;
+	borderColor: string;
 };
 
 const LdsRing = styled.div`
@@ -25,16 +26,35 @@ const LdsRingChild = styled.div<Dimension>`
 	border: 4px solid #fff;
 	border-radius: 50%;
 	animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-	border-color: black transparent transparent transparent;
+	border-color: ${props => props.borderColor ?? 'white'} transparent
+		transparent transparent;
 `;
 
-const Spinner = ({ height, widht }: Dimension) => {
+const Spinner = ({ height, widht, borderColor }: Dimension) => {
 	return (
 		<LdsRing className='lds-ring'>
-			<LdsRingChild height={height} widht={widht}></LdsRingChild>
-			<LdsRingChild height={height} widht={widht}></LdsRingChild>
-			<LdsRingChild height={height} widht={widht}></LdsRingChild>
-			<LdsRingChild height={height} widht={widht}></LdsRingChild>
+			<LdsRingChild
+				height={height}
+				widht={widht}
+				borderColor={borderColor}
+			></LdsRingChild>
+			<LdsRingChild
+				height={height}
+				widht={widht}
+				borderColor={borderColor}
+			></LdsRingChild>
+			<LdsRingChild
+				height={height}
+				widht={widht}
+				borderColor={borderColor}
+			></LdsRingChild>
+			<LdsRingChild
+				height={height}
+				widht={widht}
+				borderColor={borderColor}
+			>
+				{' '}
+			</LdsRingChild>
 		</LdsRing>
 	);
 };

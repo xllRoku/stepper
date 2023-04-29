@@ -97,7 +97,11 @@ const Plans = () => {
 			<If predicate={loading}>
 				<Then predicate>
 					<div style={{ width: '416px', height: '160px' }}>
-						<Spinner widht='3rem' height='3rem' />
+						<Spinner
+							widht='3rem'
+							height='3rem'
+							borderColor='black'
+						/>
 					</div>
 				</Then>
 				<Else predicate>
