@@ -96,21 +96,21 @@ const UnauthenticatedApp = () => {
 				<ObvImageForm src={obv} />
 				<If predicate={which}>
 					<Then predicate>
-						<LoginForm onSubmit={login} />
+						<LoginForm onSubmit={register} />
 					</Then>
 					<Else predicate>
-						<LoginForm onSubmit={register} />
+						<LoginForm onSubmit={login} />
 					</Else>
 				</If>
 				<p>
 					<Grid width='100%' gridPlaceItems='center'>
 						<When predicate={which}>
-							don't have an account yet?
-							<Submit onClick={handleOnClick}>register</Submit>
-						</When>
-						<When predicate={!which}>
 							do u have an account already?
 							<Submit onClick={handleOnClick}>log in</Submit>
+						</When>
+						<When predicate={!which}>
+							don't have an account yet?
+							<Submit onClick={handleOnClick}>register</Submit>
 						</When>
 					</Grid>
 				</p>

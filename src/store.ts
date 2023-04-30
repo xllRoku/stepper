@@ -1,20 +1,18 @@
 import { create } from 'zustand';
 import { ANNUALITY } from './constans';
 
-interface IPlan {
+type Plan = {
 	id?: string;
 	title?: string;
-	price?: number;
-	annuality?: string;
-}
+};
 
-interface PlanStore {
-	plan: IPlan | undefined;
-	setPlan: (plan: IPlan) => void;
+type PlanStore = {
+	plan: Plan | undefined;
+	setPlan: (plan: Plan) => void;
 	changePrice: (price: number) => void;
 	setAnnuality: (annuality: string) => void;
 	removePlan: () => void;
-}
+};
 
 const usePlanStore = create<PlanStore>(set => ({
 	plan: undefined,
@@ -26,14 +24,24 @@ const usePlanStore = create<PlanStore>(set => ({
 	removePlan: () => set(() => ({ plan: undefined }))
 }));
 
-interface AnnualityStore {
+type AnnualityStore = {
 	annuality: string;
 	setAnnuality: (annuality: string) => void;
-}
+};
 
 const useAnnualityStore = create<AnnualityStore>(set => ({
 	annuality: ANNUALITY.MONTHLY,
 	setAnnuality: annuality => set(state => ({ ...state, annuality }))
 }));
 
-export { usePlanStore, useAnnualityStore };
+type Step = {
+	step: number;
+	setStep: (step: number) => void;
+};
+
+const useSetStep = create<Step>(set => ({
+	step: 1,
+	setStep: step => set(state => ({ ...state, step }))
+}));
+
+export { usePlanStore, useAnnualityStore, useSetStep };

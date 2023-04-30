@@ -1,32 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useAnnualityStore } from './store';
+import { useAnnualityStore, usePlanStore } from './store';
 import type { Plan } from './api';
 import * as api from './api';
 import { ANNUALITY } from './constans';
-
-// import { createSignal } from 'solid-js';
-// import { useNavigate } from 'react-router-dom';
-// import * as auth from './auth/auth';
-// import * as api from './api';
-// import { useAnnualityStore, usePlanStore } from './store';
-// import { ANNUALITY } from './constans';
-// import { IPlan } from './payment/plan/plan';
-// import { IPlanApi, AddonApi } from './api';
-
-// const PlanMapper = (plans: IPlanApi): IPlanApi => ({
-// 	id: plans.id,
-// 	title: plans.title,
-// 	image: plans.image,
-// 	price: plans.price,
-// 	annuality: plans.annuality
-// });
-
-// const AddonMapper = (addons: AddonApi): AddonApi => ({
-// 	title: addons.title,
-// 	content: addons.content,
-// 	price: addons.price,
-// 	annuality: addons.annuality
-// });
 
 const usePlans = () => {
 	const store = useAnnualityStore();
@@ -65,41 +41,26 @@ const usePlans = () => {
 	return { data, loading };
 };
 
-// const useAddons = () => {
-// 	const store = useAnnualityStore();
-// 	const [addons, setAddons] = useState<{
-// 		data: Array<api.AddonApi>;
-// 		loading: boolean;
-// 	}>({
-// 		data: [],
-// 		loading: false
-// 	});
+const useChangePlan = (id: string, title: string) => {
+	const { plan: selectedPlan, setPlan } = usePlanStore();
+	const { annuality } = useAnnualityStore();
 
-// 	const startGetAddons = () => {
-// 		setAddons({
-// 			...addons,
-// 			loading: true
-// 		});
-// 	};
+	console.log(selectedPlan?.id);
 
-// 	const getAddonsSuccess = () => {
-// 		api.getAddons(store.annuality).then(data =>
-// 			setAddons({
-// 				...addons,
-// 				data: data.map(a => AddonMapper(a))
-// 			})
-// 		);
-// 	};
+	const handleOnClick = () => {
+		setPlan({ id, title });
+	};
 
-// 	useEffect(() => {
-// 		startGetAddons();
-// 		getAddonsSuccess();
-// 	}, [store.annuality]);
+	useEffect(() => {
+		if (selectedPlan?.title === title) {
+			setPlan({ ...selectedPlan, id });
+		}
+	}, [annuality]);
 
-// 	const { data, loading } = addons;
+	const isPlanSelected = selectedPlan?.id === id;
 
-// 	return { data, loading };
-// };
+	return { handleOnClick, isPlanSelected };
+};
 
 const useSwitchAnnuality = () => {
 	const [isSelected, setIsSelected] = useState(false);
@@ -119,21 +80,4 @@ const useSwitchAnnuality = () => {
 	return { isSelected, handleOnClick, isMonthly, isYearly };
 };
 
-// const useAnnuality = (plan: IPlan) => {
-// 	const store = usePlanStore();
-
-// 	const handleOnClick = () => {
-// 		store.setPlan({
-// 			id: plan.id,
-// 			title: plan.title,
-// 			price: plan.price,
-// 			annuality: plan.annuality
-// 		});
-// 	};
-
-// 	const isPlanSelected = store.plan?.title === plan.title;
-
-// 	return { handleOnClick, isPlanSelected };
-// };
-
-export { usePlans, useSwitchAnnuality };
+export { usePlans, useSwitchAnnuality, useChangePlan };

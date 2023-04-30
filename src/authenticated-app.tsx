@@ -1,41 +1,17 @@
 import { colors } from './colors';
-import {
-	Buttons,
-	Header,
-	HomeContainer,
-	Steps,
-	SwitchAnnuality
-} from './components';
+import { Buttons, Header, HomeContainer, Steps } from './components';
 import { Flex, Padding } from './custom.styled.components';
 import styled from 'styled-components';
-import { usePlans } from './hooks';
-import { Else, If, Then } from './functional.component';
-import Spinner from './spinner';
-import { Plan } from './api';
 import { useAuth } from './context/auth-contenxt';
-
-type PlanObject = {
-	plan: Plan;
-};
-
-const PlanButton = styled.button`
-	width: 8rem;
-	height: 10rem;
-	border-radius: 0.5rem;
-	border: 1px solid ${colors.PurplishBlue};
-	background: transparent;
-	cursor: pointer;
-`;
-
-const Title = styled.p`
-	color: ${colors.MarineBlue};
-	font-weight: bold;
-	text-transform: capitalize;
-`;
-
-const Img = styled.img`
-	width: 3rem;
-`;
+import {
+	BrowserRouter,
+	Routes,
+	Route,
+	Navigate,
+	Outlet
+} from 'react-router-dom';
+import PlanScreen from './screens/plans';
+import AddonScreen from './screens/addons';
 
 const Logout = styled.button`
 	width: 4rem;
@@ -55,71 +31,8 @@ const Position = styled.div`
 	top: 10px;
 `;
 
-const PlanComponent = ({ plan }: PlanObject) => {
-	const { image, title, price } = plan;
-
-	return (
-		<PlanButton>
-			<Padding
-				width='100%'
-				height='100%'
-				paddingInline='0.5rem'
-				paddingBlock='1rem'
-			>
-				<Flex
-					width='100%'
-					height='100%'
-					flexDirection='column'
-					justifyContent='space-between'
-					alignItems='start'
-				>
-					<Img src={image} alt='' />
-					<div style={{ textAlign: 'start' }}>
-						<Title>{title}</Title>
-						<span>${price}/mo</span>
-					</div>
-				</Flex>
-			</Padding>
-		</PlanButton>
-	);
-};
-
-const Plans = () => {
-	const { data, loading } = usePlans();
-
-	return (
-		<Flex
-			width='100%'
-			flexDirection='column'
-			gap='2rem'
-			justifyContent='center'
-		>
-			<If predicate={loading}>
-				<Then predicate>
-					<div style={{ width: '416px', height: '160px' }}>
-						<Spinner
-							widht='3rem'
-							height='3rem'
-							borderColor='black'
-						/>
-					</div>
-				</Then>
-				<Else predicate>
-					<Flex gap='1rem'>
-						{data.map(p => (
-							<PlanComponent key={p.id} plan={p} />
-						))}
-					</Flex>
-				</Else>
-			</If>
-			<SwitchAnnuality />
-		</Flex>
-	);
-};
-
-const AuthenticatedApp = () => {
+const Layout = () => {
 	const { logout } = useAuth();
-
 	return (
 		<HomeContainer>
 			<Position>
@@ -142,7 +55,7 @@ const AuthenticatedApp = () => {
 						>
 							<Header />
 							<section>
-								<Plans />
+								<Outlet />
 							</section>
 							<Buttons />
 						</Flex>
@@ -150,6 +63,24 @@ const AuthenticatedApp = () => {
 				</Flex>
 			</Padding>
 		</HomeContainer>
+	);
+};
+
+const AuthenticatedApp = () => {
+	return <AppRoutes />;
+};
+
+const AppRoutes = () => {
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route element={<Layout />}>
+					<Route path='/' element={<Navigate to='/plans' />} />
+					<Route path='/plans' element={<PlanScreen />} />
+					<Route path='/addons' element={<AddonScreen />} />
+				</Route>
+			</Routes>
+		</BrowserRouter>
 	);
 };
 

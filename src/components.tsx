@@ -1,11 +1,12 @@
-import type { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 import { colors } from './colors';
 import { Flex, Grid, Margin, Padding } from './custom.styled.components';
 import { STEPS } from './constans';
 import bg from './assets/images/bg-sidebar-desktop.svg';
-import { If, Then } from './functional.component';
 import { useSwitchAnnuality } from './hooks';
+import { usePlanStore, useSetStep } from './store';
+import { useNavigate } from 'react-router-dom';
 
 type Input = {
 	name: string;
@@ -193,6 +194,7 @@ const HomeContainer = styled.div`
 	background: white;
 	border-radius: 1rem;
 	position: relative;
+	width: 900px;
 `;
 
 const Title = styled.h1`
@@ -238,13 +240,15 @@ const StepContainers = styled.ol`
 	top: 0;
 `;
 
-const StepSpan = styled.div`
+const StepSpan = styled.div<{ selected: boolean }>`
 	width: 2.5rem;
 	height: 2.5rem;
 	border-radius: 100vh;
-	border: 2px solid white;
-	color: white;
+	border: ${props => (props.selected ? 'none' : '2px solid white')};
+	color: ${props => (props.selected ? 'hsl(213, 96%, 18%)' : 'white')};
 	font-weight: bold;
+	background: ${props =>
+		props.selected ? 'hsl(228, 100%, 84%)' : 'transparent'};
 `;
 
 const StepContent = styled.div`
@@ -286,12 +290,15 @@ const Steps = () => {
 };
 
 const Step: React.FC<StepObject> = ({ step }) => {
+	const { step: currentStep } = useSetStep();
 	const { id, stepNumber, title } = step;
+
+	const isCurrentStep = currentStep === Number(id);
 
 	return (
 		<li key={id}>
 			<Flex alignItems='center' gap='1.5rem'>
-				<StepSpan>
+				<StepSpan selected={isCurrentStep}>
 					<Flex
 						width='100%'
 						height='100%'
@@ -417,10 +424,6 @@ export type TAddon = {
 	annuality: string;
 };
 
-type TAddonObject = {
-	addon: Addon;
-};
-
 const AddonContainer = styled.div`
 	width: 30rem;
 	height: 5.5rem;
@@ -475,14 +478,43 @@ const Addon: React.FC<AddonObject> = ({ addon }) => {
 	);
 };
 
+const STEP = {
+	ONE: 1,
+	TWO: 2,
+	THREE: 3
+};
+
 const Buttons = () => {
+	const { step, setStep } = useSetStep();
+	const navigate = useNavigate();
+	const { plan } = usePlanStore();
+
+	const nextStep = () => {
+		if (step === STEP.ONE && plan) {
+			setStep(step + 1);
+			navigate('/addons');
+		}
+	};
+
+	const prevStep = () => {
+		if (step === STEP.TWO) {
+			setStep(step - 1);
+			navigate('/plans');
+		}
+	};
+
 	return (
 		<Flex justifyContent='space-between'>
 			<Margin marginBottom='2rem'>
-				<GoBack>go back</GoBack>
+				<GoBack
+					onClick={prevStep}
+					style={{ display: `${step !== 1 ? 'block' : 'none'}` }}
+				>
+					go back
+				</GoBack>
 			</Margin>
 			<Margin marginBottom='2rem'>
-				<NextStep>next step</NextStep>
+				<NextStep onClick={nextStep}>next step</NextStep>
 			</Margin>
 		</Flex>
 	);
