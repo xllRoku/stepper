@@ -1,9 +1,12 @@
-import type { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 import { colors } from './colors';
 import { Flex, Grid, Margin, Padding } from './custom.styled.components';
 import { STEPS } from './constans';
 import bg from './assets/images/bg-sidebar-desktop.svg';
+import { useSwitchAnnuality } from './hooks';
+import { usePlanStore, useSetStep } from './store';
+import { useNavigate } from 'react-router-dom';
 
 type Input = {
 	name: string;
@@ -34,6 +37,23 @@ type StepObject = {
 
 type Switch = {
 	isSelected?: boolean;
+};
+
+const Header = () => {
+	return (
+		<header>
+			<header>
+				<Margin width='100%' height='100%' marginTop='2rem'>
+					<Title>Select your plan</Title>
+					<Margin width='100%' height='100%' marginTop='1rem'>
+						<Description>
+							You have the option of monthly of yearly billing.
+						</Description>
+					</Margin>
+				</Margin>
+			</header>
+		</header>
+	);
 };
 
 const User = () => (
@@ -173,15 +193,9 @@ const InputText: React.FC<Input> = ({ name, value, icon }) => {
 const HomeContainer = styled.div`
 	background: white;
 	border-radius: 1rem;
+	position: relative;
+	width: 900px;
 `;
-
-const MainHome = styled.main``;
-
-const HeaderHome = styled.header``;
-
-const SectionMainHome = styled.section``;
-
-const HeaderContent = styled.div``;
 
 const Title = styled.h1`
 	color: ${colors.MarineBlue};
@@ -226,13 +240,15 @@ const StepContainers = styled.ol`
 	top: 0;
 `;
 
-const StepSpan = styled.div`
+const StepSpan = styled.div<{ selected: boolean }>`
 	width: 2.5rem;
 	height: 2.5rem;
 	border-radius: 100vh;
-	border: 2px solid white;
-	color: white;
+	border: ${props => (props.selected ? 'none' : '2px solid white')};
+	color: ${props => (props.selected ? 'hsl(213, 96%, 18%)' : 'white')};
 	font-weight: bold;
+	background: ${props =>
+		props.selected ? 'hsl(228, 100%, 84%)' : 'transparent'};
 `;
 
 const StepContent = styled.div`
@@ -274,12 +290,15 @@ const Steps = () => {
 };
 
 const Step: React.FC<StepObject> = ({ step }) => {
+	const { step: currentStep } = useSetStep();
 	const { id, stepNumber, title } = step;
+
+	const isCurrentStep = currentStep === Number(id);
 
 	return (
 		<li key={id}>
 			<Flex alignItems='center' gap='1.5rem'>
-				<StepSpan>
+				<StepSpan selected={isCurrentStep}>
 					<Flex
 						width='100%'
 						height='100%'
@@ -345,43 +364,55 @@ const Yearly = styled.span`
 `;
 
 const SwitchAnnuality = () => {
+	const { handleOnClick, isMonthly, isSelected, isYearly } =
+		useSwitchAnnuality();
+
 	return (
 		<Switch>
-			<Margin width='100%' height='100%' marginTop='2rem'>
-				<Flex
-					width='100%'
-					height='100%'
-					alignItems='center'
-					justifyContent='center'
-					gap='2rem'
+			<Flex
+				width='100%'
+				height='100%'
+				alignItems='center'
+				justifyContent='center'
+				gap='2rem'
+			>
+				<Monthly
+					style={{
+						color: `${
+							isMonthly ? colors.CoolGray : colors.MarineBlue
+						}`
+					}}
 				>
-					<Monthly>monthly</Monthly>
-					<SwitchDiv>
-						<Padding
-							width='100%'
-							height='100%'
-							paddingInline='0.5rem'
-						>
-							<Flex
-								width='100%'
-								height='100%'
-								alignItems='center'
-							>
-								<SwitchContainer>
-									<Flex
-										width='100%'
-										height='100%'
-										alignItems='center'
-									>
-										<Circle />
-									</Flex>
-								</SwitchContainer>
-							</Flex>
-						</Padding>
-					</SwitchDiv>
-					<Yearly>yearly</Yearly>
-				</Flex>
-			</Margin>
+					monthly
+				</Monthly>
+				<SwitchDiv>
+					<Padding width='100%' height='100%' paddingInline='0.5rem'>
+						<Flex width='100%' height='100%' alignItems='center'>
+							<SwitchContainer>
+								<Flex
+									width='100%'
+									height='100%'
+									alignItems='center'
+								>
+									<Circle
+										onClick={handleOnClick}
+										isSelected={isSelected}
+									/>
+								</Flex>
+							</SwitchContainer>
+						</Flex>
+					</Padding>
+				</SwitchDiv>
+				<Yearly
+					style={{
+						color: `${
+							isYearly ? colors.CoolGray : colors.MarineBlue
+						}`
+					}}
+				>
+					yearly
+				</Yearly>
+			</Flex>
 		</Switch>
 	);
 };
@@ -391,10 +422,6 @@ export type TAddon = {
 	content: string;
 	price: number;
 	annuality: string;
-};
-
-type TAddonObject = {
-	addon: Addon;
 };
 
 const AddonContainer = styled.div`
@@ -451,6 +478,48 @@ const Addon: React.FC<AddonObject> = ({ addon }) => {
 	);
 };
 
+const STEP = {
+	ONE: 1,
+	TWO: 2,
+	THREE: 3
+};
+
+const Buttons = () => {
+	const { step, setStep } = useSetStep();
+	const navigate = useNavigate();
+	const { plan } = usePlanStore();
+
+	const nextStep = () => {
+		if (step === STEP.ONE && plan) {
+			setStep(step + 1);
+			navigate('/addons');
+		}
+	};
+
+	const prevStep = () => {
+		if (step === STEP.TWO) {
+			setStep(step - 1);
+			navigate('/plans');
+		}
+	};
+
+	return (
+		<Flex justifyContent='space-between'>
+			<Margin marginBottom='2rem'>
+				<GoBack
+					onClick={prevStep}
+					style={{ display: `${step !== 1 ? 'block' : 'none'}` }}
+				>
+					go back
+				</GoBack>
+			</Margin>
+			<Margin marginBottom='2rem'>
+				<NextStep onClick={nextStep}>next step</NextStep>
+			</Margin>
+		</Flex>
+	);
+};
+
 export {
 	User,
 	Password,
@@ -464,15 +533,13 @@ export {
 	InputPassword,
 	InputText,
 	HomeContainer,
-	MainHome,
-	HeaderHome,
-	SectionMainHome,
-	HeaderContent,
 	Title,
 	Description,
 	GoBack,
 	NextStep,
 	Steps,
 	SwitchAnnuality,
-	Addons
+	Addons,
+	Header,
+	Buttons
 };

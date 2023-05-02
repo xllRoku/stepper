@@ -1,33 +1,38 @@
 import { createContext, useState, useContext } from 'react';
 import * as auth from '../auth-provider';
+import { User } from '../components';
 
-type UserRegisterDto = {
+export type Token = {
+	token: string;
+};
+
+export type Error = {
+	error: string;
+};
+
+export type User = {
 	email: string;
 	password: string;
 };
 
-export type UserToken = {
-	token: string;
+type AuthContextType = {
+	user?: string;
+	error?: string;
+	isLoading?: boolean;
+	register: (form: User) => Promise<void>;
+	login: (form: User) => Promise<void>;
+	logout: any;
 };
 
-type Auth = {
-	token: string | undefined;
-	register: ({
-		email,
-		password
-	}: UserRegisterDto) => Promise<UserToken | void>;
-};
-
-const AuthContext = createContext<Auth>({
-	token: undefined,
-	register: () => Promise.resolve({ token: '' })
-});
+const AuthContext = createContext({});
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-	const [token, setToken] = useState<UserToken | undefined>();
+	const [user, setUser] = useState();
 
-	const register = (form: UserRegisterDto): Promise<UserToken> =>
-		auth.register(form).then(token => setToken(token));
+	const register = (form: any) =>
+		auth.register(form).then(user => setUser(user));
+
+	const value = useMemo(() => ({ user, register }), [register, user]);
 
 	return (
 		<AuthContext.Provider value={{ register }}>

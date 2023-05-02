@@ -1,9 +1,8 @@
+import { useState } from 'react';
 import obv from './assets/images/obvli.jpg';
 import {
 	Button,
-	Container,
 	ContainerForm,
-	Form,
 	H1Form,
 	InputPassword,
 	InputText,
@@ -12,7 +11,6 @@ import {
 	Password,
 	User
 } from './components';
-import { useAuth } from './context/auth-contenxt';
 import { Grid, Padding } from './custom.styled.components';
 
 const FORM_NAMES = {
@@ -21,10 +19,8 @@ const FORM_NAMES = {
 };
 
 const FormSignup = () => {
-	// const { register } = useAuth();
-
 	return (
-		<Form>
+		<form onSubmit={handleOnSubmit}>
 			<Padding paddingInline='6rem' paddingBlock='1rem'>
 				<Grid gridPlaceItems='center' gap='1rem'>
 					<H1Form>user login</H1Form>
@@ -33,32 +29,64 @@ const FormSignup = () => {
 						icon={<Password />}
 						name={FORM_NAMES.PASSWORD}
 					/>
-					<Button>sign up</Button>
+					<Button>
+						<Flex
+							width='100%'
+							justifyContent='center'
+							alignItems='center'
+						>
+							<When predicate={!isLoading}>sign up</When>
+							<When predicate={isLoading}>
+								<Spinner
+									widht='24px'
+									height='24px'
+									borderColor='white'
+								/>
+							</When>
+						</Flex>
+					</Button>
+					<When predicate={error && !isLoading}>
+						<p style={{ color: 'red' }}>{error}</p>
+					</When>
 				</Grid>
 			</Padding>
-		</Form>
+		</form>
 	);
 };
 
-export const SingUp = () => {
+const UnauthenticatedApp = () => {
+	const { login, register } = useAuth();
+	const [which, setWhich] = useState(false);
+
+	const handleOnClick = () => setWhich(!which);
+
 	return (
 		<>
 			<ObvImage src={obv} />
 			<ContainerForm>
 				<ObvImageForm src={obv} />
-				<FormSignup />
+				<If predicate={which}>
+					<Then predicate>
+						<LoginForm onSubmit={register} />
+					</Then>
+					<Else predicate>
+						<LoginForm onSubmit={login} />
+					</Else>
+				</If>
+				<p>
+					<Grid width='100%' gridPlaceItems='center'>
+						<When predicate={which}>
+							do u have an account already?
+							<Submit onClick={handleOnClick}>log in</Submit>
+						</When>
+						<When predicate={!which}>
+							don't have an account yet?
+							<Submit onClick={handleOnClick}>register</Submit>
+						</When>
+					</Grid>
+				</p>
 			</ContainerForm>
 		</>
-	);
-};
-
-const UnauthenticatedApp = () => {
-	return (
-		<Container>
-			<Grid gridPlaceItems='center' height='100%'>
-				<SingUp />
-			</Grid>
-		</Container>
 	);
 };
 

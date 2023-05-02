@@ -1,4 +1,4 @@
-import styled, { CSSProperties } from 'styled-components';
+import styled, { CSSObject, CSSProperties, css } from 'styled-components';
 
 type PaddingProps = {
 	width?: CSSProperties['width'];
@@ -10,6 +10,9 @@ type PaddingProps = {
 	paddingLeft?: CSSProperties['paddingLeft'];
 	paddingInline?: CSSProperties['paddingInline'];
 	paddingBlock?: CSSProperties['paddingBlock'];
+	mediaQueries?: {
+		[key: string]: CSSObject;
+	};
 };
 
 type MarginProps = {
@@ -22,6 +25,9 @@ type MarginProps = {
 	marginLeft?: CSSProperties['marginLeft'];
 	marginInline?: CSSProperties['marginInline'];
 	marginBlock?: CSSProperties['marginBlock'];
+	mediaQueries?: {
+		[key: string]: CSSObject;
+	};
 };
 
 type FlexProps = {
@@ -33,6 +39,9 @@ type FlexProps = {
 	alignContent?: CSSProperties['alignContent'];
 	flexWrap?: CSSProperties['flexWrap'];
 	gap?: CSSProperties['gap'];
+	mediaQueries?: {
+		[key: string]: CSSObject;
+	};
 };
 
 type GridProps = {
@@ -46,6 +55,9 @@ type GridProps = {
 	gridAutoFlow?: CSSProperties['gridAutoFlow'];
 	gridPlaceItems?: CSSProperties['placeItems'];
 	gap?: CSSProperties['gap'];
+	mediaQueries?: {
+		[key: string]: CSSObject;
+	};
 };
 
 const Flex = styled.div<FlexProps>`
@@ -58,6 +70,15 @@ const Flex = styled.div<FlexProps>`
 	align-content: ${({ alignContent }) => alignContent || 'stretch'};
 	flex-wrap: ${({ flexWrap }) => flexWrap || 'nowrap'};
 	gap: ${({ gap }) => gap || '0'};
+	${({ mediaQueries }) =>
+		mediaQueries &&
+		Object.entries(mediaQueries).map(([key, styles]) => {
+			return css`
+				@media ${key} {
+					${styles}
+				}
+			`;
+		})}
 `;
 
 const Grid = styled.div<GridProps>`
@@ -74,6 +95,15 @@ const Grid = styled.div<GridProps>`
 	grid-auto-flow: ${({ gridAutoFlow }) => gridAutoFlow || 'row'};
 	place-items: ${({ gridPlaceItems }) => gridPlaceItems || 'auto'};
 	gap: ${({ gap }) => gap || '0'};
+	${({ mediaQueries }) =>
+		mediaQueries &&
+		Object.entries(mediaQueries).map(([key, styles]) => {
+			return css`
+				@media ${key} {
+					${styles}
+				}
+			`;
+		})}
 `;
 
 const Padding = styled.div<PaddingProps>`
@@ -85,7 +115,16 @@ const Padding = styled.div<PaddingProps>`
 	padding-bottom: ${({ paddingBottom }) => paddingBottom};
 	padding-left: ${({ paddingLeft }) => paddingLeft};
 	padding-inline: ${({ paddingInline }) => paddingInline};
-	padding-bottom: ${({ paddingBlock }) => paddingBlock};
+	padding-block: ${({ paddingBlock }) => paddingBlock};
+	${({ mediaQueries }) =>
+		mediaQueries &&
+		Object.entries(mediaQueries).map(([key, styles]) => {
+			return css`
+				@media ${key} {
+					${styles}
+				}
+			`;
+		})}
 `;
 
 const Margin = styled.div<MarginProps>`
@@ -97,7 +136,16 @@ const Margin = styled.div<MarginProps>`
 	margin-bottom: ${({ marginBottom }) => marginBottom};
 	margin-left: ${({ marginLeft }) => marginLeft};
 	margin-inline: ${({ marginInline }) => marginInline};
-	margin-bottom: ${({ marginBlock }) => marginBlock};
+	margin-block: ${({ marginBlock }) => marginBlock};
+	${({ mediaQueries }) =>
+		mediaQueries &&
+		Object.entries(mediaQueries).map(([key, styles]) => {
+			return css`
+				@media ${key} {
+					${styles}
+				}
+			`;
+		})}
 `;
 
 export { Flex, Grid, Padding, Margin };

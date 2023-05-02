@@ -1,82 +1,86 @@
+import { colors } from './colors';
+import { Buttons, Header, HomeContainer, Steps } from './components';
+import { Flex, Padding } from './custom.styled.components';
+import styled from 'styled-components';
+import { useAuth } from './context/auth-contenxt';
 import {
-	Container,
-	Description,
-	GoBack,
-	HeaderContent,
-	HeaderHome,
-	HomeContainer,
-	MainHome,
-	NextStep,
-	SectionMainHome,
-	Steps,
-	SwitchAnnuality,
-	Title
-} from './components';
-import { Flex, Grid, Margin, Padding } from './custom.styled.components';
+	BrowserRouter,
+	Routes,
+	Route,
+	Navigate,
+	Outlet
+} from 'react-router-dom';
+import PlanScreen from './screens/plans';
+import AddonScreen from './screens/addons';
 
-const Buttons = () => {
+const Logout = styled.button`
+	width: 4rem;
+	height: 2rem;
+	text-transform: capitalize;
+	background: ${colors.MarineBlue};
+	border: none;
+	color: white;
+	cursor: pointer;
+	font-weight: bold;
+	border-radius: 0.5rem;
+`;
+
+const Position = styled.div`
+	position: absolute;
+	right: 30px;
+	top: 10px;
+`;
+
+const Layout = () => {
+	const { logout } = useAuth();
 	return (
-		<Flex justifyContent='space-between'>
-			<Margin marginBottom='2rem'>
-				<GoBack>go back</GoBack>
-			</Margin>
-			<Margin marginBottom='2rem'>
-				<NextStep>next step</NextStep>
-			</Margin>
-		</Flex>
+		<HomeContainer>
+			<Position>
+				<Logout onClick={logout}>log out</Logout>
+			</Position>
+			<Padding
+				width='100%'
+				height='100%'
+				padding='1rem'
+				paddingRight='7rem'
+			>
+				<Flex gap='7rem'>
+					<Steps />
+					<main>
+						<Flex
+							width='100%'
+							height='100%'
+							flexDirection='column'
+							justifyContent='space-between'
+						>
+							<Header />
+							<section>
+								<Outlet />
+							</section>
+							<Buttons />
+						</Flex>
+					</main>
+				</Flex>
+			</Padding>
+		</HomeContainer>
 	);
 };
 
 const AuthenticatedApp = () => {
-	return (
-		<Container>
-			<Grid gridPlaceItems='center' height='100%'>
-				<HomeContainer>
-					<Padding
-						width='100%'
-						height='100%'
-						padding='1rem'
-						paddingRight='7rem'
-					>
-						<Flex gap='7rem'>
-							<Steps />
-							<MainHome>
-								<Flex
-									width='100%'
-									height='100%'
-									flexDirection='column'
-									justifyContent='space-between'
-								>
-									<Header />
-									<SectionMainHome>
-										<Steps />
-										<SwitchAnnuality />
-									</SectionMainHome>
-									<Buttons />
-								</Flex>
-							</MainHome>
-						</Flex>
-					</Padding>
-				</HomeContainer>
-			</Grid>
-		</Container>
-	);
+	return <AppRoutes />;
 };
 
-const Header = () => {
+const AppRoutes = () => {
 	return (
-		<HeaderHome>
-			<HeaderContent>
-				<Margin width='100%' height='100%' marginTop='2rem'>
-					<Title>Select your plan</Title>
-					<Margin width='100%' height='100%' marginTop='1rem'>
-						<Description>
-							You have the option of monthly of yearly billing.
-						</Description>
-					</Margin>
-				</Margin>
-			</HeaderContent>
-		</HeaderHome>
+		<BrowserRouter>
+			<Routes>
+				<Route element={<Layout />}>
+					<Route path='/' element={<Navigate to='/plans' />} />
+					<Route path='/plans' element={<PlanScreen />} />
+					<Route path='/addons' element={<AddonScreen />} />
+				</Route>
+			</Routes>
+		</BrowserRouter>
 	);
 };
 
