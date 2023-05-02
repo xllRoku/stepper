@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { colors } from './colors';
 import { Flex, Grid, Margin, Padding, Text } from './custom.styled.components';
-import { STEPS } from './constans';
+import { ANNUALITY, STEPS } from './constans';
 import bg from './assets/images/bg-sidebar-desktop.svg';
 import { useButton, useSwitchAnnuality } from './hooks';
 import { useSetStep } from './store';
@@ -36,6 +36,10 @@ type StepObject = {
 
 type Switch = {
 	isSelected?: boolean;
+};
+
+type Annuality = {
+	annuality: string;
 };
 
 const Header = () => {
@@ -324,7 +328,7 @@ const SwitchContainer = styled.div`
 	position: relative;
 `;
 
-const Circle = styled.button<Switch>`
+const Circle = styled.button<Annuality>`
 	width: 1rem;
 	height: 1rem;
 	position: absolute;
@@ -336,7 +340,8 @@ const Circle = styled.button<Switch>`
 	cursor: pointer;
 	background-color: white;
 	border: none;
-	margin-left: ${props => (props.isSelected ? '1rem' : '')};
+	margin-left: ${props =>
+		props.annuality === ANNUALITY.YEARLY ? '1rem' : '0'};
 `;
 
 const Switch = styled.div`
@@ -356,7 +361,7 @@ const Yearly = styled.span`
 `;
 
 const SwitchAnnuality = () => {
-	const { handleOnClick, isMonthly, isSelected, isYearly } =
+	const { handleOnClick, isMonthly, annuality, isYearly } =
 		useSwitchAnnuality();
 
 	return (
@@ -388,7 +393,7 @@ const SwitchAnnuality = () => {
 								>
 									<Circle
 										onClick={handleOnClick}
-										isSelected={isSelected}
+										annuality={annuality}
 									/>
 								</Flex>
 							</SwitchContainer>

@@ -63,21 +63,19 @@ const useChangePlan = (id: string, title: string) => {
 };
 
 const useSwitchAnnuality = () => {
-	const [isSelected, setIsSelected] = useState(false);
-	const storeAnnuality = useAnnualityStore();
+	const { annuality, setAnnuality } = useAnnualityStore();
 
-	const isMonthly = storeAnnuality.annuality === ANNUALITY.MONTHLY;
-	const isYearly = storeAnnuality.annuality === ANNUALITY.YEARLY;
+	const isMonthly = annuality === ANNUALITY.MONTHLY;
+	const isYearly = annuality === ANNUALITY.YEARLY;
 
 	const changeAnnuality = () =>
 		isYearly ? ANNUALITY.MONTHLY : ANNUALITY.YEARLY;
 
 	const handleOnClick = () => {
-		setIsSelected(!isSelected);
-		storeAnnuality.setAnnuality(changeAnnuality());
+		setAnnuality(changeAnnuality());
 	};
 
-	return { isSelected, handleOnClick, isMonthly, isYearly };
+	return { handleOnClick, annuality, isMonthly, isYearly };
 };
 
 const STEP = {
@@ -110,6 +108,8 @@ const useButton = () => {
 
 const useAddonsId = (id: string) => {
 	const { addons, setAddons, removeAddon } = useAddons();
+
+	console.log(addons);
 
 	const findAddon = (addons: string[]) => addons?.find(addon => addon === id);
 
