@@ -12,6 +12,7 @@ import {
 	Password,
 	User
 } from './components';
+import { useAuth } from './context/auth-contenxt';
 import { Grid, Padding } from './custom.styled.components';
 
 const FORM_NAMES = {
@@ -20,6 +21,8 @@ const FORM_NAMES = {
 };
 
 const FormSignup = () => {
+	// const { register } = useAuth();
+
 	return (
 		<Form>
 			<Padding paddingInline='6rem' paddingBlock='1rem'>

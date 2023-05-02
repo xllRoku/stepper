@@ -1,7 +1,10 @@
-// pretend this is firebase, netlify, or auth0's code.
-// you shouldn't have to implement something like this in your own app
-
 import axios from 'axios';
+import { UserToken } from './context/auth-contenxt';
+
+export type UserRegisterDto = {
+	email: string;
+	password: string;
+};
 
 const localStorageKey = '__auth_provider_token__';
 
@@ -12,25 +15,15 @@ async function getToken() {
 	return window.localStorage.getItem(localStorageKey);
 }
 
-function handleUserResponse({ data }: any) {
-	window.localStorage.setItem(localStorageKey, data.user);
+function handleUserResponse({ data }: { data: UserToken }) {
+	window.localStorage.setItem(localStorageKey, data.token);
 	return data;
 }
 
-function login({ username, password }: any) {
-	return client('login', { username, password }).then(res =>
-		console.log(res)
-	);
-}
-
-function register({ email, password }: any) {
+function register({ email, password }: UserRegisterDto): Promise<UserToken> {
 	return client('user/register', { email, password }).then(
 		handleUserResponse
 	);
-}
-
-async function logout() {
-	window.localStorage.removeItem(localStorageKey);
 }
 
 // an auth provider wouldn't use your client, they'd have their own
@@ -41,4 +34,4 @@ async function client(endpoint: string, data: Object) {
 	return axios.post(`${authURL}/${endpoint}`, data);
 }
 
-export { getToken, login, register, logout, localStorageKey };
+export { getToken, register, localStorageKey };
