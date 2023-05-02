@@ -2,7 +2,7 @@ import { createContext, useState, useContext } from 'react';
 import * as auth from '../auth-provider';
 import { User } from '../components';
 import { useNavigate } from 'react-router-dom';
-import { usePlanStore } from '../store';
+import { useStore } from '../store';
 
 export type Token = {
 	token: string;
@@ -42,7 +42,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		isLoading: false
 	});
 	const navigate = useNavigate();
-	const { removePlan } = usePlanStore();
+	const { removePlan } = useStore();
 
 	const startLoading = () => {
 		setResponse({ ...response, isLoading: true });

@@ -1,6 +1,6 @@
-import { useFetch } from '../hooks';
+import { useAddonsId, useFetch } from '../hooks';
 import * as api from '../api';
-import { Addon as TAddon } from '../api';
+import type { Addon as TAddon } from '../api';
 import { Flex, Padding, Text } from '../custom.styled.components';
 import { AddonCheck, AddonContainer } from '../components';
 import { Else, If, Then } from '../functional.component';
@@ -13,8 +13,6 @@ type AddonObject = {
 const Addons = () => {
 	const { data, loading } = useFetch(api.getAddon);
 
-	console.log(data);
-
 	return (
 		<Flex flexDirection='column' gap='1rem'>
 			<If predicate={loading}>
@@ -23,7 +21,7 @@ const Addons = () => {
 				</Then>
 				<Else predicate>
 					{data?.map(a => (
-						<Addon addon={a} key={a.title} />
+						<Addon addon={a} key={a.id} />
 					))}
 				</Else>
 			</If>
@@ -32,7 +30,8 @@ const Addons = () => {
 };
 
 const Addon: React.FC<AddonObject> = ({ addon }) => {
-	const { content, price, title } = addon;
+	const { id, content, price, title } = addon;
+	const { checked, handleAddId } = useAddonsId(id);
 
 	return (
 		<AddonContainer>
@@ -43,7 +42,12 @@ const Addon: React.FC<AddonObject> = ({ addon }) => {
 					alignItems='center'
 				>
 					<Flex alignItems='center' gap='1rem'>
-						<AddonCheck type='checkbox' />
+						<AddonCheck
+							type='checkbox'
+							name={addon.id}
+							checked={checked}
+							onChange={handleAddId}
+						/>
 						<div>
 							<h3>{title}</h3>
 							<Text>{content}</Text>

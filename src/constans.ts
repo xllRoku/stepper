@@ -78,18 +78,21 @@ const PLANS_YEARLY = [
 
 const ADDONS_MONTHLY = [
 	{
+		id: '620b2328-d9b1-45a9-81cf-f7efd5142097',
 		title: 'Online service',
 		content: 'Access to multiplaer games',
 		price: 1,
 		annuality: 'monthly'
 	},
 	{
+		id: '510e80bf-5758-4bd5-9e65-387235ca670b',
 		title: 'Larger storage',
 		content: 'Extra 1TB of cloud save',
 		price: 2,
 		annuality: 'monthly'
 	},
 	{
+		id: '67049e89-ca0d-4d37-92c4-2ff21f7eeca9',
 		title: 'Customizable profile',
 		content: 'Custom theme on your profile',
 		price: 3,
@@ -99,18 +102,21 @@ const ADDONS_MONTHLY = [
 
 const ADDNOS_YEARLY = [
 	{
+		id: 'abe160b8-2720-4269-994d-8d98a78f8cfc',
 		title: 'Online service',
 		content: 'Access to multiplaer games',
 		price: 10,
 		annuality: 'yearly'
 	},
 	{
+		id: '6702d7fd-6a44-4107-bbd2-02d700de47d4',
 		title: 'Larger storage',
 		content: 'Extra 1TB of cloud save',
 		price: 20,
 		annuality: 'yearly'
 	},
 	{
+		id: '66f908e4-a50e-4280-aeed-6dea5a867591',
 		title: 'Customizable profile',
 		content: 'Custom theme on your profile',
 		price: 20,

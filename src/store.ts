@@ -6,42 +6,53 @@ type Plan = {
 	title?: string;
 };
 
-type PlanStore = {
+type Store = {
 	plan: Plan | undefined;
 	setPlan: (plan: Plan) => void;
-	changePrice: (price: number) => void;
-	setAnnuality: (annuality: string) => void;
 	removePlan: () => void;
 };
-
-const usePlanStore = create<PlanStore>(set => ({
-	plan: undefined,
-	setPlan: plan => set(() => ({ plan })),
-	changePrice: price =>
-		set(({ plan }) => ({ plan: { ...plan, price: price } })),
-	setAnnuality: annuality =>
-		set(({ plan }) => ({ plan: { ...plan, annuality: annuality } })),
-	removePlan: () => set(() => ({ plan: undefined }))
-}));
-
-type AnnualityStore = {
-	annuality: string;
-	setAnnuality: (annuality: string) => void;
-};
-
-const useAnnualityStore = create<AnnualityStore>(set => ({
-	annuality: ANNUALITY.MONTHLY,
-	setAnnuality: annuality => set(state => ({ ...state, annuality }))
-}));
 
 type Step = {
 	step: number;
 	setStep: (step: number) => void;
 };
 
+type AnnualityStore = {
+	annuality: string;
+	setAnnuality: (annuality: string) => void;
+};
+
+const useStore = create<Store>(set => ({
+	plan: undefined,
+	addon: [],
+	setPlan: plan => set(() => ({ plan })),
+	removePlan: () => set(() => ({ plan: undefined }))
+}));
+
+const useAnnualityStore = create<AnnualityStore>(set => ({
+	annuality: ANNUALITY.MONTHLY,
+	setAnnuality: annuality => set(state => ({ ...state, annuality }))
+}));
+
 const useSetStep = create<Step>(set => ({
 	step: 1,
 	setStep: step => set(state => ({ ...state, step }))
 }));
 
-export { usePlanStore, useAnnualityStore, useSetStep };
+type IdStore = {
+	addons: string[];
+	setAddons: (newId: string[]) => void;
+	removeAddon: (idToRemove: string) => void;
+};
+
+const useAddons = create<IdStore>(set => ({
+	addons: [],
+	setAddons: newId => set({ addons: newId }),
+	removeAddon: (idToRemove: string) => {
+		set(state => ({
+			addons: state.addons.filter(id => id !== idToRemove)
+		}));
+	}
+}));
+
+export { useStore, useAnnualityStore, useSetStep, useAddons };

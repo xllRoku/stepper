@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAnnualityStore, usePlanStore, useSetStep } from './store';
+import { useAnnualityStore, useStore, useSetStep, useAddons } from './store';
 import { ANNUALITY } from './constans';
 import { useNavigate } from 'react-router-dom';
 
@@ -38,7 +38,7 @@ const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
 };
 
 const useChangePlan = (id: string, title: string) => {
-	const { plan: selectedPlan, setPlan, removePlan } = usePlanStore();
+	const { plan: selectedPlan, setPlan, removePlan } = useStore();
 	const { annuality } = useAnnualityStore();
 
 	console.log(selectedPlan?.id);
@@ -89,7 +89,7 @@ const STEP = {
 const useButton = () => {
 	const { step, setStep } = useSetStep();
 	const navigate = useNavigate();
-	const { plan } = usePlanStore();
+	const { plan } = useStore();
 
 	const nextStep = () => {
 		if (step === STEP.ONE && plan) {
@@ -108,4 +108,22 @@ const useButton = () => {
 	return { step, nextStep, prevStep };
 };
 
-export { useSwitchAnnuality, useChangePlan, useFetch, useButton };
+const useAddonsId = (id: string) => {
+	const { addons, setAddons, removeAddon } = useAddons();
+
+	const findAddon = (addons: string[]) => addons?.find(addon => addon === id);
+
+	let exists = findAddon(addons);
+	let checked = exists ? true : false;
+
+	const handleAddId = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const checked = event.target.checked;
+		const newIds = [...addons, id];
+		if (checked && !exists) setAddons(newIds);
+		else removeAddon(id);
+	};
+
+	return { handleAddId, checked };
+};
+
+export { useSwitchAnnuality, useChangePlan, useFetch, useButton, useAddonsId };

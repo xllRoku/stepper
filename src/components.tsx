@@ -5,8 +5,7 @@ import { Flex, Grid, Margin, Padding, Text } from './custom.styled.components';
 import { STEPS } from './constans';
 import bg from './assets/images/bg-sidebar-desktop.svg';
 import { useButton, useSwitchAnnuality } from './hooks';
-import { usePlanStore, useSetStep } from './store';
-import { useNavigate } from 'react-router-dom';
+import { useSetStep } from './store';
 
 type Input = {
 	name: string;
