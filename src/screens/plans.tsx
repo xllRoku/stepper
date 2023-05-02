@@ -13,7 +13,7 @@ type PlanObject = {
 };
 
 const PlanButton = styled.button<{ selected: boolean }>`
-	width: 8rem;
+	flex: 1;
 	height: 10rem;
 	border-radius: 0.5rem;
 	border: 1px solid ${colors.PurplishBlue};
@@ -74,7 +74,7 @@ const Plans = () => {
 		>
 			<If predicate={loading}>
 				<Then predicate>
-					<div style={{ width: '416px', height: '160px' }}>
+					<div style={{ height: '160px' }}>
 						<Spinner
 							widht='3rem'
 							height='3rem'

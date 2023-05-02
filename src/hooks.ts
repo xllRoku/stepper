@@ -29,7 +29,7 @@ const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
 	useEffect(() => {
 		startGetData();
 		getDataSuccess();
-	}, []);
+	}, [annuality]);
 
 	const { data, loading } = state;
 

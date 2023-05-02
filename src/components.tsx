@@ -192,7 +192,7 @@ const HomeContainer = styled.div`
 	background: white;
 	border-radius: 1rem;
 	position: relative;
-	width: 900px;
+	width: 980px;
 `;
 
 const GoBack = styled.button`
@@ -415,7 +415,7 @@ export type TAddon = {
 };
 
 const AddonContainer = styled.div`
-	width: 30rem;
+	width: 100%;
 	height: 5.5rem;
 	border: 1px solid ${colors.PurplishBlue};
 	border-radius: 0.5rem;
@@ -426,41 +426,6 @@ const AddonCheck = styled.input`
 	width: 1rem;
 	height: 1rem;
 `;
-
-const Addons = () => {
-	return (
-		<Flex flexDirection='column' gap='1rem'>
-			{/* {data?.map(a => (
-				<Addon addon={a} key={a.title} />
-			))} */}
-		</Flex>
-	);
-};
-
-const Addon: React.FC<AddonObject> = ({ addon }) => {
-	const { content, price, title } = addon;
-
-	return (
-		<AddonContainer>
-			<Padding height='100%' paddingInline='1rem'>
-				<Flex
-					height='100%'
-					justifyContent='space-between'
-					alignItems='center'
-				>
-					<Flex alignItems='center' gap='1rem'>
-						<AddonCheck type='checkbox' />
-						<div>
-							<h3>{title}</h3>
-							<Text>{content}</Text>
-						</div>
-					</Flex>
-					<span>+${price}/mo</span>
-				</Flex>
-			</Padding>
-		</AddonContainer>
-	);
-};
 
 const STEP = {
 	ONE: 1,
@@ -520,7 +485,8 @@ export {
 	NextStep,
 	Steps,
 	SwitchAnnuality,
-	Addons,
 	Header,
-	Buttons
+	Buttons,
+	AddonContainer,
+	AddonCheck
 };

@@ -40,7 +40,7 @@ const Layout = () => {
 			>
 				<Flex gap='7rem'>
 					<Steps />
-					<main>
+					<main style={{ width: '100%' }}>
 						<Flex
 							width='100%'
 							height='100%'

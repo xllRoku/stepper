@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 type Dimension = {
-	widht: string;
-	height: string;
-	borderColor: string;
+	widht?: string;
+	height?: string;
+	borderColor?: string;
 };
 
 const LdsRing = styled.div`
