@@ -113,6 +113,13 @@ const useAddonsId = (id: string) => {
 
 	const findAddon = (addons: string[]) => addons?.find(addon => addon === id);
 
+	// function getSelectedAddons(addonsArray, selectedIds) {
+	// 	const selectedAddons = addonsArray
+	// 		.filter(addon => selectedIds.includes(addon.id))
+	// 		.map(addon => ({ id: addon.id, title: addon.title }));
+	// 	return selectedAddons;
+	// }
+
 	let exists = findAddon(addons);
 	let checked = exists ? true : false;
 
@@ -122,6 +129,11 @@ const useAddonsId = (id: string) => {
 		if (checked && !exists) setAddons(newIds);
 		else removeAddon(id);
 	};
+
+	// primero necesito verificar si hay addons
+	// luego necesito verificar cuales son los addons seleccionados y devolver un array con esos addons
+	// luego necesito crear una funcion en la cual cada title del addon del array anterior concida con el title
+	// pasado por props cambie el id de ese addon por el nuevo id
 
 	return { handleAddId, checked };
 };
