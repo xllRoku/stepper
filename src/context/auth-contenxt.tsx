@@ -2,6 +2,7 @@ import { createContext, useState, useContext } from 'react';
 import * as auth from '../auth-provider';
 import { User } from '../components';
 import { useNavigate } from 'react-router-dom';
+import { usePlanStore } from '../store';
 
 export type Token = {
 	token: string;
@@ -41,6 +42,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		isLoading: false
 	});
 	const navigate = useNavigate();
+	const { removePlan } = usePlanStore();
 
 	const startLoading = () => {
 		setResponse({ ...response, isLoading: true });
@@ -84,6 +86,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		auth.logout();
 		setResponse({ token: '', isLoading: false, error: '' });
 		navigate('/');
+		removePlan();
 	};
 
 	const { error, token, isLoading } = response;

@@ -4,7 +4,7 @@ import { colors } from './colors';
 import { Flex, Grid, Margin, Padding, Text } from './custom.styled.components';
 import { STEPS } from './constans';
 import bg from './assets/images/bg-sidebar-desktop.svg';
-import { useSwitchAnnuality } from './hooks';
+import { useButton, useSwitchAnnuality } from './hooks';
 import { usePlanStore, useSetStep } from './store';
 import { useNavigate } from 'react-router-dom';
 
@@ -216,6 +216,9 @@ const NextStep = styled.button`
 	border: none;
 	text-transform: capitalize;
 	cursor: pointer;
+	&:hover {
+		opacity: 0.8;
+	}
 `;
 
 const ContainerStep = styled.div`
@@ -427,30 +430,8 @@ const AddonCheck = styled.input`
 	height: 1rem;
 `;
 
-const STEP = {
-	ONE: 1,
-	TWO: 2,
-	THREE: 3
-};
-
 const Buttons = () => {
-	const { step, setStep } = useSetStep();
-	const navigate = useNavigate();
-	const { plan } = usePlanStore();
-
-	const nextStep = () => {
-		if (step === STEP.ONE && plan) {
-			setStep(step + 1);
-			navigate('/addons');
-		}
-	};
-
-	const prevStep = () => {
-		if (step === STEP.TWO) {
-			setStep(step - 1);
-			navigate('/plans');
-		}
-	};
+	const { step, nextStep, prevStep } = useButton();
 
 	return (
 		<Flex justifyContent='space-between'>

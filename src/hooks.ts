@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useAnnualityStore, usePlanStore } from './store';
+import { useAnnualityStore, usePlanStore, useSetStep } from './store';
 import { ANNUALITY } from './constans';
+import { useNavigate } from 'react-router-dom';
 
 const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
 	const { annuality } = useAnnualityStore();
@@ -37,13 +38,17 @@ const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
 };
 
 const useChangePlan = (id: string, title: string) => {
-	const { plan: selectedPlan, setPlan } = usePlanStore();
+	const { plan: selectedPlan, setPlan, removePlan } = usePlanStore();
 	const { annuality } = useAnnualityStore();
 
 	console.log(selectedPlan?.id);
 
 	const handleOnClick = () => {
-		setPlan({ id, title });
+		if (selectedPlan?.id === id) {
+			removePlan();
+		} else {
+			setPlan({ id, title });
+		}
 	};
 
 	useEffect(() => {
@@ -75,4 +80,32 @@ const useSwitchAnnuality = () => {
 	return { isSelected, handleOnClick, isMonthly, isYearly };
 };
 
-export { useSwitchAnnuality, useChangePlan, useFetch };
+const STEP = {
+	ONE: 1,
+	TWO: 2,
+	THREE: 3
+};
+
+const useButton = () => {
+	const { step, setStep } = useSetStep();
+	const navigate = useNavigate();
+	const { plan } = usePlanStore();
+
+	const nextStep = () => {
+		if (step === STEP.ONE && plan) {
+			setStep(step + 1);
+			navigate('/addons');
+		}
+	};
+
+	const prevStep = () => {
+		if (step === STEP.TWO) {
+			setStep(step - 1);
+			navigate('/plans');
+		}
+	};
+
+	return { step, nextStep, prevStep };
+};
+
+export { useSwitchAnnuality, useChangePlan, useFetch, useButton };
