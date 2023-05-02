@@ -11,14 +11,43 @@ import {
 	Password,
 	User
 } from './components';
-import { Grid, Padding } from './custom.styled.components';
+import { Flex, Grid, Padding } from './custom.styled.components';
+import { Else, If, Then, When } from './functional.component';
+import Spinner from './spinner';
+import { User as TypeUSer, useAuth } from './context/auth-contenxt';
+import styled from 'styled-components';
+import { colors } from './colors';
 
 const FORM_NAMES = {
 	EMAIL: 'email',
 	PASSWORD: 'password'
 };
 
-const FormSignup = () => {
+type Login = {
+	onSubmit: ({ email, password }: TypeUSer) => void;
+};
+
+const Submit = styled.button`
+	height: 2rem;
+	text-transform: capitalize;
+	border: none;
+	background: none;
+	cursor: pointer;
+	color: ${colors.PurplishBlue};
+	font-weight: bold;
+`;
+
+export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
+	const { error, isLoading } = useAuth();
+
+	const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const email: string = event.currentTarget.email.value;
+		const password: string = event.currentTarget.password.value;
+
+		onSubmit({ email, password });
+	};
+
 	return (
 		<form onSubmit={handleOnSubmit}>
 			<Padding paddingInline='6rem' paddingBlock='1rem'>
@@ -73,18 +102,16 @@ const UnauthenticatedApp = () => {
 						<LoginForm onSubmit={login} />
 					</Else>
 				</If>
-				<p>
-					<Grid width='100%' gridPlaceItems='center'>
-						<When predicate={which}>
-							do u have an account already?
-							<Submit onClick={handleOnClick}>log in</Submit>
-						</When>
-						<When predicate={!which}>
-							don't have an account yet?
-							<Submit onClick={handleOnClick}>register</Submit>
-						</When>
-					</Grid>
-				</p>
+				<Grid width='100%' gridPlaceItems='center'>
+					<When predicate={which}>
+						<span>do u have an account already?</span>
+						<Submit onClick={handleOnClick}>log in</Submit>
+					</When>
+					<When predicate={!which}>
+						<span>don't have an account yet?</span>
+						<Submit onClick={handleOnClick}>register</Submit>
+					</When>
+				</Grid>
 			</ContainerForm>
 		</>
 	);

@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { Plan } from '../api';
-import { Flex, Padding } from '../custom.styled.components';
+import { Flex, Padding, Text } from '../custom.styled.components';
 import { Else, If, Then } from '../functional.component';
-import { useChangePlan, usePlans } from '../hooks';
+import { useChangePlan, useFetch } from '../hooks';
 import Spinner from '../spinner';
 import { colors } from '../colors';
 import { SwitchAnnuality } from '../components';
+import * as api from '../api';
 
 type PlanObject = {
 	plan: Plan;
@@ -19,12 +20,6 @@ const PlanButton = styled.button<{ selected: boolean }>`
 	background: ${props =>
 		props.selected ? `${colors.PastelBlue}` : 'transparent'};
 	cursor: pointer;
-`;
-
-const Title = styled.p`
-	color: ${colors.MarineBlue};
-	font-weight: bold;
-	text-transform: capitalize;
 `;
 
 const Img = styled.img`
@@ -52,7 +47,13 @@ const PlanComponent = ({ plan }: PlanObject) => {
 				>
 					<Img src={image} alt='' />
 					<div style={{ textAlign: 'start' }}>
-						<Title>{title}</Title>
+						<Text
+							color={`${colors.MarineBlue}`}
+							fontWeight='bold'
+							textTransform='capitalize'
+						>
+							{title}
+						</Text>
 						<span>${price}/mo</span>
 					</div>
 				</Flex>
@@ -62,7 +63,7 @@ const PlanComponent = ({ plan }: PlanObject) => {
 };
 
 const Plans = () => {
-	const { data, loading } = usePlans();
+	const { data, loading } = useFetch(api.getPlan);
 
 	return (
 		<Flex

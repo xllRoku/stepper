@@ -1,4 +1,9 @@
-import { PLANS_MONTHLY, PLANS_YEARLY } from './constans';
+import {
+	ADDNOS_YEARLY,
+	ADDONS_MONTHLY,
+	PLANS_MONTHLY,
+	PLANS_YEARLY
+} from './constans';
 
 export type Plan = {
 	id: string;
@@ -6,6 +11,13 @@ export type Plan = {
 	price: number;
 	annuality: string;
 	image: string;
+};
+
+export type Addon = {
+	title: string;
+	content: string;
+	price: number;
+	annuality: string;
 };
 
 const ANNUALITY = {
@@ -23,4 +35,14 @@ const getPlan = (annuality: string) => {
 	});
 };
 
-export { getPlan };
+const getAddon = (annuality: string) => {
+	return new Promise<Array<Addon>>((resolve, _) => {
+		setTimeout(() => {
+			if (annuality === ANNUALITY.MONTHLY) resolve(ADDONS_MONTHLY);
+
+			if (annuality === ANNUALITY.YEARLY) resolve(ADDNOS_YEARLY);
+		}, 1000);
+	});
+};
+
+export { getPlan, getAddon };

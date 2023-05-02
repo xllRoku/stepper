@@ -1,6 +1,7 @@
 import { createContext, useState, useContext } from 'react';
 import * as auth from '../auth-provider';
 import { User } from '../components';
+import { useNavigate } from 'react-router-dom';
 
 export type Token = {
 	token: string;
@@ -24,20 +25,73 @@ type AuthContextType = {
 	logout: any;
 };
 
-const AuthContext = createContext({});
+const AuthContext = createContext<AuthContextType>({
+	user: undefined,
+	error: undefined,
+	isLoading: false,
+	register: () => Promise.resolve(),
+	login: () => Promise.resolve(),
+	logout: () => Promise.resolve()
+});
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-	const [user, setUser] = useState();
+	const [response, setResponse] = useState({
+		token: '',
+		error: '',
+		isLoading: false
+	});
+	const navigate = useNavigate();
 
-	const register = (form: any) =>
-		auth.register(form).then(user => setUser(user));
+	const startLoading = () => {
+		setResponse({ ...response, isLoading: true });
+	};
 
-	const value = useMemo(() => ({ user, register }), [register, user]);
+	const handleToken = (token: string, error: string, loading: boolean) => {
+		setResponse({ ...response, token, error, isLoading: loading });
+	};
+
+	const handleError = (err: any, loading: boolean) => {
+		setResponse({
+			...response,
+			error: err.response?.data.errorMessage,
+			isLoading: loading
+		});
+	};
+
+	const register = (form: User) => {
+		startLoading();
+		return auth
+			.register(form)
+			.then(token => {
+				handleToken(token, '', false);
+				navigate('/plans');
+			})
+			.catch(err => handleError(err, false));
+	};
+
+	const login = (form: User) => {
+		startLoading();
+		return auth
+			.login(form)
+			.then(token => {
+				handleToken(token, '', false);
+				navigate('/plans');
+			})
+			.catch(err => handleError(err, false));
+	};
+
+	const logout = () => {
+		auth.logout();
+		setResponse({ token: '', isLoading: false, error: '' });
+		navigate('/');
+	};
+
+	const { error, token, isLoading } = response;
+
+	const value = { register, login, logout, user: token, error, isLoading };
 
 	return (
-		<AuthContext.Provider value={{ register }}>
-			{children}
-		</AuthContext.Provider>
+		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 	);
 };
 

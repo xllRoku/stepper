@@ -3,13 +3,7 @@ import { Buttons, Header, HomeContainer, Steps } from './components';
 import { Flex, Padding } from './custom.styled.components';
 import styled from 'styled-components';
 import { useAuth } from './context/auth-contenxt';
-import {
-	BrowserRouter,
-	Routes,
-	Route,
-	Navigate,
-	Outlet
-} from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import PlanScreen from './screens/plans';
 import AddonScreen from './screens/addons';
 
@@ -72,15 +66,12 @@ const AuthenticatedApp = () => {
 
 const AppRoutes = () => {
 	return (
-		<BrowserRouter>
-			<Routes>
-				<Route element={<Layout />}>
-					<Route path='/' element={<Navigate to='/plans' />} />
-					<Route path='/plans' element={<PlanScreen />} />
-					<Route path='/addons' element={<AddonScreen />} />
-				</Route>
-			</Routes>
-		</BrowserRouter>
+		<Routes>
+			<Route element={<Layout />}>
+				<Route path='/plans' element={<PlanScreen />} />
+				<Route path='/addons' element={<AddonScreen />} />
+			</Route>
+		</Routes>
 	);
 };
 

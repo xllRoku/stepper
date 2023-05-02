@@ -60,6 +60,13 @@ type GridProps = {
 	};
 };
 
+type Text = {
+	fontSize?: string;
+	fontWeight?: number | string;
+	color?: string;
+	textTransform?: string;
+};
+
 const Flex = styled.div<FlexProps>`
 	width: ${({ width }) => width || 'auto'};
 	height: ${({ height }) => height || 'auto'};
@@ -148,4 +155,27 @@ const Margin = styled.div<MarginProps>`
 		})}
 `;
 
-export { Flex, Grid, Padding, Margin };
+const Text = styled.p<Text>`
+	font-size: ${({ fontSize }) => fontSize || '1rem'};
+	font-weight: ${({ fontWeight }) => fontWeight || 'normal'};
+	color: ${({ color }) => color || '#000'};
+	text-transform: ${({ textTransform }) => textTransform || 'normal'};
+`;
+
+// const Title = styled(({ variant: Tag = 'h1', ...props }) => {
+// 	if (!isValidElementType(Tag)) {
+// 		console.error(
+// 			`Invalid HTML tag or component passed as variant prop: ${Tag}`
+// 		);
+// 		Tag = 'h1';
+// 	}
+
+// 	return <Tag {...props} />;
+// })`
+// 	font-size: ${({ fontSize }) => fontSize || '2rem'};
+// 	font-weight: ${({ fontWeight }) => fontWeight || 'bold'};
+// 	color: ${({ color }) => color || '#000'};
+// 	margin: ${({ margin }) => margin || '0'};
+// `;
+
+export { Flex, Grid, Padding, Margin, Text };

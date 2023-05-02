@@ -1,42 +1,37 @@
 import { useEffect, useState } from 'react';
 import { useAnnualityStore, usePlanStore } from './store';
-import type { Plan } from './api';
-import * as api from './api';
 import { ANNUALITY } from './constans';
 
-const usePlans = () => {
-	const store = useAnnualityStore();
-
-	const [plans, setPlans] = useState<{
-		data: Array<Plan>;
-		loading: boolean;
-	}>({
+const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
+	const { annuality } = useAnnualityStore();
+	const [state, setState] = useState<{ data: Array<T>; loading: boolean }>({
 		data: [],
 		loading: false
 	});
 
-	const startGetPlans = () => {
-		setPlans({
-			...plans,
+	const startGetData = () => {
+		setState({
+			...state,
 			loading: true
 		});
 	};
 
-	const getPlansSuccess = () => {
-		api.getPlan(store.annuality).then(data =>
-			setPlans({
-				...plans,
-				data
+	const getDataSuccess = () => {
+		fetchData(annuality).then(data =>
+			setState({
+				...state,
+				data,
+				loading: false
 			})
 		);
 	};
 
 	useEffect(() => {
-		startGetPlans();
-		getPlansSuccess();
-	}, [store.annuality]);
+		startGetData();
+		getDataSuccess();
+	}, []);
 
-	const { data, loading } = plans;
+	const { data, loading } = state;
 
 	return { data, loading };
 };
@@ -80,4 +75,4 @@ const useSwitchAnnuality = () => {
 	return { isSelected, handleOnClick, isMonthly, isYearly };
 };
 
-export { usePlans, useSwitchAnnuality, useChangePlan };
+export { useSwitchAnnuality, useChangePlan, useFetch };

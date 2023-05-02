@@ -1,7 +1,7 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { colors } from './colors';
-import { Flex, Grid, Margin, Padding } from './custom.styled.components';
+import { Flex, Grid, Margin, Padding, Text } from './custom.styled.components';
 import { STEPS } from './constans';
 import bg from './assets/images/bg-sidebar-desktop.svg';
 import { useSwitchAnnuality } from './hooks';
@@ -44,11 +44,11 @@ const Header = () => {
 		<header>
 			<header>
 				<Margin width='100%' height='100%' marginTop='2rem'>
-					<Title>Select your plan</Title>
+					<Text color={`${colors.MarineBlue}`}>Select your plan</Text>
 					<Margin width='100%' height='100%' marginTop='1rem'>
-						<Description>
+						<Text color={`${colors.CoolGray}`}>
 							You have the option of monthly of yearly billing.
-						</Description>
+						</Text>
 					</Margin>
 				</Margin>
 			</header>
@@ -106,8 +106,6 @@ const ObvImageForm = styled.img`
 	width: 100%;
 	height: 20rem;
 `;
-
-const Form = styled.form``;
 
 const ContainerForm = styled.div`
 	background: white;
@@ -197,14 +195,6 @@ const HomeContainer = styled.div`
 	width: 900px;
 `;
 
-const Title = styled.h1`
-	color: ${colors.MarineBlue};
-`;
-
-const Description = styled.p`
-	color: ${colors.CoolGray};
-`;
-
 const GoBack = styled.button`
 	width: 6rem;
 	height: 3rem;
@@ -232,7 +222,6 @@ const ContainerStep = styled.div`
 	border-radius: 0.5rem;
 	position: relative;
 `;
-const Bg = styled.img``;
 
 const StepContainers = styled.ol`
 	width: 100%;
@@ -255,12 +244,6 @@ const StepContent = styled.div`
 	flex: 1;
 `;
 
-const StepP = styled.p`
-	font-weight: 100;
-	text-transform: uppercase;
-	color: ${colors.White};
-`;
-
 const StepTitle = styled.h3`
 	color: ${colors.White};
 	text-transform: uppercase;
@@ -270,7 +253,7 @@ const StepTitle = styled.h3`
 const Steps = () => {
 	return (
 		<ContainerStep>
-			<Bg src={bg} />
+			<img src={bg} />
 			<StepContainers>
 				<Padding
 					width='100%'
@@ -311,7 +294,14 @@ const Step: React.FC<StepObject> = ({ step }) => {
 					</Flex>
 				</StepSpan>
 				<StepContent>
-					<StepP>step {stepNumber}</StepP>
+					<Text
+						fontSize='1rem'
+						fontWeight={100}
+						textTransform='uppercase'
+						color={`${colors.White}`}
+					>
+						step {stepNumber}
+					</Text>
 					<StepTitle>{title} </StepTitle>
 				</StepContent>
 			</Flex>
@@ -437,12 +427,6 @@ const AddonCheck = styled.input`
 	height: 1rem;
 `;
 
-const AddonTitle = styled.h3``;
-
-const AddonText = styled.p``;
-
-const AddonPrice = styled.span``;
-
 const Addons = () => {
 	return (
 		<Flex flexDirection='column' gap='1rem'>
@@ -467,11 +451,11 @@ const Addon: React.FC<AddonObject> = ({ addon }) => {
 					<Flex alignItems='center' gap='1rem'>
 						<AddonCheck type='checkbox' />
 						<div>
-							<AddonTitle>{title}</AddonTitle>
-							<AddonText>{content}</AddonText>
+							<h3>{title}</h3>
+							<Text>{content}</Text>
 						</div>
 					</Flex>
-					<AddonPrice>+${price}/mo</AddonPrice>
+					<span>+${price}/mo</span>
 				</Flex>
 			</Padding>
 		</AddonContainer>
@@ -527,14 +511,11 @@ export {
 	ObvImage,
 	ObvImageForm,
 	Button,
-	Form,
 	ContainerForm,
 	H1Form,
 	InputPassword,
 	InputText,
 	HomeContainer,
-	Title,
-	Description,
 	GoBack,
 	NextStep,
 	Steps,
