@@ -5,6 +5,8 @@ import { Flex, Padding, Text } from '../custom.styled.components';
 import { AddonCheck, AddonContainer } from '../components';
 import { Else, If, Then } from '../functional.component';
 import Spinner from '../spinner';
+import { useAddons } from '../store';
+import { useEffect } from 'react';
 
 type AddonObject = {
 	addon: TAddon;
@@ -12,6 +14,11 @@ type AddonObject = {
 
 const Addons = () => {
 	const { data, loading } = useFetch(api.getAddon);
+	const { addAddons } = useAddons();
+
+	useEffect(() => {
+		addAddons(data);
+	}, [data]);
 
 	return (
 		<Flex flexDirection='column' gap='1rem'>
@@ -30,8 +37,8 @@ const Addons = () => {
 };
 
 const Addon: React.FC<AddonObject> = ({ addon }) => {
-	const { id, content, price, title } = addon;
-	const { checked, handleAddId } = useAddonsId(id);
+	const { content, price, title } = addon;
+	const { checked, handleAddId } = useAddonsId(addon);
 
 	return (
 		<AddonContainer>

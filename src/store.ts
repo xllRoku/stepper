@@ -22,6 +22,20 @@ type AnnualityStore = {
 	setAnnuality: (annuality: string) => void;
 };
 
+export type Addon = {
+	id: string;
+	title: string;
+};
+
+type IdStore = {
+	selectedAddons: Addon[];
+	addons: Addon[];
+	addAddons: (addons: Addon[]) => void;
+	setAddons: (addon: Addon | Addon[]) => void;
+	removeAddon: (idToRemove: string) => void;
+	removeAllAdons: () => void;
+};
+
 const useStore = create<Store>(set => ({
 	plan: undefined,
 	addon: [],
@@ -39,20 +53,43 @@ const useSetStep = create<Step>(set => ({
 	setStep: step => set(state => ({ ...state, step }))
 }));
 
-type IdStore = {
-	addons: string[];
-	setAddons: (newId: string[]) => void;
-	removeAddon: (idToRemove: string) => void;
-};
-
 const useAddons = create<IdStore>(set => ({
+	selectedAddons: [],
 	addons: [],
-	setAddons: newId => set({ addons: newId }),
+
+	addAddons: (addons: Addon[]) => {
+		set(state => ({
+			addons: [...state.addons, ...addons]
+		}));
+	},
+
+	setAddons: (addon: Addon | Addon[], newAddons?: Addon | Addon[]) =>
+		set(state => ({
+			selectedAddons:
+				Array.isArray(addon) && newAddons && Array.isArray(newAddons)
+					? [
+							...state.selectedAddons,
+							...addon.filter(addon =>
+								newAddons.some(
+									selected => selected.title === addon.title
+								)
+							)
+					  ]
+					: Array.isArray(addon) && !newAddons
+					? [...state.selectedAddons, ...addon]
+					: !Array.isArray(addon)
+					? [...state.selectedAddons, addon]
+					: []
+		})),
+
 	removeAddon: (idToRemove: string) => {
 		set(state => ({
-			addons: state.addons.filter(id => id !== idToRemove)
+			selectedAddons: state.selectedAddons.filter(
+				addon => addon.id !== idToRemove
+			)
 		}));
-	}
+	},
+	removeAllAdons: () => set(() => ({ addons: [] }))
 }));
 
 export { useStore, useAnnualityStore, useSetStep, useAddons };

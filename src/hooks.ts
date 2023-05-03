@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { useAnnualityStore, useStore, useSetStep, useAddons } from './store';
 import { ANNUALITY } from './constans';
 import { useNavigate } from 'react-router-dom';
+import { Addon } from './store';
 
 const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
+	const { removeAllAdons } = useAddons();
 	const { annuality } = useAnnualityStore();
 	const [state, setState] = useState<{ data: Array<T>; loading: boolean }>({
 		data: [],
@@ -30,6 +32,9 @@ const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
 	useEffect(() => {
 		startGetData();
 		getDataSuccess();
+		return () => {
+			removeAllAdons();
+		};
 	}, [annuality]);
 
 	const { data, loading } = state;
@@ -106,34 +111,44 @@ const useButton = () => {
 	return { step, nextStep, prevStep };
 };
 
-const useAddonsId = (id: string) => {
-	const { addons, setAddons, removeAddon } = useAddons();
+const useAddonsId = (addonApi: Addon) => {
+	const { addons, selectedAddons, setAddons, removeAddon } = useAddons();
+	const { annuality } = useAnnualityStore();
 
-	console.log(addons);
+	const findAddon = (addons: Addon[]) =>
+		addons?.find(addon => addon.id === addonApi.id);
 
-	const findAddon = (addons: string[]) => addons?.find(addon => addon === id);
+	function getSelectedAddons(
+		addonsArray: Addon[],
+		selectedAddons: {
+			title: string;
+		}[]
+	) {
+		return addonsArray.filter(addon => {
+			return selectedAddons.some(
+				selected => selected.title === addon.title
+			);
+		});
+	}
 
-	// function getSelectedAddons(addonsArray, selectedIds) {
-	// 	const selectedAddons = addonsArray
-	// 		.filter(addon => selectedIds.includes(addon.id))
-	// 		.map(addon => ({ id: addon.id, title: addon.title }));
-	// 	return selectedAddons;
-	// }
-
-	let exists = findAddon(addons);
+	let exists = findAddon(selectedAddons);
 	let checked = exists ? true : false;
 
 	const handleAddId = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const checked = event.target.checked;
-		const newIds = [...addons, id];
-		if (checked && !exists) setAddons(newIds);
-		else removeAddon(id);
+		if (checked && !exists)
+			setAddons({ id: addonApi.id, title: addonApi.title });
+		else removeAddon(addonApi.id);
 	};
 
-	// primero necesito verificar si hay addons
-	// luego necesito verificar cuales son los addons seleccionados y devolver un array con esos addons
-	// luego necesito crear una funcion en la cual cada title del addon del array anterior concida con el title
-	// pasado por props cambie el id de ese addon por el nuevo id
+	useEffect(() => {
+		const selected = selectedAddons.map(addon => ({
+			title: addon.title
+		}));
+		const adons = getSelectedAddons(addons, selected);
+		adons.map(a => setAddons({ id: a.id, title: a.title }));
+		console.log('selectedAddons', selectedAddons);
+	}, [annuality && addons]);
 
 	return { handleAddId, checked };
 };
