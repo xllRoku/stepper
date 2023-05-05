@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAnnualityStore, useStore, useSetStep, useAddons } from './store';
 import { ANNUALITY } from './constans';
 import { useNavigate } from 'react-router-dom';
 import { Addon } from './store';
 
 const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
-	const { removeAllAdons } = useAddons();
 	const { annuality } = useAnnualityStore();
 	const [state, setState] = useState<{ data: Array<T>; loading: boolean }>({
 		data: [],
@@ -32,9 +31,6 @@ const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
 	useEffect(() => {
 		startGetData();
 		getDataSuccess();
-		return () => {
-			removeAllAdons();
-		};
 	}, [annuality]);
 
 	const { data, loading } = state;
@@ -111,44 +107,41 @@ const useButton = () => {
 	return { step, nextStep, prevStep };
 };
 
+const usePrevious = (value: string) => {
+	const ref = useRef('');
+	useEffect(() => {
+		ref.current = value;
+	});
+	return ref.current;
+};
+
 const useAddonsId = (addonApi: Addon) => {
-	const { addons, selectedAddons, setAddons, removeAddon } = useAddons();
+	const { addons, setMonthlyPlan, removeAddon, addonsFromApi } = useAddons();
 	const { annuality } = useAnnualityStore();
+	const previousAnnuality = usePrevious(annuality);
+
+	console.log('from api', addonsFromApi);
+	console.log(addons);
 
 	const findAddon = (addons: Addon[]) =>
 		addons?.find(addon => addon.id === addonApi.id);
 
-	function getSelectedAddons(
-		addonsArray: Addon[],
-		selectedAddons: {
-			title: string;
-		}[]
-	) {
-		return addonsArray.filter(addon => {
-			return selectedAddons.some(
-				selected => selected.title === addon.title
-			);
-		});
-	}
-
-	let exists = findAddon(selectedAddons);
+	let exists = findAddon(addons);
 	let checked = exists ? true : false;
 
 	const handleAddId = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const checked = event.target.checked;
 		if (checked && !exists)
-			setAddons({ id: addonApi.id, title: addonApi.title });
+			setMonthlyPlan({ id: addonApi.id, title: addonApi.title });
 		else removeAddon(addonApi.id);
 	};
 
 	useEffect(() => {
-		const selected = selectedAddons.map(addon => ({
-			title: addon.title
-		}));
-		const adons = getSelectedAddons(addons, selected);
-		adons.map(a => setAddons({ id: a.id, title: a.title }));
-		console.log('selectedAddons', selectedAddons);
-	}, [annuality && addons]);
+		console.log('from useEffect', addonsFromApi);
+		if (annuality !== previousAnnuality) {
+			setMonthlyPlan(addonsFromApi);
+		}
+	}, [annuality && addonsFromApi]);
 
 	return { handleAddId, checked };
 };
