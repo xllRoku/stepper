@@ -38,7 +38,7 @@ const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
 	return { data, loading };
 };
 
-const useChangePlan = (id: string, title: string) => {
+const useChangePlan = (id: string, title: string, price: number) => {
 	const { plan: selectedPlan, setPlan, removePlan } = useStore();
 	const { annuality } = useAnnualityStore();
 
@@ -48,13 +48,13 @@ const useChangePlan = (id: string, title: string) => {
 		if (selectedPlan?.id === id) {
 			removePlan();
 		} else {
-			setPlan({ id, title });
+			setPlan({ id, title, annuality, price });
 		}
 	};
 
 	useEffect(() => {
 		if (selectedPlan?.title === title) {
-			setPlan({ ...selectedPlan, id });
+			setPlan({ ...selectedPlan, id, price });
 		}
 	}, [annuality]);
 
@@ -89,11 +89,16 @@ const useButton = () => {
 	const { step, setStep } = useSetStep();
 	const navigate = useNavigate();
 	const { plan } = useStore();
+	const { addons } = useAddons();
 
 	const nextStep = () => {
 		if (step === STEP.ONE && plan) {
 			setStep(step + 1);
 			navigate('/addons');
+		}
+		if (step === STEP.TWO && addons) {
+			setStep(step + 1);
+			navigate('/summary');
 		}
 	};
 
@@ -101,6 +106,10 @@ const useButton = () => {
 		if (step === STEP.TWO) {
 			setStep(step - 1);
 			navigate('/plans');
+		}
+		if (step === STEP.THREE) {
+			setStep(step - 1);
+			navigate('/addons');
 		}
 	};
 
@@ -125,7 +134,6 @@ const useAddonsId = (addonApi: Addon) => {
 	useEffect(() => {
 		if (annuality !== previousAnnuality) {
 			if (addonsFromApi.length !== 0) {
-				console.log('from useEffect', addonsFromApi);
 				setMonthlyPlan(addonsFromApi);
 			}
 		}
@@ -142,7 +150,11 @@ const useAddonsId = (addonApi: Addon) => {
 	const handleAddId = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const checked = event.target.checked;
 		if (checked && !exists)
-			setMonthlyPlan({ id: addonApi.id, title: addonApi.title });
+			setMonthlyPlan({
+				id: addonApi.id,
+				title: addonApi.title,
+				price: addonApi.price
+			});
 		else removeAddon(addonApi.id);
 	};
 

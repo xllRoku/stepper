@@ -4,6 +4,8 @@ import { ANNUALITY } from './constans';
 type Plan = {
 	id?: string;
 	title?: string;
+	annuality?: string;
+	price?: number;
 };
 
 type Store = {
@@ -24,7 +26,8 @@ type AnnualityStore = {
 
 export type Addon = {
 	id: string | undefined;
-	title: string;
+	title: string | undefined;
+	price: number | undefined;
 };
 
 const useStore = create<Store>(set => ({
@@ -68,7 +71,7 @@ const useAddons = create<AddonStoreState>((set, get) => ({
 					const addon = newPlan.find(
 						addon => addon.title === selected.title
 					);
-					return { ...selected, id: addon?.id };
+					return { ...selected, id: addon?.id, price: addon?.price };
 			  })
 			: [...addons, newPlan];
 

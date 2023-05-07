@@ -42,19 +42,21 @@ type Annuality = {
 	annuality: string;
 };
 
-const Header = () => {
+const Header = ({ title, text }: { title: string; text: string }) => {
 	return (
 		<header>
-			<header>
-				<Margin width='100%' height='100%' marginTop='2rem'>
-					<Text color={`${colors.MarineBlue}`}>Select your plan</Text>
-					<Margin width='100%' height='100%' marginTop='1rem'>
-						<Text color={`${colors.CoolGray}`}>
-							You have the option of monthly of yearly billing.
-						</Text>
-					</Margin>
+			<Margin width='100%' height='100%' marginTop='2rem'>
+				<Text
+					fontSize='2rem'
+					fontWeight='bold'
+					color={`${colors.MarineBlue}`}
+				>
+					{title}
+				</Text>
+				<Margin width='100%' height='100%' marginTop='1rem'>
+					<Text color={`${colors.CoolGray}`}>{text}</Text>
 				</Margin>
-			</header>
+			</Margin>
 		</header>
 	);
 };
@@ -376,7 +378,7 @@ const SwitchAnnuality = () => {
 				<Monthly
 					style={{
 						color: `${
-							isMonthly ? colors.CoolGray : colors.MarineBlue
+							isMonthly ? colors.MarineBlue : colors.CoolGray
 						}`
 					}}
 				>
@@ -403,7 +405,7 @@ const SwitchAnnuality = () => {
 				<Yearly
 					style={{
 						color: `${
-							isYearly ? colors.CoolGray : colors.MarineBlue
+							isYearly ? colors.MarineBlue : colors.CoolGray
 						}`
 					}}
 				>
