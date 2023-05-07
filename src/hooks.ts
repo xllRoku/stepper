@@ -120,8 +120,18 @@ const useAddonsId = (addonApi: Addon) => {
 	const { annuality } = useAnnualityStore();
 	const previousAnnuality = usePrevious(annuality);
 
-	console.log('from api', addonsFromApi);
-	console.log(addons);
+	console.log(addonsFromApi);
+
+	useEffect(() => {
+		if (annuality !== previousAnnuality) {
+			if (addonsFromApi.length !== 0) {
+				console.log('from useEffect', addonsFromApi);
+				setMonthlyPlan(addonsFromApi);
+			}
+		}
+	}, [annuality, addonsFromApi]);
+
+	console.log('addons', addons);
 
 	const findAddon = (addons: Addon[]) =>
 		addons?.find(addon => addon.id === addonApi.id);
@@ -135,13 +145,6 @@ const useAddonsId = (addonApi: Addon) => {
 			setMonthlyPlan({ id: addonApi.id, title: addonApi.title });
 		else removeAddon(addonApi.id);
 	};
-
-	useEffect(() => {
-		console.log('from useEffect', addonsFromApi);
-		if (annuality !== previousAnnuality) {
-			setMonthlyPlan(addonsFromApi);
-		}
-	}, [annuality && addonsFromApi]);
 
 	return { handleAddId, checked };
 };

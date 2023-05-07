@@ -14,11 +14,15 @@ type AddonObject = {
 
 const Addons = () => {
 	const { data, loading } = useFetch(api.getAddon);
-	const { addAddons } = useAddons();
+	const { addAddons, addonsFromApi } = useAddons();
 
 	useEffect(() => {
 		addAddons(data);
 	}, [data]);
+
+	if (addonsFromApi.length === 0) {
+		return <Spinner widht='3rem' height='3rem' borderColor='black' />;
+	}
 
 	return (
 		<Flex flexDirection='column' gap='1rem'>

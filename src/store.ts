@@ -63,22 +63,14 @@ const useAddons = create<AddonStoreState>((set, get) => ({
 	setMonthlyPlan: newPlan => {
 		const { addons } = get();
 
-		const newAddons = Array.isArray(newPlan) ? [] : [...addons, newPlan];
-		// ? newPlan.map(newAddon => {
-		// 		const currentAddon = addons.find(
-		// 			addon => addon.title === newAddon.title
-		// 		);
-		// 		return currentAddon
-		// 			? { ...newAddon, id: currentAddon.id }
-		// 			: newAddon;
-		//   })
-		// : [
-		// 		...addons.map(addon =>
-		// 			addon.title === newPlan.title
-		// 				? { ...newPlan, id: addon.id }
-		// 				: addon
-		// 		)
-		//   ];
+		const newAddons = Array.isArray(newPlan)
+			? addons.map(selected => {
+					const addon = newPlan.find(
+						addon => addon.title === selected.title
+					);
+					return { ...selected, id: addon?.id };
+			  })
+			: [...addons, newPlan];
 
 		set(() => ({ addons: newAddons }));
 	},
