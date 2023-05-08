@@ -125,11 +125,8 @@ const usePrevious = (value: string) => {
 };
 
 const useAddonsId = (addonApi: Addon) => {
-<<<<<<< HEAD
 	const { addons } = useAddons();
-=======
 	const { addons, setMonthlyPlan, removeAddon, addonsFromApi } = useAddons();
->>>>>>> 3d39184956d60611ab44a8f01075dada3da74907
 	const { annuality } = useAnnualityStore();
 	const previousAnnuality = usePrevious(annuality);
 
@@ -148,40 +145,6 @@ const useAddonsId = (addonApi: Addon) => {
 	const findAddon = (addons: Addon[]) =>
 		addons?.find(addon => addon.id === addonApi.id);
 
-<<<<<<< HEAD
-	// function getSelectedAddons(
-	// 	addonsArray: Addon[],
-	// 	selectedAddons: {
-	// 		title: string;
-	// 	}[]
-	// ) {
-	// 	return addonsArray.filter(addon => {
-	// 		return selectedAddons.some(
-	// 			selected => selected.title === addon.title
-	// 		);
-	// 	});
-	// }
-
-	// let exists = findAddon(selectedAddons);
-	let checked = exists ? true : false;
-
-	// const handleAddId = (event: React.ChangeEvent<HTMLInputElement>) => {
-	// 	const checked = event.target.checked;
-	// 	if (checked && !exists)
-	// 		setAddons({ id: addonApi.id, title: addonApi.title });
-	// 	else removeAddon(addonApi.id);
-	// };
-
-	useEffect(() => {
-		// const newAddons = addons.filter(addon =>
-		// 	selectedAddons.some(selected => selected.title === addon.title)
-		// );
-		// const addon = newAddons.map(a => ({ id: a.id, title: a.title }));
-		// removeSelectedAddons();
-		// setAddons(addon);
-	}, [annuality && addons]);
-
-=======
 	let exists = findAddon(addons);
 	let checked = exists ? true : false;
 
@@ -196,7 +159,6 @@ const useAddonsId = (addonApi: Addon) => {
 		else removeAddon(addonApi.id);
 	};
 
->>>>>>> 3d39184956d60611ab44a8f01075dada3da74907
 	return { handleAddId, checked };
 };
 
