@@ -2,7 +2,7 @@ import { useAddonsId, useFetch } from '../hooks';
 import * as api from '../api';
 import type { Addon as TAddon } from '../api';
 import { Flex, Padding, Text } from '../custom.styled.components';
-import { AddonCheck, AddonContainer } from '../components';
+import { AddonCheck, AddonContainer, Header } from '../components';
 import { Else, If, Then } from '../functional.component';
 import Spinner from '../spinner';
 import { useAddons } from '../store';
@@ -14,17 +14,31 @@ type AddonObject = {
 
 const Addons = () => {
 	const { data, loading } = useFetch(api.getAddon);
-	const { addAddons } = useAddons();
+	const { addAddons, addonsFromApi } = useAddons();
 
 	useEffect(() => {
 		addAddons(data);
 	}, [data]);
 
+	// if (addonsFromApi.length === 0) {
+	// 	return <Spinner widht='3rem' height='3rem' borderColor='black' />;
+	// }
+
 	return (
 		<Flex flexDirection='column' gap='1rem'>
-			<If predicate={loading}>
+			<Header
+				title='Pick add-ons'
+				text='Add-ons help enhance your gaming experience.'
+			/>
+			<If predicate={loading || addonsFromApi.length === 0}>
 				<Then predicate>
-					<Spinner widht='3rem' height='3rem' borderColor='black' />
+					<div style={{ height: '300px' }}>
+						<Spinner
+							widht='3rem'
+							height='3rem'
+							borderColor='black'
+						/>
+					</div>
 				</Then>
 				<Else predicate>
 					{data?.map(a => (

@@ -5,7 +5,7 @@ import { Else, If, Then } from '../functional.component';
 import { useChangePlan, useFetch } from '../hooks';
 import Spinner from '../spinner';
 import { colors } from '../colors';
-import { SwitchAnnuality } from '../components';
+import { Header, SwitchAnnuality } from '../components';
 import * as api from '../api';
 
 type PlanObject = {
@@ -14,7 +14,7 @@ type PlanObject = {
 
 const PlanButton = styled.button<{ selected: boolean }>`
 	flex: 1;
-	height: 10rem;
+	height: 11rem;
 	border-radius: 0.5rem;
 	border: 1px solid ${colors.PurplishBlue};
 	background: ${props =>
@@ -28,7 +28,7 @@ const Img = styled.img`
 
 const PlanComponent = ({ plan }: PlanObject) => {
 	const { id, image, title, price } = plan;
-	const { handleOnClick, isPlanSelected } = useChangePlan(id, title);
+	const { handleOnClick, isPlanSelected } = useChangePlan(id, title, price);
 
 	return (
 		<PlanButton onClick={handleOnClick} selected={isPlanSelected}>
@@ -72,9 +72,13 @@ const Plans = () => {
 			gap='2rem'
 			justifyContent='center'
 		>
+			<Header
+				title='Select Your plan'
+				text='you have the option of monthly or yeary billing'
+			/>
 			<If predicate={loading}>
 				<Then predicate>
-					<div style={{ height: '160px' }}>
+					<div style={{ height: '11rem' }}>
 						<Spinner
 							widht='3rem'
 							height='3rem'

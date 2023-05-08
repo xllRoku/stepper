@@ -6,6 +6,7 @@ import { useAuth } from './context/auth-contenxt';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import PlanScreen from './screens/plans';
 import AddonScreen from './screens/addons';
+import Summary from './screens/summary';
 
 const Logout = styled.button`
 	width: 4rem;
@@ -47,7 +48,6 @@ const Layout = () => {
 							flexDirection='column'
 							justifyContent='space-between'
 						>
-							<Header />
 							<section>
 								<Outlet />
 							</section>
@@ -70,6 +70,7 @@ const AppRoutes = () => {
 			<Route element={<Layout />}>
 				<Route path='/plans' element={<PlanScreen />} />
 				<Route path='/addons' element={<AddonScreen />} />
+				<Route path='/summary' element={<Summary />} />
 			</Route>
 		</Routes>
 	);

@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAnnualityStore, useStore, useSetStep, useAddons } from './store';
 import { ANNUALITY } from './constans';
 import { useNavigate } from 'react-router-dom';
 import { Addon } from './store';
 
 const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
-	const { removeAllAdons } = useAddons();
 	const { annuality } = useAnnualityStore();
 	const [state, setState] = useState<{ data: Array<T>; loading: boolean }>({
 		data: [],
@@ -32,9 +31,6 @@ const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
 	useEffect(() => {
 		startGetData();
 		getDataSuccess();
-		return () => {
-			removeAllAdons();
-		};
 	}, [annuality]);
 
 	const { data, loading } = state;
@@ -42,7 +38,7 @@ const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
 	return { data, loading };
 };
 
-const useChangePlan = (id: string, title: string) => {
+const useChangePlan = (id: string, title: string, price: number) => {
 	const { plan: selectedPlan, setPlan, removePlan } = useStore();
 	const { annuality } = useAnnualityStore();
 
@@ -52,13 +48,13 @@ const useChangePlan = (id: string, title: string) => {
 		if (selectedPlan?.id === id) {
 			removePlan();
 		} else {
-			setPlan({ id, title });
+			setPlan({ id, title, annuality, price });
 		}
 	};
 
 	useEffect(() => {
 		if (selectedPlan?.title === title) {
-			setPlan({ ...selectedPlan, id });
+			setPlan({ ...selectedPlan, id, price });
 		}
 	}, [annuality]);
 
@@ -93,11 +89,16 @@ const useButton = () => {
 	const { step, setStep } = useSetStep();
 	const navigate = useNavigate();
 	const { plan } = useStore();
+	const { addons } = useAddons();
 
 	const nextStep = () => {
 		if (step === STEP.ONE && plan) {
 			setStep(step + 1);
 			navigate('/addons');
+		}
+		if (step === STEP.TWO && addons) {
+			setStep(step + 1);
+			navigate('/summary');
 		}
 	};
 
@@ -106,18 +107,48 @@ const useButton = () => {
 			setStep(step - 1);
 			navigate('/plans');
 		}
+		if (step === STEP.THREE) {
+			setStep(step - 1);
+			navigate('/addons');
+		}
 	};
 
 	return { step, nextStep, prevStep };
 };
 
+const usePrevious = (value: string) => {
+	const ref = useRef('');
+	useEffect(() => {
+		ref.current = value;
+	});
+	return ref.current;
+};
+
 const useAddonsId = (addonApi: Addon) => {
+<<<<<<< HEAD
 	const { addons } = useAddons();
+=======
+	const { addons, setMonthlyPlan, removeAddon, addonsFromApi } = useAddons();
+>>>>>>> 3d39184956d60611ab44a8f01075dada3da74907
 	const { annuality } = useAnnualityStore();
+	const previousAnnuality = usePrevious(annuality);
+
+	console.log(addonsFromApi);
+
+	useEffect(() => {
+		if (annuality !== previousAnnuality) {
+			if (addonsFromApi.length !== 0) {
+				setMonthlyPlan(addonsFromApi);
+			}
+		}
+	}, [annuality, addonsFromApi]);
+
+	console.log('addons', addons);
 
 	const findAddon = (addons: Addon[]) =>
 		addons?.find(addon => addon.id === addonApi.id);
 
+<<<<<<< HEAD
 	// function getSelectedAddons(
 	// 	addonsArray: Addon[],
 	// 	selectedAddons: {
@@ -150,6 +181,22 @@ const useAddonsId = (addonApi: Addon) => {
 		// setAddons(addon);
 	}, [annuality && addons]);
 
+=======
+	let exists = findAddon(addons);
+	let checked = exists ? true : false;
+
+	const handleAddId = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const checked = event.target.checked;
+		if (checked && !exists)
+			setMonthlyPlan({
+				id: addonApi.id,
+				title: addonApi.title,
+				price: addonApi.price
+			});
+		else removeAddon(addonApi.id);
+	};
+
+>>>>>>> 3d39184956d60611ab44a8f01075dada3da74907
 	return { handleAddId, checked };
 };
 
