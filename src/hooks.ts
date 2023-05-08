@@ -112,42 +112,42 @@ const useButton = () => {
 };
 
 const useAddonsId = (addonApi: Addon) => {
-	const { addons, selectedAddons, setAddons, removeAddon } = useAddons();
+	const { addons } = useAddons();
 	const { annuality } = useAnnualityStore();
 
 	const findAddon = (addons: Addon[]) =>
 		addons?.find(addon => addon.id === addonApi.id);
 
-	function getSelectedAddons(
-		addonsArray: Addon[],
-		selectedAddons: {
-			title: string;
-		}[]
-	) {
-		return addonsArray.filter(addon => {
-			return selectedAddons.some(
-				selected => selected.title === addon.title
-			);
-		});
-	}
+	// function getSelectedAddons(
+	// 	addonsArray: Addon[],
+	// 	selectedAddons: {
+	// 		title: string;
+	// 	}[]
+	// ) {
+	// 	return addonsArray.filter(addon => {
+	// 		return selectedAddons.some(
+	// 			selected => selected.title === addon.title
+	// 		);
+	// 	});
+	// }
 
-	let exists = findAddon(selectedAddons);
+	// let exists = findAddon(selectedAddons);
 	let checked = exists ? true : false;
 
-	const handleAddId = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const checked = event.target.checked;
-		if (checked && !exists)
-			setAddons({ id: addonApi.id, title: addonApi.title });
-		else removeAddon(addonApi.id);
-	};
+	// const handleAddId = (event: React.ChangeEvent<HTMLInputElement>) => {
+	// 	const checked = event.target.checked;
+	// 	if (checked && !exists)
+	// 		setAddons({ id: addonApi.id, title: addonApi.title });
+	// 	else removeAddon(addonApi.id);
+	// };
 
 	useEffect(() => {
-		const selected = selectedAddons.map(addon => ({
-			title: addon.title
-		}));
-		const adons = getSelectedAddons(addons, selected);
-		adons.map(a => setAddons({ id: a.id, title: a.title }));
-		console.log('selectedAddons', selectedAddons);
+		// const newAddons = addons.filter(addon =>
+		// 	selectedAddons.some(selected => selected.title === addon.title)
+		// );
+		// const addon = newAddons.map(a => ({ id: a.id, title: a.title }));
+		// removeSelectedAddons();
+		// setAddons(addon);
 	}, [annuality && addons]);
 
 	return { handleAddId, checked };

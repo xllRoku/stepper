@@ -28,12 +28,8 @@ export type Addon = {
 };
 
 type IdStore = {
-	selectedAddons: Addon[];
 	addons: Addon[];
-	addAddons: (addons: Addon[]) => void;
-	setAddons: (addon: Addon | Addon[]) => void;
-	removeAddon: (idToRemove: string) => void;
-	removeAllAdons: () => void;
+	setMonthlyPlan: (addon: Addon[]) => void;
 };
 
 const useStore = create<Store>(set => ({
@@ -54,42 +50,22 @@ const useSetStep = create<Step>(set => ({
 }));
 
 const useAddons = create<IdStore>(set => ({
-	selectedAddons: [],
 	addons: [],
+	setMonthlyPlan: newPlan => {
+		const { addons } = get();
 
-	addAddons: (addons: Addon[]) => {
-		set(state => ({
-			addons: [...state.addons, ...addons]
-		}));
-	},
+		// Compara los títulos de los addons actuales con los nuevos
+		const newAddons = newPlan.map(newAddon => {
+			const currentAddon = addons.find(
+				addon => addon.title === newAddon.title
+			);
+			return currentAddon
+				? { ...newAddon, id: currentAddon.id } // Asigna el ID actual si el addon ya existe
+				: newAddon; // Asigna un nuevo ID si el addon es nuevo
+		});
 
-	setAddons: (addon: Addon | Addon[], newAddons?: Addon | Addon[]) =>
-		set(state => ({
-			selectedAddons:
-				Array.isArray(addon) && newAddons && Array.isArray(newAddons)
-					? [
-							...state.selectedAddons,
-							...addon.filter(addon =>
-								newAddons.some(
-									selected => selected.title === addon.title
-								)
-							)
-					  ]
-					: Array.isArray(addon) && !newAddons
-					? [...state.selectedAddons, ...addon]
-					: !Array.isArray(addon)
-					? [...state.selectedAddons, addon]
-					: []
-		})),
-
-	removeAddon: (idToRemove: string) => {
-		set(state => ({
-			selectedAddons: state.selectedAddons.filter(
-				addon => addon.id !== idToRemove
-			)
-		}));
-	},
-	removeAllAdons: () => set(() => ({ addons: [] }))
+		set(() => ({ addons: newAddons }));
+	}
 }));
 
 export { useStore, useAnnualityStore, useSetStep, useAddons };
