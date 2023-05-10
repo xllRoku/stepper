@@ -1,12 +1,10 @@
 import styled from 'styled-components';
-import { Plan } from '../api';
 import { Flex, Padding, Text } from '../custom.styled.components';
 import { Else, If, Then } from '../functional.component';
-import { useChangePlan, useFetch } from '../hooks';
+import { Plan, useChangePlan, useGetPlans } from '../hooks';
 import Spinner from '../spinner';
 import { colors } from '../colors';
 import { Header, SwitchAnnuality } from '../components';
-import * as api from '../api';
 
 type PlanObject = {
 	plan: Plan;
@@ -63,7 +61,7 @@ const PlanComponent = ({ plan }: PlanObject) => {
 };
 
 const Plans = () => {
-	const { data, loading } = useFetch(api.getPlan);
+	const { data, isLoading: loading } = useGetPlans();
 
 	return (
 		<Flex
@@ -88,7 +86,7 @@ const Plans = () => {
 				</Then>
 				<Else predicate>
 					<Flex gap='1rem'>
-						{data.map(p => (
+						{data?.map(p => (
 							<PlanComponent key={p.id} plan={p} />
 						))}
 					</Flex>

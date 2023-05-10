@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useLayoutEffect } from 'react';
 import * as auth from '../auth-provider';
 import { User } from '../components';
 import { useNavigate } from 'react-router-dom';
@@ -59,6 +59,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 			isLoading: loading
 		});
 	};
+
+	useLayoutEffect(() => {
+		(async () => {
+			const token = await auth.getToken();
+			handleToken(token, '', false);
+		})();
+	}, []);
 
 	const register = (form: User) => {
 		startLoading();

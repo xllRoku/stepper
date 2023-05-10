@@ -1,28 +1,26 @@
-import { useAddonsId, useFetch } from '../hooks';
-import * as api from '../api';
-import type { Addon as TAddon } from '../api';
+import { useEffect } from 'react';
+import { Addon as AddonType, useAddonsId, useGetAddons } from '../hooks';
 import { Flex, Padding, Text } from '../custom.styled.components';
 import { AddonCheck, AddonContainer, Header } from '../components';
 import { Else, If, Then } from '../functional.component';
 import Spinner from '../spinner';
 import { useAddons } from '../store';
-import { useEffect } from 'react';
 
 type AddonObject = {
-	addon: TAddon;
+	addon: AddonType;
 };
 
 const Addons = () => {
-	const { data, loading } = useFetch(api.getAddon);
+	const { data, isLoading: loading } = useGetAddons();
 	const { addAddons, addonsFromApi } = useAddons();
 
 	useEffect(() => {
 		addAddons(data);
 	}, [data]);
 
-	// if (addonsFromApi.length === 0) {
-	// 	return <Spinner widht='3rem' height='3rem' borderColor='black' />;
-	// }
+	if (addonsFromApi?.length === 0) {
+		<p>loading...</p>;
+	}
 
 	return (
 		<Flex flexDirection='column' gap='1rem'>
@@ -30,7 +28,7 @@ const Addons = () => {
 				title='Pick add-ons'
 				text='Add-ons help enhance your gaming experience.'
 			/>
-			<If predicate={loading || addonsFromApi.length === 0}>
+			<If predicate={loading || addonsFromApi?.length === 0}>
 				<Then predicate>
 					<div style={{ height: '300px' }}>
 						<Spinner
@@ -53,6 +51,8 @@ const Addons = () => {
 const Addon: React.FC<AddonObject> = ({ addon }) => {
 	const { content, price, title } = addon;
 	const { checked, handleAddId } = useAddonsId(addon);
+
+	console.log(addon);
 
 	return (
 		<AddonContainer>

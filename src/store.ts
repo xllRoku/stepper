@@ -25,17 +25,9 @@ type AnnualityStore = {
 };
 
 export type Addon = {
-	id: string;
-	title: string;
-};
-
-type IdStore = {
-	selectedAddons: Addon[];
-	addons: Addon[];
-	addAddons: (addons: Addon[]) => void;
-	setAddons: (addon: Addon | Addon[]) => void;
-	removeAddon: (idToRemove: string) => void;
-	removeAllAdons: () => void;
+	id: string | undefined;
+	title: string | undefined;
+	price: number | undefined;
 };
 
 const useStore = create<Store>(set => ({
@@ -55,43 +47,41 @@ const useSetStep = create<Step>(set => ({
 	setStep: step => set(state => ({ ...state, step }))
 }));
 
-const useAddons = create<IdStore>(set => ({
-	selectedAddons: [],
+type AddonStoreState = {
+	addons: Addon[];
+	addonsFromApi: Addon[];
+	addAddons: (addons: Addon[] | undefined) => void;
+	setMonthlyPlan: (newPlan: Addon | Addon[]) => void;
+	removeAddon: (idToRemove: string | undefined) => void;
+};
+
+const useAddons = create<AddonStoreState>((set, get) => ({
 	addons: [],
-
-	addAddons: (addons: Addon[]) => {
-		set(state => ({
-			addons: [...state.addons, ...addons]
+	addonsFromApi: [],
+	addAddons: addons => {
+		set(() => ({
+			addonsFromApi: addons
 		}));
 	},
+	setMonthlyPlan: newPlan => {
+		const { addons } = get();
 
-	setAddons: (addon: Addon | Addon[], newAddons?: Addon | Addon[]) =>
-		set(state => ({
-			selectedAddons:
-				Array.isArray(addon) && newAddons && Array.isArray(newAddons)
-					? [
-							...state.selectedAddons,
-							...addon.filter(addon =>
-								newAddons.some(
-									selected => selected.title === addon.title
-								)
-							)
-					  ]
-					: Array.isArray(addon) && !newAddons
-					? [...state.selectedAddons, ...addon]
-					: !Array.isArray(addon)
-					? [...state.selectedAddons, addon]
-					: []
-		})),
+		const newAddons = Array.isArray(newPlan)
+			? addons?.map(selected => {
+					const addon = newPlan?.find(
+						addon => addon?.title === selected?.title
+					);
+					return { ...selected, id: addon?.id, price: addon?.price };
+			  })
+			: [...addons, newPlan];
 
-	removeAddon: (idToRemove: string) => {
-		set(state => ({
-			selectedAddons: state.selectedAddons.filter(
-				addon => addon.id !== idToRemove
-			)
-		}));
+		set(() => ({ addons: newAddons }));
 	},
-	removeAllAdons: () => set(() => ({ addons: [] }))
+	removeAddon: (idToRemove: string | undefined) => {
+		set(state => ({
+			addons: state.addons.filter(addon => addon?.id !== idToRemove)
+		}));
+	}
 }));
 
 export { useStore, useAnnualityStore, useSetStep, useAddons };
