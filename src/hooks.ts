@@ -5,6 +5,7 @@ import { ANNUALITY } from './constans';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { Addon as AddonStore } from './store';
+import { When } from './functional.component';
 
 const apiURL = 'http://localhost:3000';
 
@@ -204,6 +205,8 @@ const useAddonsId = (addonApi: Addon) => {
 
 	return { handleAddId, checked };
 };
+
+const useAnnuality = () => {};
 
 export {
 	useSwitchAnnuality,

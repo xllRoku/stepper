@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Addon as AddonType, useAddonsId, useGetAddons } from '../hooks';
 import { Flex, Padding, Text } from '../custom.styled.components';
-import { AddonCheck, AddonContainer, Header } from '../components';
+import { AddonCheck, AddonContainer, Annuality, Header } from '../components';
 import { Else, If, Then } from '../functional.component';
 import Spinner from '../spinner';
 import { useAddons } from '../store';
@@ -49,7 +49,7 @@ const Addons = () => {
 };
 
 const Addon: React.FC<AddonObject> = ({ addon }) => {
-	const { content, price, title } = addon;
+	const { content, price, title, annuality } = addon;
 	const { checked, handleAddId } = useAddonsId(addon);
 
 	console.log(addon);
@@ -74,7 +74,10 @@ const Addon: React.FC<AddonObject> = ({ addon }) => {
 							<Text>{content}</Text>
 						</div>
 					</Flex>
-					<span>+${price}/mo</span>
+					<span>
+						+${price}
+						<Annuality annuality={annuality} key={annuality} />
+					</span>
 				</Flex>
 			</Padding>
 		</AddonContainer>

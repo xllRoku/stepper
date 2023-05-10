@@ -4,7 +4,7 @@ import { Else, If, Then } from '../functional.component';
 import { Plan, useChangePlan, useGetPlans } from '../hooks';
 import Spinner from '../spinner';
 import { colors } from '../colors';
-import { Header, SwitchAnnuality } from '../components';
+import { Annuality, Header, SwitchAnnuality } from '../components';
 
 type PlanObject = {
 	plan: Plan;
@@ -25,7 +25,7 @@ const Img = styled.img`
 `;
 
 const PlanComponent = ({ plan }: PlanObject) => {
-	const { id, image, title, price } = plan;
+	const { id, image, title, price, annuality } = plan;
 	const { handleOnClick, isPlanSelected } = useChangePlan(id, title, price);
 
 	return (
@@ -52,7 +52,10 @@ const PlanComponent = ({ plan }: PlanObject) => {
 						>
 							{title}
 						</Text>
-						<span>${price}/mo</span>
+						<span>
+							${price}
+							<Annuality annuality={annuality} key={annuality} />
+						</span>
 					</div>
 				</Flex>
 			</Padding>

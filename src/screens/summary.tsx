@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Flex, Margin, Padding } from '../custom.styled.components';
-import { useAddons, useStore } from '../store';
-import { Header } from '../components';
+import { useAddons, useAnnualityStore, useStore } from '../store';
+import { Annuality, Header } from '../components';
 import { colors } from '../colors';
 
 const Container = styled.div``;
@@ -9,6 +9,7 @@ const Container = styled.div``;
 const Summary = () => {
 	const { plan } = useStore();
 	const { addons } = useAddons();
+	const { annuality } = useAnnualityStore();
 	return (
 		<Container>
 			<Header
@@ -37,7 +38,7 @@ const Summary = () => {
 										textTransform: 'capitalize'
 									}}
 								>
-									{plan?.title} ({plan?.annuality})
+									{plan?.title} ({annuality})
 								</p>
 								<span
 									style={{
@@ -46,6 +47,10 @@ const Summary = () => {
 									}}
 								>
 									${plan?.price}
+									<Annuality
+										annuality={annuality}
+										key={annuality}
+									/>
 								</span>
 							</Flex>
 						</Margin>
@@ -64,7 +69,13 @@ const Summary = () => {
 											justifyContent='space-between'
 										>
 											<p>{addon.title}</p>
-											<span>+${addon.price}</span>
+											<span>
+												+${addon.price}
+												<Annuality
+													annuality={annuality}
+													key={annuality}
+												/>
+											</span>
 										</Flex>
 									</div>
 								))}

@@ -6,6 +6,7 @@ import { ANNUALITY, STEPS } from './constans';
 import bg from './assets/images/bg-sidebar-desktop.svg';
 import { useButton, useSwitchAnnuality } from './hooks';
 import { useSetStep } from './store';
+import { When } from './functional.component';
 
 type Input = {
 	name: string;
@@ -456,6 +457,15 @@ const Buttons = () => {
 	);
 };
 
+const Annuality = ({ annuality }: { annuality: string }) => {
+	return (
+		<>
+			<When predicate={annuality === ANNUALITY.MONTHLY}>/mo</When>
+			<When predicate={annuality === ANNUALITY.YEARLY}>/yr</When>
+		</>
+	);
+};
+
 export {
 	User,
 	Password,
@@ -475,5 +485,6 @@ export {
 	Header,
 	Buttons,
 	AddonContainer,
-	AddonCheck
+	AddonCheck,
+	Annuality
 };
