@@ -16,7 +16,9 @@ type Store = {
 
 type Step = {
 	step: number;
+	confirm: boolean;
 	setStep: (step: number) => void;
+	setConfirm: (confirm: boolean) => void;
 };
 
 type AnnualityStore = {
@@ -44,7 +46,9 @@ const useAnnualityStore = create<AnnualityStore>(set => ({
 
 const useSetStep = create<Step>(set => ({
 	step: 1,
-	setStep: step => set(state => ({ ...state, step }))
+	confirm: false,
+	setStep: step => set(state => ({ ...state, step })),
+	setConfirm: confirm => set(state => ({ ...state, confirm }))
 }));
 
 type AddonStoreState = {

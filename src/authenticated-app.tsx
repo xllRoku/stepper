@@ -48,7 +48,7 @@ const Layout = () => {
 							flexDirection='column'
 							justifyContent='space-between'
 						>
-							<section>
+							<section style={{ width: '100%', height: '100%' }}>
 								<Outlet />
 							</section>
 							<Buttons />

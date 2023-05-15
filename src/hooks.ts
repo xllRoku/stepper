@@ -5,7 +5,6 @@ import { ANNUALITY } from './constans';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { Addon as AddonStore } from './store';
-import { When } from './functional.component';
 
 const apiURL = 'http://localhost:3000';
 
@@ -127,7 +126,7 @@ const STEP = {
 };
 
 const useButton = () => {
-	const { step, setStep } = useSetStep();
+	const { step, setStep, setConfirm, confirm } = useSetStep();
 	const navigate = useNavigate();
 	const { plan } = useStore();
 	const { addons } = useAddons();
@@ -140,6 +139,9 @@ const useButton = () => {
 		if (step === STEP.TWO && addons) {
 			setStep(step + 1);
 			navigate('/summary');
+		}
+		if (step === STEP.THREE && addons) {
+			setConfirm(true);
 		}
 	};
 
@@ -154,7 +156,7 @@ const useButton = () => {
 		}
 	};
 
-	return { step, nextStep, prevStep };
+	return { step, nextStep, prevStep, confirm };
 };
 
 const usePrevious = (value: string) => {
@@ -206,7 +208,27 @@ const useAddonsId = (addonApi: Addon) => {
 	return { handleAddId, checked };
 };
 
-const useAnnuality = () => {};
+const useGetTotal = () => {
+	const { plan } = useStore();
+	const { addons } = useAddons();
+	const { annuality } = useAnnualityStore();
+	const { setStep } = useSetStep();
+	const navigate = useNavigate();
+
+	const addonsPrices = addons.map(addon => addon.price);
+	const prices = [plan?.price, addonsPrices];
+
+	const { data } = useQuery(['total', prices], () =>
+		axios.post<number>(`${apiURL}/order/total`, prices)
+	);
+
+	const move = () => {
+		setStep(1);
+		navigate('/summary');
+	};
+
+	return { data, move, annuality, addons, plan };
+};
 
 export {
 	useSwitchAnnuality,
@@ -214,5 +236,6 @@ export {
 	useButton,
 	useAddonsId,
 	useGetPlans,
-	useGetAddons
+	useGetAddons,
+	useGetTotal
 };

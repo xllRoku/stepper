@@ -21,9 +21,6 @@ export type Addon = {
 	annuality: string;
 };
 
-type AddonObject = {
-	addon: Addon;
-};
 type Step = {
 	id: string;
 	stepNumber: string;
@@ -216,7 +213,6 @@ const NextStep = styled.button`
 	width: 6rem;
 	height: 3rem;
 	border-radius: 0.5rem;
-	background: ${colors.MarineBlue};
 	color: white;
 	font-weight: bold;
 	border: none;
@@ -438,20 +434,38 @@ const AddonCheck = styled.input`
 `;
 
 const Buttons = () => {
-	const { step, nextStep, prevStep } = useButton();
+	const { step, nextStep, prevStep, confirm } = useButton();
+
+	const showBack = (step > 1 && step < 3) || !confirm;
+	const showNext = !confirm;
+
+	console.log(showBack);
 
 	return (
 		<Flex justifyContent='space-between'>
 			<Margin marginBottom='2rem'>
 				<GoBack
 					onClick={prevStep}
-					style={{ display: `${step !== 1 ? 'block' : 'none'}` }}
+					style={{ display: `${showBack ? 'block' : 'none'}` }}
 				>
 					go back
 				</GoBack>
 			</Margin>
 			<Margin marginBottom='2rem'>
-				<NextStep onClick={nextStep}>next step</NextStep>
+				<NextStep
+					onClick={nextStep}
+					style={{
+						display: `${showNext ? 'block' : 'none'}`,
+						background: `${
+							step !== 3
+								? `${colors.MarineBlue}`
+								: `${colors.PurplishBlue}`
+						}`
+					}}
+				>
+					<When predicate={step !== 3}>next step</When>
+					<When predicate={step === 3}>confirm</When>
+				</NextStep>
 			</Margin>
 		</Flex>
 	);
