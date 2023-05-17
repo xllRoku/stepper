@@ -1,12 +1,18 @@
+import { lazy, Suspense } from 'react';
 import { colors } from './colors';
-import { Buttons, Header, HomeContainer, Steps } from './components';
+import { Buttons, HomeContainer, Steps } from './components';
 import { Flex, Padding } from './custom.styled.components';
 import styled from 'styled-components';
 import { useAuth } from './context/auth-contenxt';
 import { Routes, Route, Outlet } from 'react-router-dom';
-import PlanScreen from './screens/plans';
-import AddonScreen from './screens/addons';
+// import PlanScreen from './screens/plans';
+// import AddonScreen from './screens/addons';
 import Summary from './screens/summary';
+import Spinner from './spinner';
+
+const PlanScreen = lazy(() => import('./screens/plans'));
+const AddonScreen = lazy(() => import('./screens/addons'));
+const SummaryScreen = lazy(() => import('./screens/summary'));
 
 const Logout = styled.button`
 	width: 4rem;
@@ -61,7 +67,11 @@ const Layout = () => {
 };
 
 const AuthenticatedApp = () => {
-	return <AppRoutes />;
+	return (
+		<Suspense fallback={<Spinner />}>
+			<AppRoutes />
+		</Suspense>
+	);
 };
 
 const AppRoutes = () => {
@@ -70,7 +80,7 @@ const AppRoutes = () => {
 			<Route element={<Layout />}>
 				<Route path='/plans' element={<PlanScreen />} />
 				<Route path='/addons' element={<AddonScreen />} />
-				<Route path='/summary' element={<Summary />} />
+				<Route path='/summary' element={<SummaryScreen />} />
 			</Route>
 		</Routes>
 	);
