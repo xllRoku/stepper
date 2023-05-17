@@ -71,7 +71,7 @@ const useAddonStore = create<AddonStore>()(
 
 					return {
 						addons: newAddons,
-						addonsFromApi: state.addonsFromApi // Retain the existing addonsFromApi
+						addonsFromApi: state.addonsFromApi
 					};
 				});
 			},
@@ -89,54 +89,6 @@ const useAddonStore = create<AddonStore>()(
 		}
 	)
 );
-
-// const usePlanStore = create<PlanStore>(set => ({
-// 	plan: undefined,
-// 	addon: [],
-// 	setPlan: plan => set(() => ({ plan })),
-// 	removePlan: () => set(() => ({ plan: undefined }))
-// }));
-
-// const useAnnualityStore = create<AnnualityStore>(set => ({
-// 	annuality: ANNUALITY.MONTHLY,
-// 	setAnnuality: annuality => set(state => ({ ...state, annuality }))
-// }));
-
-// const useSetStep = create<Step>(set => ({
-// 	step: 1,
-// 	confirm: false,
-// 	setStep: step => set(state => ({ ...state, step })),
-// 	setConfirm: confirm => set(state => ({ ...state, confirm }))
-// }));
-
-// const useAddons = create<AddonStoreState>((set, get) => ({
-// 	addons: [],
-// 	addonsFromApi: [],
-// 	addAddons: addons => {
-// 		set(() => ({
-// 			addonsFromApi: addons
-// 		}));
-// 	},
-// 	setMonthlyPlan: newPlan => {
-// 		const { addons } = get();
-
-// 		const newAddons = Array.isArray(newPlan)
-// 			? addons?.map(selected => {
-// 					const addon = newPlan?.find(
-// 						addon => addon?.title === selected?.title
-// 					);
-// 					return { ...selected, id: addon?.id, price: addon?.price };
-// 			  })
-// 			: [...addons, newPlan];
-
-// 		set(() => ({ addons: newAddons }));
-// 	},
-// 	removeAddon: (idToRemove: string | undefined) => {
-// 		set(state => ({
-// 			addons: state.addons.filter(addon => addon?.id !== idToRemove)
-// 		}));
-// 	}
-// }));
 
 const resetAllStates = () => {
 	usePlanStore.setState(() => ({ plan: undefined, addon: [] }));

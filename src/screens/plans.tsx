@@ -39,9 +39,9 @@ const PlanComponent = ({ plan }: PlanObject) => {
 				<Flex
 					width='100%'
 					height='100%'
-					flexDirection='column'
 					justifyContent='space-between'
 					alignItems='start'
+					flexDirection='column'
 				>
 					<Img src={image} alt='' />
 					<div style={{ textAlign: 'start' }}>
@@ -88,7 +88,15 @@ const Plans = () => {
 					</div>
 				</Then>
 				<Else predicate>
-					<Flex gap='1rem'>
+					<Flex
+						gap='1rem'
+						flexDirection='column'
+						media={{
+							'@media (min-width: 1200px)': {
+								flexDirection: 'row'
+							}
+						}}
+					>
 						{data?.map(p => (
 							<PlanComponent key={p.id} plan={p} />
 						))}

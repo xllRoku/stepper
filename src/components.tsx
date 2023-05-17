@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
+import bg from './assets/images/bg-sidebar-desktop.svg';
+import bgMobile from './assets/images/bg-sidebar-mobile.svg';
 import styled from 'styled-components';
 import { colors } from './colors';
 import { Flex, Grid, Margin, Padding, Text } from './custom.styled.components';
 import { ANNUALITY, STEPS } from './constans';
-import bg from './assets/images/bg-sidebar-desktop.svg';
 import { useButton, useSwitchAnnuality } from './hooks';
 import { useStepStore } from './store';
 import { When } from './functional.component';
@@ -161,9 +162,11 @@ const InputText: React.FC<Input> = ({ name, value, icon }) => {
 
 const HomeContainer = styled.div`
 	background: white;
-	border-radius: 1rem;
-	position: relative;
-	width: 980px;
+	@media (min-width: 1200px) {
+		border-radius: 1rem;
+		position: relative;
+		width: 980px;
+	}
 `;
 
 const GoBack = styled.button`
@@ -198,6 +201,7 @@ const ContainerStep = styled.div`
 
 const StepContainers = styled.ol`
 	width: 100%;
+	height: 100%;
 	position: absolute;
 	top: 0;
 `;
@@ -215,6 +219,10 @@ const StepSpan = styled.div<{ selected: boolean }>`
 
 const StepContent = styled.div`
 	flex: 1;
+	display: none;
+	@media (min-width: 1200px) {
+		display: block;
+	}
 `;
 
 const StepTitle = styled.h3`
@@ -226,7 +234,10 @@ const StepTitle = styled.h3`
 const Steps = () => {
 	return (
 		<ContainerStep>
-			<img src={bg} />
+			<picture>
+				<source srcSet={bg} media='(min-width:1200px)' />
+				<img src={bgMobile} alt='' />
+			</picture>
 			<StepContainers>
 				<Padding
 					width='100%'
@@ -234,7 +245,15 @@ const Steps = () => {
 					paddingTop='2rem'
 					paddingInline='2rem'
 				>
-					<Grid gap='2rem'>
+					<Grid
+						gap='2rem'
+						gridTemplateColumns='repeat(3, auto)'
+						media={{
+							'@media (min-width: 1200px)': {
+								gridTemplateColumns: 'none'
+							}
+						}}
+					>
 						{STEPS.map(s => (
 							<Step key={s.id} step={s} />
 						))}

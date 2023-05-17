@@ -10,9 +10,7 @@ type PaddingProps = {
 	paddingLeft?: CSSProperties['paddingLeft'];
 	paddingInline?: CSSProperties['paddingInline'];
 	paddingBlock?: CSSProperties['paddingBlock'];
-	mediaQueries?: {
-		[key: string]: CSSObject;
-	};
+	media?: CSSObject;
 };
 
 type MarginProps = {
@@ -25,9 +23,7 @@ type MarginProps = {
 	marginLeft?: CSSProperties['marginLeft'];
 	marginInline?: CSSProperties['marginInline'];
 	marginBlock?: CSSProperties['marginBlock'];
-	mediaQueries?: {
-		[key: string]: CSSObject;
-	};
+	media?: CSSObject;
 };
 
 type FlexProps = {
@@ -39,9 +35,7 @@ type FlexProps = {
 	alignContent?: CSSProperties['alignContent'];
 	flexWrap?: CSSProperties['flexWrap'];
 	gap?: CSSProperties['gap'];
-	mediaQueries?: {
-		[key: string]: CSSObject;
-	};
+	media?: CSSObject;
 };
 
 type GridProps = {
@@ -55,9 +49,7 @@ type GridProps = {
 	gridAutoFlow?: CSSProperties['gridAutoFlow'];
 	gridPlaceItems?: CSSProperties['placeItems'];
 	gap?: CSSProperties['gap'];
-	mediaQueries?: {
-		[key: string]: CSSObject;
-	};
+	media?: CSSObject;
 };
 
 type Text = {
@@ -77,15 +69,11 @@ const Flex = styled.div<FlexProps>`
 	align-content: ${({ alignContent }) => alignContent || 'stretch'};
 	flex-wrap: ${({ flexWrap }) => flexWrap || 'nowrap'};
 	gap: ${({ gap }) => gap || '0'};
-	${({ mediaQueries }) =>
-		mediaQueries &&
-		Object.entries(mediaQueries).map(([key, styles]) => {
-			return css`
-				@media ${key} {
-					${styles}
-				}
-			`;
-		})}
+	${({ media }) =>
+		media &&
+		css`
+			${media}
+		`}
 `;
 
 const Grid = styled.div<GridProps>`
@@ -102,15 +90,11 @@ const Grid = styled.div<GridProps>`
 	grid-auto-flow: ${({ gridAutoFlow }) => gridAutoFlow || 'row'};
 	place-items: ${({ gridPlaceItems }) => gridPlaceItems || 'auto'};
 	gap: ${({ gap }) => gap || '0'};
-	${({ mediaQueries }) =>
-		mediaQueries &&
-		Object.entries(mediaQueries).map(([key, styles]) => {
-			return css`
-				@media ${key} {
-					${styles}
-				}
-			`;
-		})}
+	${({ media }) =>
+		media &&
+		css`
+			${media}
+		`}
 `;
 
 const Padding = styled.div<PaddingProps>`
@@ -123,15 +107,11 @@ const Padding = styled.div<PaddingProps>`
 	padding-left: ${({ paddingLeft }) => paddingLeft};
 	padding-inline: ${({ paddingInline }) => paddingInline};
 	padding-block: ${({ paddingBlock }) => paddingBlock};
-	${({ mediaQueries }) =>
-		mediaQueries &&
-		Object.entries(mediaQueries).map(([key, styles]) => {
-			return css`
-				@media ${key} {
-					${styles}
-				}
-			`;
-		})}
+	${({ media }) =>
+		media &&
+		css`
+			${media}
+		`}
 `;
 
 const Margin = styled.div<MarginProps>`
@@ -144,15 +124,11 @@ const Margin = styled.div<MarginProps>`
 	margin-left: ${({ marginLeft }) => marginLeft};
 	margin-inline: ${({ marginInline }) => marginInline};
 	margin-block: ${({ marginBlock }) => marginBlock};
-	${({ mediaQueries }) =>
-		mediaQueries &&
-		Object.entries(mediaQueries).map(([key, styles]) => {
-			return css`
-				@media ${key} {
-					${styles}
-				}
-			`;
-		})}
+	${({ media }) =>
+		media &&
+		css`
+			${media}
+		`}
 `;
 
 const Text = styled.p<Text>`
@@ -161,21 +137,5 @@ const Text = styled.p<Text>`
 	color: ${({ color }) => color || '#000'};
 	text-transform: ${({ textTransform }) => textTransform || 'normal'};
 `;
-
-// const Title = styled(({ variant: Tag = 'h1', ...props }) => {
-// 	if (!isValidElementType(Tag)) {
-// 		console.error(
-// 			`Invalid HTML tag or component passed as variant prop: ${Tag}`
-// 		);
-// 		Tag = 'h1';
-// 	}
-
-// 	return <Tag {...props} />;
-// })`
-// 	font-size: ${({ fontSize }) => fontSize || '2rem'};
-// 	font-weight: ${({ fontWeight }) => fontWeight || 'bold'};
-// 	color: ${({ color }) => color || '#000'};
-// 	margin: ${({ margin }) => margin || '0'};
-// `;
 
 export { Flex, Grid, Padding, Margin, Text };

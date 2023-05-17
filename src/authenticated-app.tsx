@@ -5,9 +5,6 @@ import { Flex, Padding } from './custom.styled.components';
 import styled from 'styled-components';
 import { useAuth } from './context/auth-contenxt';
 import { Routes, Route, Outlet } from 'react-router-dom';
-// import PlanScreen from './screens/plans';
-// import AddonScreen from './screens/addons';
-import Summary from './screens/summary';
 import Spinner from './spinner';
 
 const PlanScreen = lazy(() => import('./screens/plans'));
@@ -43,9 +40,21 @@ const Layout = () => {
 				width='100%'
 				height='100%'
 				padding='1rem'
-				paddingRight='7rem'
+				media={{
+					'@media (min-width: 1200px)': {
+						paddingRight: '7rem'
+					}
+				}}
 			>
-				<Flex gap='7rem'>
+				<Flex
+					gap='7rem'
+					flexDirection='column'
+					media={{
+						'@media (min-width: 1200px)': {
+							flexDirection: 'row'
+						}
+					}}
+				>
 					<Steps />
 					<main style={{ width: '100%' }}>
 						<Flex
