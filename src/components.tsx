@@ -5,40 +5,8 @@ import { Flex, Grid, Margin, Padding, Text } from './custom.styled.components';
 import { ANNUALITY, STEPS } from './constans';
 import bg from './assets/images/bg-sidebar-desktop.svg';
 import { useButton, useSwitchAnnuality } from './hooks';
-import { useSetStep } from './store';
+import { useStepStore } from './store';
 import { When } from './functional.component';
-
-type Input = {
-	name: string;
-	value?: string;
-	icon: ReactNode;
-};
-
-export type Addon = {
-	title: string;
-	content: string;
-	price: number;
-	annuality: string;
-};
-
-type Step = {
-	id: string;
-	stepNumber: string;
-	title: string;
-	url?: string;
-};
-
-type StepObject = {
-	step: Step;
-};
-
-type Switch = {
-	isSelected?: boolean;
-};
-
-type Annuality = {
-	annuality: string;
-};
 
 const Header = ({ title, text }: { title: string; text: string }) => {
 	return (
@@ -278,7 +246,7 @@ const Steps = () => {
 };
 
 const Step: React.FC<StepObject> = ({ step }) => {
-	const { step: currentStep } = useSetStep();
+	const { step: currentStep } = useStepStore();
 	const { id, stepNumber, title } = step;
 
 	const isCurrentStep = currentStep === Number(id);
@@ -434,12 +402,7 @@ const AddonCheck = styled.input`
 `;
 
 const Buttons = () => {
-	const { step, nextStep, prevStep, confirm } = useButton();
-
-	const showBack = (step > 1 && step < 3) || !confirm;
-	const showNext = !confirm;
-
-	console.log(showBack);
+	const { step, nextStep, prevStep, showBack, showNext } = useButton();
 
 	return (
 		<Flex justifyContent='space-between'>
@@ -478,6 +441,38 @@ const Annuality = ({ annuality }: { annuality: string }) => {
 			<When predicate={annuality === ANNUALITY.YEARLY}>/yr</When>
 		</>
 	);
+};
+
+type Input = {
+	name: string;
+	value?: string;
+	icon: ReactNode;
+};
+
+export type Addon = {
+	title: string;
+	content: string;
+	price: number;
+	annuality: string;
+};
+
+type Step = {
+	id: string;
+	stepNumber: string;
+	title: string;
+	url?: string;
+};
+
+type StepObject = {
+	step: Step;
+};
+
+type Switch = {
+	isSelected?: boolean;
+};
+
+type Annuality = {
+	annuality: string;
 };
 
 export {

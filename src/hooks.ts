@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { useAnnualityStore, useStore, useSetStep, useAddons } from './store';
+import {
+	useAnnualityStore,
+	usePlanStore,
+	useStepStore,
+	useAddonStore
+} from './store';
 import { ANNUALITY } from './constans';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
@@ -79,7 +84,7 @@ const useGetAddons = () => {
 };
 
 const useChangePlan = (id: string, title: string, price: number) => {
-	const { plan: selectedPlan, setPlan, removePlan } = useStore();
+	const { plan: selectedPlan, setPlan, removePlan } = usePlanStore();
 	const { annuality } = useAnnualityStore();
 
 	console.log(selectedPlan?.id);
@@ -126,17 +131,20 @@ const STEP = {
 };
 
 const useButton = () => {
-	const { step, setStep, setConfirm, confirm } = useSetStep();
+	const { step, setStep, setConfirm, confirm } = useStepStore();
 	const navigate = useNavigate();
-	const { plan } = useStore();
-	const { addons } = useAddons();
+	const { plan } = usePlanStore();
+	const { addons } = useAddonStore();
+
+	console.log(addons);
 
 	const nextStep = () => {
 		if (step === STEP.ONE && plan) {
 			setStep(step + 1);
 			navigate('/addons');
 		}
-		if (step === STEP.TWO && addons) {
+		if (step === STEP.TWO && addons.length !== 0) {
+			console.log('next step');
 			setStep(step + 1);
 			navigate('/summary');
 		}
@@ -156,7 +164,11 @@ const useButton = () => {
 		}
 	};
 
-	return { step, nextStep, prevStep, confirm };
+	const showBack = step > 1 && step <= 3 && !confirm;
+
+	const showNext = !confirm;
+
+	return { step, nextStep, prevStep, confirm, showBack, showNext };
 };
 
 const usePrevious = (value: string) => {
@@ -172,7 +184,8 @@ const usePrevious = (value: string) => {
 };
 
 const useAddonsId = (addonApi: Addon) => {
-	const { addons, setMonthlyPlan, removeAddon, addonsFromApi } = useAddons();
+	const { addons, setMonthlyPlan, removeAddon, addonsFromApi } =
+		useAddonStore();
 	const { annuality } = useAnnualityStore();
 	const [previousAnnuality, currentValue] = usePrevious(annuality);
 
@@ -209,10 +222,10 @@ const useAddonsId = (addonApi: Addon) => {
 };
 
 const useGetTotal = () => {
-	const { plan } = useStore();
-	const { addons } = useAddons();
+	const { plan } = usePlanStore();
+	const { addons } = useAddonStore();
 	const { annuality } = useAnnualityStore();
-	const { setStep } = useSetStep();
+	const { setStep } = useStepStore();
 	const navigate = useNavigate();
 
 	const addonsPrices = addons.map(addon => addon.price);
@@ -224,7 +237,7 @@ const useGetTotal = () => {
 
 	const move = () => {
 		setStep(1);
-		navigate('/summary');
+		navigate('/plans');
 	};
 
 	return { data, move, annuality, addons, plan };

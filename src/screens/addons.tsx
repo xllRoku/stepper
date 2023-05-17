@@ -4,7 +4,7 @@ import { Flex, Padding, Text } from '../custom.styled.components';
 import { AddonCheck, AddonContainer, Annuality, Header } from '../components';
 import { Else, If, Then } from '../functional.component';
 import Spinner from '../spinner';
-import { useAddons } from '../store';
+import { useAddonStore } from '../store';
 
 type AddonObject = {
 	addon: AddonType;
@@ -12,7 +12,7 @@ type AddonObject = {
 
 const Addons = () => {
 	const { data, isLoading: loading } = useGetAddons();
-	const { addAddons, addonsFromApi } = useAddons();
+	const { addAddons, addonsFromApi } = useAddonStore();
 
 	useEffect(() => {
 		addAddons(data);

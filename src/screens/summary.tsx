@@ -6,7 +6,7 @@ import { colors } from '../colors';
 import { ANNUALITY } from '../constans';
 import { When } from '../functional.component';
 import { useGetTotal } from '../hooks';
-import { useSetStep } from '../store';
+import { useStepStore } from '../store';
 
 const Link = styled.a`
 	background: transparent;
@@ -16,7 +16,7 @@ const Link = styled.a`
 `;
 
 const Summary = () => {
-	const { confirm } = useSetStep();
+	const { confirm } = useStepStore();
 
 	return <>{confirm ? <Confirm /> : <TotalScreen />}</>;
 };
