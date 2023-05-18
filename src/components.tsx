@@ -161,10 +161,10 @@ const InputText: React.FC<Input> = ({ name, value, icon }) => {
 };
 
 const HomeContainer = styled.div`
-	background: white;
+	position: relative;
 	@media (min-width: 1200px) {
+		background: white;
 		border-radius: 1rem;
-		position: relative;
 		width: 980px;
 	}
 `;

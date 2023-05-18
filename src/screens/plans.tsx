@@ -39,9 +39,15 @@ const PlanComponent = ({ plan }: PlanObject) => {
 				<Flex
 					width='100%'
 					height='100%'
-					justifyContent='space-between'
-					alignItems='start'
-					flexDirection='column'
+					gap='1rem'
+					media={{
+						'@media (min-width: 1200px)': {
+							flexDirection: 'column',
+							justifyContent: 'space-between',
+							alignItems: 'start',
+							gap: '0'
+						}
+					}}
 				>
 					<Img src={image} alt='' />
 					<div style={{ textAlign: 'start' }}>

@@ -29,6 +29,39 @@ const Position = styled.div`
 	top: 10px;
 `;
 
+const Section = styled.section`
+	background: white;
+	border-radius: 0.5rem;
+`;
+
+const Up = styled.div`
+	width: 90%;
+	height: 100%;
+	background: 'white';
+	border-radius: '.5rem';
+	position: relative;
+	top: -50px;
+
+	@media (min-width: 1200px) {
+		width: 100%;
+		position: initial;
+		top: 0;
+	}
+`;
+
+const Down = styled.div`
+	width: 100%;
+	position: 'absolute';
+	bottom: -60px;
+	background: white;
+
+	@media (min-widht: 1200px) {
+		position: initial;
+		bottom: 0;
+		background: none;
+	}
+`;
+
 const Layout = () => {
 	const { logout } = useAuth();
 	return (
@@ -39,38 +72,52 @@ const Layout = () => {
 			<Padding
 				width='100%'
 				height='100%'
-				padding='1rem'
 				media={{
 					'@media (min-width: 1200px)': {
+						padding: '1rem',
 						paddingRight: '7rem'
 					}
 				}}
 			>
 				<Flex
-					gap='7rem'
 					flexDirection='column'
+					alignItems='center'
 					media={{
 						'@media (min-width: 1200px)': {
-							flexDirection: 'row'
+							flexDirection: 'row',
+							gap: '7rem',
+							alignItems: 'normal'
 						}
 					}}
 				>
 					<Steps />
-					<main style={{ width: '100%' }}>
-						<Flex
-							width='100%'
-							height='100%'
-							flexDirection='column'
-							justifyContent='space-between'
-						>
-							<section style={{ width: '100%', height: '100%' }}>
-								<Outlet />
-							</section>
-							<Buttons />
-						</Flex>
-					</main>
+					<Up>
+						<main style={{ width: '100%' }}>
+							<Flex
+								width='100%'
+								height='100%'
+								flexDirection='column'
+								justifyContent='space-between'
+							>
+								<Section>
+									<Padding
+										width='100%'
+										height='100%'
+										padding='1rem'
+									>
+										<Outlet />
+									</Padding>
+								</Section>
+							</Flex>
+						</main>
+					</Up>
 				</Flex>
 			</Padding>
+			<Down
+				style={{ width: '100%', position: 'absolute', bottom: '-60px' }}
+			>
+				<Buttons />
+			</Down>
 		</HomeContainer>
 	);
 };
