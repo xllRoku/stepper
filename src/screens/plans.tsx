@@ -40,6 +40,7 @@ const PlanComponent = ({ plan }: PlanObject) => {
 					width='100%'
 					height='100%'
 					gap='1rem'
+					alignItems='center'
 					media={{
 						'@media (min-width: 1200px)': {
 							flexDirection: 'column',
@@ -58,7 +59,12 @@ const PlanComponent = ({ plan }: PlanObject) => {
 						>
 							{title}
 						</Text>
-						<span>
+						<span
+							style={{
+								color: `${colors.CoolGray}`,
+								fontWeight: 'bold'
+							}}
+						>
 							${price}
 							<Annuality annuality={annuality} key={annuality} />
 						</span>

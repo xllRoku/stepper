@@ -83,6 +83,7 @@ const ContainerForm = styled.div`
 	background: white;
 	display: flex;
 	flex-direction: column;
+	border-radius: 1rem;
 `;
 
 const Label = styled.label`
@@ -161,6 +162,7 @@ const InputText: React.FC<Input> = ({ name, value, icon }) => {
 };
 
 const HomeContainer = styled.div`
+	width: 100%;
 	position: relative;
 	@media (min-width: 1200px) {
 		background: white;
@@ -242,15 +244,22 @@ const Steps = () => {
 				<Padding
 					width='100%'
 					height='100%'
-					paddingTop='2rem'
+					paddingTop='3rem'
 					paddingInline='2rem'
+					media={{
+						'@media (min-width: 1200px)': {
+							paddingTop: '2rem'
+						}
+					}}
 				>
 					<Grid
-						gap='2rem'
-						gridTemplateColumns='repeat(3, auto)'
+						gap='1rem'
+						justifyContent='center'
+						gridTemplateColumns='repeat(3, 2.8rem)'
 						media={{
 							'@media (min-width: 1200px)': {
-								gridTemplateColumns: 'none'
+								gridTemplateColumns: 'none',
+								gap: '2rem'
 							}
 						}}
 					>
@@ -409,23 +418,35 @@ export type TAddon = {
 
 const AddonContainer = styled.div`
 	width: 100%;
-	height: 5.5rem;
+	height: 5rem;
 	border: 1px solid ${colors.PurplishBlue};
 	border-radius: 0.5rem;
 	cursor: pointer;
+	@media (min-width: 1200px) {
+		height: 5.5rem;
+	}
 `;
 
 const AddonCheck = styled.input`
-	width: 1rem;
-	height: 1rem;
+	width: 1.2rem;
+	height: 1.2rem;
+	background-color: black;
 `;
 
 const Buttons = () => {
 	const { step, nextStep, prevStep, showBack, showNext } = useButton();
 
 	return (
-		<Flex justifyContent='space-between'>
-			<Margin marginBottom='2rem'>
+		<Flex justifyContent={`${showBack ? 'space-between' : 'flex-end'}`}>
+			<Margin
+				width='100%'
+				height='100%'
+				media={{
+					'@media (min-width: 1200px)': {
+						marginBottom: '1rem'
+					}
+				}}
+			>
 				<GoBack
 					onClick={prevStep}
 					style={{ display: `${showBack ? 'block' : 'none'}` }}
@@ -433,7 +454,13 @@ const Buttons = () => {
 					go back
 				</GoBack>
 			</Margin>
-			<Margin marginBottom='2rem'>
+			<Margin
+				media={{
+					'@media (min-width: 1200px)': {
+						marginBottom: '1rem'
+					}
+				}}
+			>
 				<NextStep
 					onClick={nextStep}
 					style={{

@@ -42,6 +42,7 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 
 	const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+
 		const email: string = event.currentTarget.email.value;
 		const password: string = event.currentTarget.password.value;
 
@@ -50,7 +51,15 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 
 	return (
 		<form onSubmit={handleOnSubmit}>
-			<Padding paddingInline='6rem' paddingBlock='1rem'>
+			<Padding
+				paddingInline='3rem'
+				paddingBlock='1rem'
+				media={{
+					'@media (min-width: 1200px)': {
+						paddingInline: '6rem'
+					}
+				}}
+			>
 				<Grid gridPlaceItems='center' gap='1rem'>
 					<H1Form>user login</H1Form>
 					<InputText icon={<User />} name={FORM_NAMES.EMAIL} />

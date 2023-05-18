@@ -14,6 +14,7 @@ const SummaryScreen = lazy(() => import('./screens/summary'));
 const Logout = styled.button`
 	width: 4rem;
 	height: 2rem;
+	position: relative;
 	text-transform: capitalize;
 	background: ${colors.MarineBlue};
 	border: none;
@@ -21,6 +22,7 @@ const Logout = styled.button`
 	cursor: pointer;
 	font-weight: bold;
 	border-radius: 0.5rem;
+	z-index: 1;
 `;
 
 const Position = styled.div`
@@ -35,29 +37,27 @@ const Section = styled.section`
 `;
 
 const Up = styled.div`
-	width: 90%;
-	height: 100%;
+	max-width: 340px;
 	background: 'white';
 	border-radius: '.5rem';
 	position: relative;
 	top: -50px;
+	margin-inline: auto;
+	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+		0 4px 6px -4px rgb(0 0 0 / 0.1);
 
 	@media (min-width: 1200px) {
+		max-width: 100%;
 		width: 100%;
 		position: initial;
 		top: 0;
+		box-shadow: none;
 	}
 `;
 
 const Down = styled.div`
-	width: 100%;
-	position: 'absolute';
-	bottom: -60px;
 	background: white;
-
-	@media (min-widht: 1200px) {
-		position: initial;
-		bottom: 0;
+	@media (min-width: 1200px) {
 		background: none;
 	}
 `;
@@ -91,33 +91,51 @@ const Layout = () => {
 					}}
 				>
 					<Steps />
-					<Up>
-						<main style={{ width: '100%' }}>
-							<Flex
-								width='100%'
-								height='100%'
-								flexDirection='column'
-								justifyContent='space-between'
-							>
+					<main style={{ width: '100%' }}>
+						<Flex
+							width='100%'
+							height='100%'
+							flexDirection='column'
+							media={{
+								'@media (min-width: 1200px)': {
+									justifyContent: 'space-between'
+								}
+							}}
+						>
+							<Up>
 								<Section>
 									<Padding
 										width='100%'
 										height='100%'
 										padding='1rem'
+										media={{
+											'@media (min-width: 1200px)': {
+												padding: 0
+											}
+										}}
 									>
 										<Outlet />
 									</Padding>
 								</Section>
-							</Flex>
-						</main>
-					</Up>
+							</Up>
+							<Down>
+								<Padding
+									width='100%'
+									height='100%'
+									padding='1rem'
+									media={{
+										'@media (min-width: 1200px)': {
+											padding: 0
+										}
+									}}
+								>
+									<Buttons />
+								</Padding>
+							</Down>
+						</Flex>
+					</main>
 				</Flex>
 			</Padding>
-			<Down
-				style={{ width: '100%', position: 'absolute', bottom: '-60px' }}
-			>
-				<Buttons />
-			</Down>
 		</HomeContainer>
 	);
 };

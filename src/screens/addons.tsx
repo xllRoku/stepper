@@ -1,14 +1,38 @@
 import { useEffect } from 'react';
 import { Addon as AddonType, useAddonsId, useGetAddons } from '../hooks';
-import { Flex, Padding, Text } from '../custom.styled.components';
+import { Flex, Padding } from '../custom.styled.components';
 import { AddonCheck, AddonContainer, Annuality, Header } from '../components';
 import { Else, If, Then } from '../functional.component';
 import Spinner from '../spinner';
 import { useAddonStore } from '../store';
+import styled from 'styled-components';
+import { colors } from '../colors';
 
 type AddonObject = {
 	addon: AddonType;
 };
+
+const Text = styled.p`
+	font-size: 0.8rem;
+
+	@media (min-width: 1200px) {
+		font-size: 1rem;
+	}
+`;
+
+const Title = styled.h3`
+	font-size: 1rem;
+	color: ${colors.MarineBlue};
+
+	@media (min-width: 1200px) {
+		font-size: 1.2rem;
+	}
+`;
+
+const Price = styled.span`
+	font-size: 0.95rem;
+	color: ${colors.PurplishBlue};
+`;
 
 const Addons = () => {
 	const { data, isLoading: loading } = useGetAddons();
@@ -52,8 +76,6 @@ const Addon: React.FC<AddonObject> = ({ addon }) => {
 	const { content, price, title, annuality } = addon;
 	const { checked, handleAddId } = useAddonsId(addon);
 
-	console.log(addon);
-
 	return (
 		<AddonContainer>
 			<Padding height='100%' paddingInline='1rem'>
@@ -70,14 +92,14 @@ const Addon: React.FC<AddonObject> = ({ addon }) => {
 							onChange={handleAddId}
 						/>
 						<div>
-							<h3>{title}</h3>
+							<Title>{title}</Title>
 							<Text>{content}</Text>
 						</div>
 					</Flex>
-					<span>
+					<Price>
 						+${price}
 						<Annuality annuality={annuality} key={annuality} />
-					</span>
+					</Price>
 				</Flex>
 			</Padding>
 		</AddonContainer>

@@ -48,6 +48,9 @@ type GridProps = {
 	gridAutoRows?: CSSProperties['gridAutoRows'];
 	gridAutoFlow?: CSSProperties['gridAutoFlow'];
 	gridPlaceItems?: CSSProperties['placeItems'];
+	justifyContent?: CSSProperties['justifyContent'];
+	alignItems?: CSSProperties['alignItems'];
+	alignContent?: CSSProperties['alignContent'];
 	gap?: CSSProperties['gap'];
 	media?: CSSObject;
 };
@@ -87,8 +90,11 @@ const Grid = styled.div<GridProps>`
 		gridTemplateAreas || 'none'};
 	grid-auto-columns: ${({ gridAutoColumns }) => gridAutoColumns || 'auto'};
 	grid-auto-rows: ${({ gridAutoRows }) => gridAutoRows || 'auto'};
-	grid-auto-flow: ${({ gridAutoFlow }) => gridAutoFlow || 'row'};
+	grid-auto-flow: ${({ gridAutoFlow }) => gridAutoFlow || 'auto'};
 	place-items: ${({ gridPlaceItems }) => gridPlaceItems || 'auto'};
+	justify-content: ${({ justifyContent }) => justifyContent || 'auto'};
+	align-items: ${({ alignItems }) => alignItems || 'auto'};
+	align-content: ${({ alignContent }) => alignContent || 'auto'};
 	gap: ${({ gap }) => gap || '0'};
 	${({ media }) =>
 		media &&
