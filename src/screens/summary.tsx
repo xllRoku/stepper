@@ -5,7 +5,7 @@ import { colors } from '../colors';
 import { ANNUALITY } from '../constans';
 import { When } from '../functional.component';
 import { useGetTotal } from '../hooks';
-import { useStepStore } from '../store';
+import { useStepStore } from '../context/store';
 import { Annuality, Header } from '../iu/molecules';
 
 const Link = styled.a`

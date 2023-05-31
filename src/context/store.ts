@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ANNUALITY } from './constans';
+import { ANNUALITY } from '../constans';
 
 const usePlanStore = create<PlanStore>()(
 	persist(

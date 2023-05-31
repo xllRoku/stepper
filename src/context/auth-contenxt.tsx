@@ -2,7 +2,7 @@ import { createContext, useState, useContext, useLayoutEffect } from 'react';
 import * as auth from '../auth-provider';
 import { User } from '../components';
 import { useNavigate } from 'react-router-dom';
-import { resetAllStates } from '../store';
+import { resetAllStates } from './store';
 
 const AuthContext = createContext<AuthContextType>({
 	user: undefined,

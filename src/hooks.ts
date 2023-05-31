@@ -5,11 +5,11 @@ import {
 	usePlanStore,
 	useStepStore,
 	useAddonStore
-} from './store';
+} from './context/store';
 import { ANNUALITY } from './constans';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { Addon as AddonStore } from './store';
+import { Addon as AddonStore } from './context/store';
 
 const apiURL = 'http://localhost:3000';
 

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import obv from './assets/images/obvli.jpg';
 import { Flex, Grid, Padding } from './custom.styled.components';
 import { Else, If, Then, When } from './functional.component';
-import Spinner from './spinner';
 import { User as TypeUSer, useAuth } from './context/auth-contenxt';
 import styled from 'styled-components';
 import { colors } from './colors';
@@ -15,7 +14,7 @@ import {
 	Password,
 	User
 } from './iu/atoms';
-import { InputPassword, InputText } from './iu/molecules';
+import { InputPassword, InputText, Spinner } from './iu/molecules';
 
 const FORM_NAMES = {
 	EMAIL: 'email',

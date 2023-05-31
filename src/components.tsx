@@ -6,7 +6,7 @@ import { colors } from './colors';
 import { Flex, Grid, Margin, Padding, Text } from './custom.styled.components';
 import { ANNUALITY, STEPS } from './constans';
 import { useButton, useSwitchAnnuality } from './hooks';
-import { useStepStore } from './store';
+import { useStepStore } from './context/store';
 import { When } from './functional.component';
 
 // const Header = ({ title, text }: { title: string; text: string }) => {

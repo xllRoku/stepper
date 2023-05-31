@@ -2,10 +2,9 @@ import { lazy, Suspense } from 'react';
 import { Flex, Padding } from './custom.styled.components';
 import { useAuth } from './context/auth-contenxt';
 import { Routes, Route, Outlet } from 'react-router-dom';
-import Spinner from './spinner';
 import { Down, HomeContainer, Logout, Position, Section, Up } from './iu/atoms';
 import { Buttons } from './iu/components';
-import { Steps } from './iu/molecules';
+import { Spinner, Steps } from './iu/molecules';
 
 const PlanScreen = lazy(() => import('./screens/plans'));
 const AddonScreen = lazy(() => import('./screens/addons'));

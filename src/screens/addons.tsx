@@ -2,11 +2,10 @@ import { useEffect } from 'react';
 import { Addon as AddonType, useAddonsId, useGetAddons } from '../hooks';
 import { Flex, Padding } from '../custom.styled.components';
 import { Else, If, Then } from '../functional.component';
-import Spinner from '../spinner';
-import { useAddonStore } from '../store';
+import { useAddonStore } from '../context/store';
 import styled from 'styled-components';
 import { colors } from '../colors';
-import { Annuality, Header } from '../iu/molecules';
+import { Annuality, Header, Spinner } from '../iu/molecules';
 import { AddonCheck, AddonContainer } from '../iu/atoms';
 
 type AddonObject = {

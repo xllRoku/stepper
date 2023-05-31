@@ -1,7 +1,15 @@
 import { ReactNode } from 'react';
 import bg from '../../assets/images/bg-sidebar-desktop.svg';
 import bgMobile from '../../assets/images/bg-sidebar-mobile.svg';
-import { ContainerStep, Input, Label, StepContainers } from '../atoms';
+import {
+	ContainerStep,
+	Dimension,
+	Input,
+	Label,
+	LdsRing,
+	LdsRingChild,
+	StepContainers
+} from '../atoms';
 import {
 	Flex,
 	Grid,
@@ -123,10 +131,39 @@ const Annuality = ({ annuality }: { annuality: string }) => {
 	);
 };
 
+const Spinner = ({ height, width, borderColor }: Dimension) => {
+	return (
+		<LdsRing className='lds-ring'>
+			<LdsRingChild
+				height={height}
+				width={width}
+				borderColor={borderColor}
+			></LdsRingChild>
+			<LdsRingChild
+				height={height}
+				width={width}
+				borderColor={borderColor}
+			></LdsRingChild>
+			<LdsRingChild
+				height={height}
+				width={width}
+				borderColor={borderColor}
+			></LdsRingChild>
+			<LdsRingChild
+				height={height}
+				width={width}
+				borderColor={borderColor}
+			>
+				{' '}
+			</LdsRingChild>
+		</LdsRing>
+	);
+};
+
 type Input = {
 	name: string;
 	value?: string;
 	icon: ReactNode;
 };
 
-export { InputPassword, InputText, Header, Annuality, Steps };
+export { InputPassword, InputText, Header, Annuality, Steps, Spinner };

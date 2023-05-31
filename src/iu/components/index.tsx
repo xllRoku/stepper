@@ -2,7 +2,7 @@ import { colors } from '../../colors';
 import { Flex, Margin, Padding, Text } from '../../custom.styled.components';
 import { When } from '../../functional.component';
 import { useButton, useSwitchAnnuality } from '../../hooks';
-import { useStepStore } from '../../store';
+import { useStepStore } from '../../context/store';
 import {
 	Circle,
 	GoBack,
