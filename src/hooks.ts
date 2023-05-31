@@ -51,27 +51,36 @@ const useGetAddons = () => {
 	return { data, isLoading };
 };
 
-const useChangePlan = (id: string, title: string, price: number) => {
+const useChangePlan = (planToChange: PlanToChange) => {
 	const { plan: selectedPlan, setPlan, removePlan } = usePlanStore();
 	const { annuality } = useAnnualityStore();
 
 	console.log(selectedPlan?.id);
 
 	const handleOnClick = () => {
-		if (selectedPlan?.id === id) {
+		if (selectedPlan?.id === planToChange.id) {
 			removePlan();
 		} else {
-			setPlan({ id: id, title, annuality, price });
+			setPlan({
+				id: planToChange.id,
+				title: planToChange.title,
+				annuality,
+				price: planToChange.price
+			});
 		}
 	};
 
 	useEffect(() => {
-		if (selectedPlan?.title === title) {
-			setPlan({ ...selectedPlan, id: id, price });
+		if (selectedPlan?.title === planToChange.title) {
+			setPlan({
+				...selectedPlan,
+				id: planToChange.id,
+				price: planToChange.price
+			});
 		}
 	}, [annuality]);
 
-	const isPlanSelected = selectedPlan?.id === id;
+	const isPlanSelected = selectedPlan?.id === planToChange.id;
 
 	return { handleOnClick, isPlanSelected };
 };
@@ -209,6 +218,12 @@ const useGetTotal = () => {
 	};
 
 	return { data, move, annuality, addons, plan };
+};
+
+type PlanToChange = {
+	id: string;
+	title: string;
+	price: number;
 };
 
 export type PlanApi = {
