@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { Addon as AddonType, useAddonsId, useGetAddons } from '../hooks';
 import { Flex, Padding } from '../custom.styled.components';
-import { AddonCheck, AddonContainer, Annuality, Header } from '../components';
 import { Else, If, Then } from '../functional.component';
 import Spinner from '../spinner';
 import { useAddonStore } from '../store';
 import styled from 'styled-components';
 import { colors } from '../colors';
+import { Annuality, Header } from '../iu/molecules';
+import { AddonCheck, AddonContainer } from '../iu/atoms';
 
 type AddonObject = {
 	addon: AddonType;
@@ -56,7 +57,7 @@ const Addons = () => {
 				<Then predicate>
 					<div style={{ height: '300px' }}>
 						<Spinner
-							widht='3rem'
+							width='3rem'
 							height='3rem'
 							borderColor='black'
 						/>

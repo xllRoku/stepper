@@ -13,38 +13,6 @@ import { Addon as AddonStore } from './store';
 
 const apiURL = 'http://localhost:3000';
 
-export type PlanApi = {
-	_id: string;
-	title: string;
-	price: number;
-	annuality: string;
-	image: string;
-};
-
-export type Plan = {
-	id: string;
-	title: string;
-	price: number;
-	annuality: string;
-	image: string;
-};
-
-export type AddonApi = {
-	_id: string;
-	title: string;
-	price: number;
-	annuality: string;
-	content: string;
-};
-
-export type Addon = {
-	id: string;
-	title: string;
-	price: number;
-	annuality: string;
-	content: string;
-};
-
 const PlanMapper = (plan: PlanApi) => ({
 	id: plan._id,
 	title: plan.title,
@@ -241,6 +209,38 @@ const useGetTotal = () => {
 	};
 
 	return { data, move, annuality, addons, plan };
+};
+
+export type PlanApi = {
+	_id: string;
+	title: string;
+	price: number;
+	annuality: string;
+	image: string;
+};
+
+export type Plan = {
+	id: string;
+	title: string;
+	price: number;
+	annuality: string;
+	image: string;
+};
+
+export type AddonApi = {
+	_id: string;
+	title: string;
+	price: number;
+	annuality: string;
+	content: string;
+};
+
+export type Addon = {
+	id: string;
+	title: string;
+	price: number;
+	annuality: string;
+	content: string;
 };
 
 export {

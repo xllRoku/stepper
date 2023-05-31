@@ -1,28 +1,15 @@
-import styled from 'styled-components';
 import { Flex, Padding, Text } from '../custom.styled.components';
 import { Else, If, Then } from '../functional.component';
 import { Plan, useChangePlan, useGetPlans } from '../hooks';
 import Spinner from '../spinner';
 import { colors } from '../colors';
-import { Annuality, Header, SwitchAnnuality } from '../components';
+import { Img, PlanButton } from '../iu/atoms';
+import { Annuality, Header } from '../iu/molecules';
+import { SwitchAnnuality } from '../iu/components';
 
 type PlanObject = {
 	plan: Plan;
 };
-
-const PlanButton = styled.button<{ selected: boolean }>`
-	flex: 1;
-	height: 11rem;
-	border-radius: 0.5rem;
-	border: 1px solid ${colors.PurplishBlue};
-	background: ${props =>
-		props.selected ? `${colors.PastelBlue}` : 'transparent'};
-	cursor: pointer;
-`;
-
-const Img = styled.img`
-	width: 3rem;
-`;
 
 const PlanComponent = ({ plan }: PlanObject) => {
 	const { id, image, title, price, annuality } = plan;
@@ -93,7 +80,7 @@ const Plans = () => {
 				<Then predicate>
 					<div style={{ height: '11rem' }}>
 						<Spinner
-							widht='3rem'
+							width='3rem'
 							height='3rem'
 							borderColor='black'
 						/>

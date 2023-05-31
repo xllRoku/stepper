@@ -1,12 +1,12 @@
 import thk from '../assets/images/icon-thank-you.svg';
 import styled from 'styled-components';
 import { Flex, Margin, Padding } from '../custom.styled.components';
-import { Annuality, Header } from '../components';
 import { colors } from '../colors';
 import { ANNUALITY } from '../constans';
 import { When } from '../functional.component';
 import { useGetTotal } from '../hooks';
 import { useStepStore } from '../store';
+import { Annuality, Header } from '../iu/molecules';
 
 const Link = styled.a`
 	background: transparent;

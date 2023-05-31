@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import obv from './assets/images/obvli.jpg';
-import {
-	Button,
-	ContainerForm,
-	H1Form,
-	InputPassword,
-	InputText,
-	ObvImage,
-	ObvImageForm,
-	Password,
-	User
-} from './components';
 import { Flex, Grid, Padding } from './custom.styled.components';
 import { Else, If, Then, When } from './functional.component';
 import Spinner from './spinner';
 import { User as TypeUSer, useAuth } from './context/auth-contenxt';
 import styled from 'styled-components';
 import { colors } from './colors';
+import {
+	Button,
+	ContainerForm,
+	H1Form,
+	ObvImage,
+	ObvImageForm,
+	Password,
+	User
+} from './iu/atoms';
+import { InputPassword, InputText } from './iu/molecules';
 
 const FORM_NAMES = {
 	EMAIL: 'email',
@@ -76,7 +75,7 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 							<When predicate={!isLoading}>sign up</When>
 							<When predicate={isLoading}>
 								<Spinner
-									widht='24px'
+									width='24px'
 									height='24px'
 									borderColor='white'
 								/>

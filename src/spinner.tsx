@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 type Dimension = {
-	widht?: string;
+	width?: string;
 	height?: string;
 	borderColor?: string;
 };
@@ -20,7 +20,7 @@ const LdsRingChild = styled.div<Dimension>`
 	box-sizing: border-box;
 	display: block;
 	position: absolute;
-	width: ${props => props.widht ?? '24px'};
+	width: ${props => props.width ?? '24px'};
 	height: ${props => props.height ?? '24px'};
 	margin: 8px;
 	border: 4px solid #fff;
@@ -30,27 +30,27 @@ const LdsRingChild = styled.div<Dimension>`
 		transparent transparent;
 `;
 
-const Spinner = ({ height, widht, borderColor }: Dimension) => {
+const Spinner = ({ height, width, borderColor }: Dimension) => {
 	return (
 		<LdsRing className='lds-ring'>
 			<LdsRingChild
 				height={height}
-				widht={widht}
+				width={width}
 				borderColor={borderColor}
 			></LdsRingChild>
 			<LdsRingChild
 				height={height}
-				widht={widht}
+				width={width}
 				borderColor={borderColor}
 			></LdsRingChild>
 			<LdsRingChild
 				height={height}
-				widht={widht}
+				width={width}
 				borderColor={borderColor}
 			></LdsRingChild>
 			<LdsRingChild
 				height={height}
-				widht={widht}
+				width={width}
 				borderColor={borderColor}
 			>
 				{' '}
