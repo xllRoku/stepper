@@ -40,7 +40,6 @@ input[type='text'] {
 body {
 	margin: 0;
 	box-sizing: border-box;
-	border-bottom: 2px solid black;
 	background: #eeeeee;
 }
 

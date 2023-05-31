@@ -1,30 +1,8 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useLayoutEffect } from 'react';
 import * as auth from '../auth-provider';
 import { User } from '../components';
 import { useNavigate } from 'react-router-dom';
-import { useStore } from '../store';
-
-export type Token = {
-	token: string;
-};
-
-export type Error = {
-	error: string;
-};
-
-export type User = {
-	email: string;
-	password: string;
-};
-
-type AuthContextType = {
-	user?: string;
-	error?: string;
-	isLoading?: boolean;
-	register: (form: User) => Promise<void>;
-	login: (form: User) => Promise<void>;
-	logout: any;
-};
+import { resetAllStates } from './store';
 
 const AuthContext = createContext<AuthContextType>({
 	user: undefined,
@@ -42,7 +20,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		isLoading: false
 	});
 	const navigate = useNavigate();
-	const { removePlan } = useStore();
 
 	const startLoading = () => {
 		setResponse({ ...response, isLoading: true });
@@ -59,6 +36,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 			isLoading: loading
 		});
 	};
+
+	useLayoutEffect(() => {
+		(async () => {
+			const token = await auth.getToken();
+			handleToken(token, '', false);
+		})();
+	}, []);
 
 	const register = (form: User) => {
 		startLoading();
@@ -86,7 +70,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		auth.logout();
 		setResponse({ token: '', isLoading: false, error: '' });
 		navigate('/');
-		removePlan();
+		resetAllStates();
 	};
 
 	const { error, token, isLoading } = response;
@@ -105,5 +89,27 @@ function useAuth() {
 	}
 	return context;
 }
+
+export type Token = {
+	token: string;
+};
+
+export type Error = {
+	error: string;
+};
+
+export type User = {
+	email: string;
+	password: string;
+};
+
+type AuthContextType = {
+	user?: string;
+	error?: string;
+	isLoading?: boolean;
+	register: (form: User) => Promise<void>;
+	login: (form: User) => Promise<void>;
+	logout: any;
+};
 
 export { AuthProvider, useAuth };
