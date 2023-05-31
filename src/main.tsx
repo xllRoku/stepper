@@ -4,9 +4,9 @@ import App from './App';
 import './index.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider } from './context/auth-contenxt';
-import { Container } from './components';
 import { Grid } from './custom.styled.components';
 import { BrowserRouter } from 'react-router-dom';
+import { Container } from './iu/atoms';
 
 const queryClient = new QueryClient();
 

@@ -1,22 +1,20 @@
 import { useState } from 'react';
 import obv from './assets/images/obvli.jpg';
+import { Flex, Grid, Padding } from './custom.styled.components';
+import { Else, If, Then, When } from './functional.component';
+import { User as TypeUSer, useAuth } from './context/auth-contenxt';
+import styled from 'styled-components';
+import { colors } from './colors';
 import {
 	Button,
 	ContainerForm,
 	H1Form,
-	InputPassword,
-	InputText,
 	ObvImage,
 	ObvImageForm,
 	Password,
 	User
-} from './components';
-import { Flex, Grid, Padding } from './custom.styled.components';
-import { Else, If, Then, When } from './functional.component';
-import Spinner from './spinner';
-import { User as TypeUSer, useAuth } from './context/auth-contenxt';
-import styled from 'styled-components';
-import { colors } from './colors';
+} from './iu/atoms';
+import { InputPassword, InputText, Spinner } from './iu/molecules';
 
 const FORM_NAMES = {
 	EMAIL: 'email',
@@ -42,6 +40,7 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 
 	const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+
 		const email: string = event.currentTarget.email.value;
 		const password: string = event.currentTarget.password.value;
 
@@ -50,7 +49,15 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 
 	return (
 		<form onSubmit={handleOnSubmit}>
-			<Padding paddingInline='6rem' paddingBlock='1rem'>
+			<Padding
+				paddingInline='3rem'
+				paddingBlock='1rem'
+				media={{
+					'@media (min-width: 1200px)': {
+						paddingInline: '6rem'
+					}
+				}}
+			>
 				<Grid gridPlaceItems='center' gap='1rem'>
 					<H1Form>user login</H1Form>
 					<InputText icon={<User />} name={FORM_NAMES.EMAIL} />
@@ -67,7 +74,7 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 							<When predicate={!isLoading}>sign up</When>
 							<When predicate={isLoading}>
 								<Spinner
-									widht='24px'
+									width='24px'
 									height='24px'
 									borderColor='white'
 								/>

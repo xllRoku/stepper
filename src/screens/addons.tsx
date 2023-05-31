@@ -1,28 +1,50 @@
-import { useAddonsId, useFetch } from '../hooks';
-import * as api from '../api';
-import type { Addon as TAddon } from '../api';
-import { Flex, Padding, Text } from '../custom.styled.components';
-import { AddonCheck, AddonContainer, Header } from '../components';
-import { Else, If, Then } from '../functional.component';
-import Spinner from '../spinner';
-import { useAddons } from '../store';
 import { useEffect } from 'react';
+import { Addon as AddonType, useAddonsId, useGetAddons } from '../hooks';
+import { Flex, Padding } from '../custom.styled.components';
+import { Else, If, Then } from '../functional.component';
+import { useAddonStore } from '../context/store';
+import styled from 'styled-components';
+import { colors } from '../colors';
+import { Annuality, Header, Spinner } from '../iu/molecules';
+import { AddonCheck, AddonContainer } from '../iu/atoms';
 
 type AddonObject = {
-	addon: TAddon;
+	addon: AddonType;
 };
 
+const Text = styled.p`
+	font-size: 0.8rem;
+
+	@media (min-width: 1200px) {
+		font-size: 1rem;
+	}
+`;
+
+const Title = styled.h3`
+	font-size: 1rem;
+	color: ${colors.MarineBlue};
+
+	@media (min-width: 1200px) {
+		font-size: 1.2rem;
+	}
+`;
+
+const Price = styled.span`
+	font-size: 0.95rem;
+	color: ${colors.PurplishBlue};
+`;
+
 const Addons = () => {
-	const { data, loading } = useFetch(api.getAddon);
-	const { addAddons, addonsFromApi } = useAddons();
+	const { data, isLoading: loading } = useGetAddons();
+	const { addAddons, addonsFromApi } = useAddonStore();
 
 	useEffect(() => {
 		addAddons(data);
 	}, [data]);
 
-	// if (addonsFromApi.length === 0) {
-	// 	return <Spinner widht='3rem' height='3rem' borderColor='black' />;
-	// }
+	if (addonsFromApi?.length === 0) {
+		<p>loading...</p>;
+	}
 
 	return (
 		<Flex flexDirection='column' gap='1rem'>
@@ -30,11 +52,11 @@ const Addons = () => {
 				title='Pick add-ons'
 				text='Add-ons help enhance your gaming experience.'
 			/>
-			<If predicate={loading || addonsFromApi.length === 0}>
+			<If predicate={loading || addonsFromApi?.length === 0}>
 				<Then predicate>
 					<div style={{ height: '300px' }}>
 						<Spinner
-							widht='3rem'
+							width='3rem'
 							height='3rem'
 							borderColor='black'
 						/>
@@ -51,7 +73,7 @@ const Addons = () => {
 };
 
 const Addon: React.FC<AddonObject> = ({ addon }) => {
-	const { content, price, title } = addon;
+	const { content, price, title, annuality } = addon;
 	const { checked, handleAddId } = useAddonsId(addon);
 
 	return (
@@ -70,11 +92,14 @@ const Addon: React.FC<AddonObject> = ({ addon }) => {
 							onChange={handleAddId}
 						/>
 						<div>
-							<h3>{title}</h3>
+							<Title>{title}</Title>
 							<Text>{content}</Text>
 						</div>
 					</Flex>
-					<span>+${price}/mo</span>
+					<Price>
+						+${price}
+						<Annuality annuality={annuality} key={annuality} />
+					</Price>
 				</Flex>
 			</Padding>
 		</AddonContainer>
