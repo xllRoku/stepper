@@ -1,35 +1,3 @@
-<<<<<<< HEAD
-import { useEffect, useRef } from 'react';
-import { useQuery } from 'react-query';
-import axios from 'axios';
-import { useAnnualityStore, useStore, useSetStep, useAddons } from './store';
-import { ANNUALITY } from './constans';
-import { useNavigate } from 'react-router-dom';
-import { Addon } from './store';
-import { AddonApi, PlanApi } from './api';
-
-const apiURL = 'http://localhost:3000';
-
-const get = (url: string) => axios(url).then(res => res.data);
-
-const useGetPlans = () => {
-	const { annuality } = useAnnualityStore();
-	const { data, isLoading } = useQuery<PlanApi[]>(['plans', annuality], () =>
-		get(`${apiURL}/plans/${annuality}`)
-	);
-
-	return { data, isLoading };
-};
-
-const useGetAddons = () => {
-	const { annuality } = useAnnualityStore();
-	const { data, isLoading } = useQuery<AddonApi[]>(
-		['addons', annuality],
-		() => get(`${apiURL}/addons/${annuality}`)
-	);
-
-	return { data, isLoading };
-=======
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import {
@@ -70,7 +38,6 @@ const useGetPlans = () => {
 	);
 
 	return { data, isLoading };
->>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 };
 
 const useGetAddons = () => {
@@ -191,29 +158,17 @@ const usePrevious = (value: string) => {
 	return [previousValueRef.current, currentValue];
 };
 
-<<<<<<< HEAD
-const useAddonsId = (addonApi: AddonApi) => {
-	const { addons, setMonthlyPlan, removeAddon, addonsFromApi } = useAddons();
-=======
 const useAddonsId = (addonApi: Addon) => {
 	const { addons, setMonthlyPlan, removeAddon, addonsFromApi } =
 		useAddonStore();
->>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 	const { annuality } = useAnnualityStore();
 	const [previousAnnuality, currentValue] = usePrevious(annuality);
 
 	console.log(addonsFromApi);
 
 	useEffect(() => {
-<<<<<<< HEAD
-		if (annuality !== previousAnnuality) {
-			if (addonsFromApi?.length !== 0) {
-				setMonthlyPlan(addonsFromApi);
-			}
-=======
 		if (currentValue !== previousAnnuality) {
 			setMonthlyPlan(addonsFromApi);
->>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 		}
 	}, [
 		currentValue,
@@ -221,13 +176,8 @@ const useAddonsId = (addonApi: Addon) => {
 		addonsFromApi && addonsFromApi.length
 	]);
 
-<<<<<<< HEAD
-	const findAddon = (addons: Addon[]) =>
-		addons?.find(addon => addon.id === addonApi._id);
-=======
 	const findAddon = (addons: AddonStore[]) =>
 		addons?.find(addon => addon?.id === addonApi?.id);
->>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 
 	let exists = findAddon(addons);
 	let checked = exists ? true : false;
@@ -236,25 +186,16 @@ const useAddonsId = (addonApi: Addon) => {
 		const checked = event.target.checked;
 		if (checked && !exists)
 			setMonthlyPlan({
-				id: addonApi._id,
+				id: addonApi.id,
 				title: addonApi.title,
 				price: addonApi.price
 			});
-		else removeAddon(addonApi._id);
+		else removeAddon(addonApi.id);
 	};
 
 	return { handleAddId, checked };
 };
 
-<<<<<<< HEAD
-export {
-	useSwitchAnnuality,
-	useChangePlan,
-	useGetAddons,
-	useButton,
-	useAddonsId,
-	useGetPlans
-=======
 const useGetTotal = () => {
 	const { plan } = usePlanStore();
 	const { addons } = useAddonStore();
@@ -323,5 +264,4 @@ export {
 	useGetPlans,
 	useGetAddons,
 	useGetTotal
->>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 };

@@ -1,16 +1,4 @@
 import { useEffect } from 'react';
-<<<<<<< HEAD
-import type { AddonApi } from '../api';
-import { useAddonsId, useGetAddons } from '../hooks';
-import { Flex, Padding, Text } from '../custom.styled.components';
-import { AddonCheck, AddonContainer, Header } from '../components';
-import { Else, If, Then } from '../functional.component';
-import Spinner from '../spinner';
-import { useAddons } from '../store';
-
-type AddonObject = {
-	addon: AddonApi;
-=======
 import { Addon as AddonType, useAddonsId, useGetAddons } from '../hooks';
 import { Flex, Padding } from '../custom.styled.components';
 import { Else, If, Then } from '../functional.component';
@@ -22,7 +10,6 @@ import { AddonCheck, AddonContainer } from '../iu/atoms';
 
 type AddonObject = {
 	addon: AddonType;
->>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 };
 
 const Text = styled.p`
@@ -49,25 +36,16 @@ const Price = styled.span`
 
 const Addons = () => {
 	const { data, isLoading: loading } = useGetAddons();
-<<<<<<< HEAD
-	const { addAddons, addonsFromApi } = useAddons();
-=======
 	const { addAddons, addonsFromApi } = useAddonStore();
->>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
-
-	console.log(data);
 
 	useEffect(() => {
 		addAddons(data);
 	}, [data]);
 
-<<<<<<< HEAD
-=======
 	if (addonsFromApi?.length === 0) {
 		<p>loading...</p>;
 	}
 
->>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 	return (
 		<Flex flexDirection='column' gap='1rem'>
 			<Header
@@ -86,7 +64,7 @@ const Addons = () => {
 				</Then>
 				<Else predicate>
 					{data?.map(a => (
-						<Addon addon={a} key={a._id} />
+						<Addon addon={a} key={a.id} />
 					))}
 				</Else>
 			</If>
@@ -109,7 +87,7 @@ const Addon: React.FC<AddonObject> = ({ addon }) => {
 					<Flex alignItems='center' gap='1rem'>
 						<AddonCheck
 							type='checkbox'
-							name={addon._id}
+							name={addon.id}
 							checked={checked}
 							onChange={handleAddId}
 						/>
