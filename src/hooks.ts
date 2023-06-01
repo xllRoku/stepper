@@ -1,48 +1,38 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 import { useAnnualityStore, useStore, useSetStep, useAddons } from './store';
 import { ANNUALITY } from './constans';
 import { useNavigate } from 'react-router-dom';
 import { Addon } from './store';
+import { AddonApi, PlanApi } from './api';
 
-const useFetch = <T>(fetchData: (annuality: string) => Promise<Array<T>>) => {
+const apiURL = 'http://localhost:3000';
+
+const get = (url: string) => axios(url).then(res => res.data);
+
+const useGetPlans = () => {
 	const { annuality } = useAnnualityStore();
-	const [state, setState] = useState<{ data: Array<T>; loading: boolean }>({
-		data: [],
-		loading: false
-	});
+	const { data, isLoading } = useQuery<PlanApi[]>(['plans', annuality], () =>
+		get(`${apiURL}/plans/${annuality}`)
+	);
 
-	const startGetData = () => {
-		setState({
-			...state,
-			loading: true
-		});
-	};
+	return { data, isLoading };
+};
 
-	const getDataSuccess = () => {
-		fetchData(annuality).then(data =>
-			setState({
-				...state,
-				data,
-				loading: false
-			})
-		);
-	};
+const useGetAddons = () => {
+	const { annuality } = useAnnualityStore();
+	const { data, isLoading } = useQuery<AddonApi[]>(
+		['addons', annuality],
+		() => get(`${apiURL}/addons/${annuality}`)
+	);
 
-	useEffect(() => {
-		startGetData();
-		getDataSuccess();
-	}, [annuality]);
-
-	const { data, loading } = state;
-
-	return { data, loading };
+	return { data, isLoading };
 };
 
 const useChangePlan = (id: string, title: string, price: number) => {
 	const { plan: selectedPlan, setPlan, removePlan } = useStore();
 	const { annuality } = useAnnualityStore();
-
-	console.log(selectedPlan?.id);
 
 	const handleOnClick = () => {
 		if (selectedPlan?.id === id) {
@@ -124,8 +114,7 @@ const usePrevious = (value: string) => {
 	return ref.current;
 };
 
-const useAddonsId = (addonApi: Addon) => {
-	const { addons } = useAddons();
+const useAddonsId = (addonApi: AddonApi) => {
 	const { addons, setMonthlyPlan, removeAddon, addonsFromApi } = useAddons();
 	const { annuality } = useAnnualityStore();
 	const previousAnnuality = usePrevious(annuality);
@@ -134,16 +123,14 @@ const useAddonsId = (addonApi: Addon) => {
 
 	useEffect(() => {
 		if (annuality !== previousAnnuality) {
-			if (addonsFromApi.length !== 0) {
+			if (addonsFromApi?.length !== 0) {
 				setMonthlyPlan(addonsFromApi);
 			}
 		}
 	}, [annuality, addonsFromApi]);
 
-	console.log('addons', addons);
-
 	const findAddon = (addons: Addon[]) =>
-		addons?.find(addon => addon.id === addonApi.id);
+		addons?.find(addon => addon.id === addonApi._id);
 
 	let exists = findAddon(addons);
 	let checked = exists ? true : false;
@@ -152,14 +139,21 @@ const useAddonsId = (addonApi: Addon) => {
 		const checked = event.target.checked;
 		if (checked && !exists)
 			setMonthlyPlan({
-				id: addonApi.id,
+				id: addonApi._id,
 				title: addonApi.title,
 				price: addonApi.price
 			});
-		else removeAddon(addonApi.id);
+		else removeAddon(addonApi._id);
 	};
 
 	return { handleAddId, checked };
 };
 
-export { useSwitchAnnuality, useChangePlan, useFetch, useButton, useAddonsId };
+export {
+	useSwitchAnnuality,
+	useChangePlan,
+	useGetAddons,
+	useButton,
+	useAddonsId,
+	useGetPlans
+};

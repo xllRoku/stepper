@@ -1,7 +1,5 @@
 import * as auth from './auth-provider';
 
-const apiURL = 'http://localhost:3000';
-
 async function client(
 	endpoint: string,
 	{ data, token, headers: customHeaders, ...customConfig }: any = {}

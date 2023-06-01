@@ -1,15 +1,14 @@
 import styled from 'styled-components';
-import { Plan } from '../api';
+import { PlanApi } from '../api';
 import { Flex, Padding, Text } from '../custom.styled.components';
 import { Else, If, Then } from '../functional.component';
-import { useChangePlan, useFetch } from '../hooks';
+import { useChangePlan, useGetPlans } from '../hooks';
 import Spinner from '../spinner';
 import { colors } from '../colors';
 import { Header, SwitchAnnuality } from '../components';
-import * as api from '../api';
 
 type PlanObject = {
-	plan: Plan;
+	plan: PlanApi;
 };
 
 const PlanButton = styled.button<{ selected: boolean }>`
@@ -27,8 +26,10 @@ const Img = styled.img`
 `;
 
 const PlanComponent = ({ plan }: PlanObject) => {
-	const { id, image, title, price } = plan;
-	const { handleOnClick, isPlanSelected } = useChangePlan(id, title, price);
+	const { _id, image, title, price } = plan;
+	const { handleOnClick, isPlanSelected } = useChangePlan(_id, title, price);
+
+	console.log(isPlanSelected);
 
 	return (
 		<PlanButton onClick={handleOnClick} selected={isPlanSelected}>
@@ -63,7 +64,7 @@ const PlanComponent = ({ plan }: PlanObject) => {
 };
 
 const Plans = () => {
-	const { data, loading } = useFetch(api.getPlan);
+	const { data, isLoading: loading } = useGetPlans();
 
 	return (
 		<Flex
@@ -88,8 +89,8 @@ const Plans = () => {
 				</Then>
 				<Else predicate>
 					<Flex gap='1rem'>
-						{data.map(p => (
-							<PlanComponent key={p.id} plan={p} />
+						{data?.map(p => (
+							<PlanComponent key={p._id} plan={p} />
 						))}
 					</Flex>
 				</Else>
