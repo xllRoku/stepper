@@ -1,30 +1,14 @@
-import { colors } from './colors';
-import { Buttons, Header, HomeContainer, Steps } from './components';
+import { lazy, Suspense } from 'react';
 import { Flex, Padding } from './custom.styled.components';
-import styled from 'styled-components';
 import { useAuth } from './context/auth-contenxt';
 import { Routes, Route, Outlet } from 'react-router-dom';
-import PlanScreen from './screens/plans';
-import AddonScreen from './screens/addons';
-import Summary from './screens/summary';
+import { Down, HomeContainer, Logout, Position, Section, Up } from './iu/atoms';
+import { Buttons } from './iu/components';
+import { Spinner, Steps } from './iu/molecules';
 
-const Logout = styled.button`
-	width: 4rem;
-	height: 2rem;
-	text-transform: capitalize;
-	background: ${colors.MarineBlue};
-	border: none;
-	color: white;
-	cursor: pointer;
-	font-weight: bold;
-	border-radius: 0.5rem;
-`;
-
-const Position = styled.div`
-	position: absolute;
-	right: 30px;
-	top: 10px;
-`;
+const PlanScreen = lazy(() => import('./screens/plans'));
+const AddonScreen = lazy(() => import('./screens/addons'));
+const SummaryScreen = lazy(() => import('./screens/summary'));
 
 const Layout = () => {
 	const { logout } = useAuth();
@@ -36,22 +20,66 @@ const Layout = () => {
 			<Padding
 				width='100%'
 				height='100%'
-				padding='1rem'
-				paddingRight='7rem'
+				media={{
+					'@media (min-width: 1200px)': {
+						padding: '1rem',
+						paddingRight: '7rem'
+					}
+				}}
 			>
-				<Flex gap='7rem'>
+				<Flex
+					flexDirection='column'
+					alignItems='center'
+					media={{
+						'@media (min-width: 1200px)': {
+							flexDirection: 'row',
+							gap: '7rem',
+							alignItems: 'normal'
+						}
+					}}
+				>
 					<Steps />
 					<main style={{ width: '100%' }}>
 						<Flex
 							width='100%'
 							height='100%'
 							flexDirection='column'
-							justifyContent='space-between'
+							media={{
+								'@media (min-width: 1200px)': {
+									justifyContent: 'space-between'
+								}
+							}}
 						>
-							<section>
-								<Outlet />
-							</section>
-							<Buttons />
+							<Up>
+								<Section>
+									<Padding
+										width='100%'
+										height='100%'
+										padding='1rem'
+										media={{
+											'@media (min-width: 1200px)': {
+												padding: 0
+											}
+										}}
+									>
+										<Outlet />
+									</Padding>
+								</Section>
+							</Up>
+							<Down>
+								<Padding
+									width='100%'
+									height='100%'
+									padding='1rem'
+									media={{
+										'@media (min-width: 1200px)': {
+											padding: 0
+										}
+									}}
+								>
+									<Buttons />
+								</Padding>
+							</Down>
 						</Flex>
 					</main>
 				</Flex>
@@ -68,9 +96,54 @@ const AppRoutes = () => {
 	return (
 		<Routes>
 			<Route element={<Layout />}>
-				<Route path='/plans' element={<PlanScreen />} />
-				<Route path='/addons' element={<AddonScreen />} />
-				<Route path='/summary' element={<Summary />} />
+				<Route
+					path='/plans'
+					element={
+						<Suspense
+							fallback={
+								<Spinner
+									borderColor='black'
+									height='3rem'
+									width='3rem'
+								/>
+							}
+						>
+							<PlanScreen />
+						</Suspense>
+					}
+				/>
+				<Route
+					path='/addons'
+					element={
+						<Suspense
+							fallback={
+								<Spinner
+									borderColor='black'
+									height='3rem'
+									width='3rem'
+								/>
+							}
+						>
+							<AddonScreen />
+						</Suspense>
+					}
+				/>
+				<Route
+					path='/summary'
+					element={
+						<Suspense
+							fallback={
+								<Spinner
+									borderColor='black'
+									height='3rem'
+									width='3rem'
+								/>
+							}
+						>
+							<SummaryScreen />
+						</Suspense>
+					}
+				/>
 			</Route>
 		</Routes>
 	);

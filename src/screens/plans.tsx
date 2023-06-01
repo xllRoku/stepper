@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styled from 'styled-components';
 import { PlanApi } from '../api';
 import { Flex, Padding, Text } from '../custom.styled.components';
@@ -6,30 +7,30 @@ import { useChangePlan, useGetPlans } from '../hooks';
 import Spinner from '../spinner';
 import { colors } from '../colors';
 import { Header, SwitchAnnuality } from '../components';
+=======
+import { Flex, Padding, Text } from '../custom.styled.components';
+import { Else, If, Then } from '../functional.component';
+import { Plan, useChangePlan, useGetPlans } from '../hooks';
+import { colors } from '../colors';
+import { Img, PlanButton } from '../iu/atoms';
+import { Annuality, Header, Spinner } from '../iu/molecules';
+import { SwitchAnnuality } from '../iu/components';
+>>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 
 type PlanObject = {
 	plan: PlanApi;
 };
 
-const PlanButton = styled.button<{ selected: boolean }>`
-	flex: 1;
-	height: 11rem;
-	border-radius: 0.5rem;
-	border: 1px solid ${colors.PurplishBlue};
-	background: ${props =>
-		props.selected ? `${colors.PastelBlue}` : 'transparent'};
-	cursor: pointer;
-`;
-
-const Img = styled.img`
-	width: 3rem;
-`;
-
 const PlanComponent = ({ plan }: PlanObject) => {
+<<<<<<< HEAD
 	const { _id, image, title, price } = plan;
 	const { handleOnClick, isPlanSelected } = useChangePlan(_id, title, price);
 
 	console.log(isPlanSelected);
+=======
+	const { id, image, title, price, annuality } = plan;
+	const { handleOnClick, isPlanSelected } = useChangePlan(id, title, price);
+>>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 
 	return (
 		<PlanButton onClick={handleOnClick} selected={isPlanSelected}>
@@ -42,9 +43,16 @@ const PlanComponent = ({ plan }: PlanObject) => {
 				<Flex
 					width='100%'
 					height='100%'
-					flexDirection='column'
-					justifyContent='space-between'
-					alignItems='start'
+					gap='1rem'
+					alignItems='center'
+					media={{
+						'@media (min-width: 1200px)': {
+							flexDirection: 'column',
+							justifyContent: 'space-between',
+							alignItems: 'start',
+							gap: '0'
+						}
+					}}
 				>
 					<Img src={image} alt='' />
 					<div style={{ textAlign: 'start' }}>
@@ -55,7 +63,15 @@ const PlanComponent = ({ plan }: PlanObject) => {
 						>
 							{title}
 						</Text>
-						<span>${price}/mo</span>
+						<span
+							style={{
+								color: `${colors.CoolGray}`,
+								fontWeight: 'bold'
+							}}
+						>
+							${price}
+							<Annuality annuality={annuality} key={annuality} />
+						</span>
 					</div>
 				</Flex>
 			</Padding>
@@ -81,16 +97,30 @@ const Plans = () => {
 				<Then predicate>
 					<div style={{ height: '11rem' }}>
 						<Spinner
-							widht='3rem'
+							width='3rem'
 							height='3rem'
 							borderColor='black'
 						/>
 					</div>
 				</Then>
 				<Else predicate>
+<<<<<<< HEAD
 					<Flex gap='1rem'>
 						{data?.map(p => (
 							<PlanComponent key={p._id} plan={p} />
+=======
+					<Flex
+						gap='1rem'
+						flexDirection='column'
+						media={{
+							'@media (min-width: 1200px)': {
+								flexDirection: 'row'
+							}
+						}}
+					>
+						{data?.map(p => (
+							<PlanComponent key={p.id} plan={p} />
+>>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 						))}
 					</Flex>
 				</Else>

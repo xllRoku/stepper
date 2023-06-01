@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+<<<<<<< HEAD
 import type { AddonApi } from '../api';
 import { useAddonsId, useGetAddons } from '../hooks';
 import { Flex, Padding, Text } from '../custom.styled.components';
@@ -9,11 +10,50 @@ import { useAddons } from '../store';
 
 type AddonObject = {
 	addon: AddonApi;
+=======
+import { Addon as AddonType, useAddonsId, useGetAddons } from '../hooks';
+import { Flex, Padding } from '../custom.styled.components';
+import { Else, If, Then } from '../functional.component';
+import { useAddonStore } from '../context/store';
+import styled from 'styled-components';
+import { colors } from '../colors';
+import { Annuality, Header, Spinner } from '../iu/molecules';
+import { AddonCheck, AddonContainer } from '../iu/atoms';
+
+type AddonObject = {
+	addon: AddonType;
+>>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 };
+
+const Text = styled.p`
+	font-size: 0.8rem;
+
+	@media (min-width: 1200px) {
+		font-size: 1rem;
+	}
+`;
+
+const Title = styled.h3`
+	font-size: 1rem;
+	color: ${colors.MarineBlue};
+
+	@media (min-width: 1200px) {
+		font-size: 1.2rem;
+	}
+`;
+
+const Price = styled.span`
+	font-size: 0.95rem;
+	color: ${colors.PurplishBlue};
+`;
 
 const Addons = () => {
 	const { data, isLoading: loading } = useGetAddons();
+<<<<<<< HEAD
 	const { addAddons, addonsFromApi } = useAddons();
+=======
+	const { addAddons, addonsFromApi } = useAddonStore();
+>>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 
 	console.log(data);
 
@@ -21,6 +61,13 @@ const Addons = () => {
 		addAddons(data);
 	}, [data]);
 
+<<<<<<< HEAD
+=======
+	if (addonsFromApi?.length === 0) {
+		<p>loading...</p>;
+	}
+
+>>>>>>> b917e26929a0ab2b22cc15638888837adbc53aac
 	return (
 		<Flex flexDirection='column' gap='1rem'>
 			<Header
@@ -31,7 +78,7 @@ const Addons = () => {
 				<Then predicate>
 					<div style={{ height: '300px' }}>
 						<Spinner
-							widht='3rem'
+							width='3rem'
 							height='3rem'
 							borderColor='black'
 						/>
@@ -48,7 +95,7 @@ const Addons = () => {
 };
 
 const Addon: React.FC<AddonObject> = ({ addon }) => {
-	const { content, price, title } = addon;
+	const { content, price, title, annuality } = addon;
 	const { checked, handleAddId } = useAddonsId(addon);
 
 	return (
@@ -67,11 +114,14 @@ const Addon: React.FC<AddonObject> = ({ addon }) => {
 							onChange={handleAddId}
 						/>
 						<div>
-							<h3>{title}</h3>
+							<Title>{title}</Title>
 							<Text>{content}</Text>
 						</div>
 					</Flex>
-					<span>+${price}/mo</span>
+					<Price>
+						+${price}
+						<Annuality annuality={annuality} key={annuality} />
+					</Price>
 				</Flex>
 			</Padding>
 		</AddonContainer>
