@@ -24,8 +24,17 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		setResponse({ ...response, isLoading: true });
 	};
 
-	const handleToken = (token: string, error: string, loading: boolean) => {
-		setResponse({ ...response, token, error, isLoading: loading });
+	const handleToken = (
+		token: string | null,
+		error: string,
+		loading: boolean
+	) => {
+		setResponse({
+			...response,
+			token: token ?? '',
+			error,
+			isLoading: loading
+		});
 	};
 
 	useLayoutEffect(() => {
