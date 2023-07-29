@@ -1,15 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
-import {
-	useAnnualityStore,
-	usePlanStore,
-	useStepStore,
-	useAddonStore
-} from './context/store';
-import { ANNUALITY } from './constans';
+import { useAnnualityStore, usePlanStore, useStepStore } from './context/store';
+import { ANNUALITY } from './shared/constans';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { Addon as AddonStore } from './context/store';
+import { storeAddons } from './addons/store/addon.store';
+import { AddonFromApi, AddonWithId } from './addons/addon.model';
 
 const apiURL = 'http://localhost:3000';
 
@@ -21,7 +17,7 @@ const PlanMapper = (plan: PlanApi) => ({
 	image: plan.image
 });
 
-const AddonMapper = (addon: AddonApi) => ({
+const AddonMapper = (addon: AddonFromApi) => ({
 	id: addon._id,
 	title: addon.title,
 	price: addon.price,
@@ -42,10 +38,12 @@ const useGetPlans = () => {
 
 const useGetAddons = () => {
 	const { annuality } = useAnnualityStore();
-	const { data, isLoading } = useQuery<Addon[]>(['addons', annuality], () =>
-		axios<AddonApi[]>(`${apiURL}/addons/${annuality}`).then(res =>
-			res.data.map(AddonMapper)
-		)
+	const { data, isLoading } = useQuery<AddonWithId[]>(
+		['addons', annuality],
+		() =>
+			axios<AddonFromApi[]>(`${apiURL}/addons/${annuality}`).then(res =>
+				res.data.map(AddonMapper)
+			)
 	);
 
 	return { data, isLoading };
@@ -109,9 +107,7 @@ const useButton = () => {
 	const { step, setStep, setConfirm, confirm } = useStepStore();
 	const navigate = useNavigate();
 	const { plan } = usePlanStore();
-	const { addons } = useAddonStore();
-
-	console.log(addons);
+	const { addons } = storeAddons();
 
 	const nextStep = () => {
 		if (step === STEP.ONE && plan) {
@@ -119,7 +115,6 @@ const useButton = () => {
 			navigate('/addons');
 		}
 		if (step === STEP.TWO && addons.length !== 0) {
-			console.log('next step');
 			setStep(step + 1);
 			navigate('/summary');
 		}
@@ -146,59 +141,9 @@ const useButton = () => {
 	return { step, nextStep, prevStep, confirm, showBack, showNext };
 };
 
-const usePrevious = (value: string) => {
-	const previousValueRef = useRef('');
-	const [currentValue, setCurrentValue] = useState('');
-
-	useEffect(() => {
-		previousValueRef.current = currentValue;
-		setCurrentValue(value);
-	}, [value]);
-
-	return [previousValueRef.current, currentValue];
-};
-
-const useAddonsId = (addonApi: Addon) => {
-	const { addons, setMonthlyPlan, removeAddon, addonsFromApi } =
-		useAddonStore();
-	const { annuality } = useAnnualityStore();
-	const [previousAnnuality, currentValue] = usePrevious(annuality);
-
-	console.log(addonsFromApi);
-
-	useEffect(() => {
-		if (currentValue !== previousAnnuality) {
-			setMonthlyPlan(addonsFromApi);
-		}
-	}, [
-		currentValue,
-		previousAnnuality,
-		addonsFromApi && addonsFromApi.length
-	]);
-
-	const findAddon = (addons: AddonStore[]) =>
-		addons?.find(addon => addon?.id === addonApi?.id);
-
-	let exists = findAddon(addons);
-	let checked = exists ? true : false;
-
-	const handleAddId = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const checked = event.target.checked;
-		if (checked && !exists)
-			setMonthlyPlan({
-				id: addonApi.id,
-				title: addonApi.title,
-				price: addonApi.price
-			});
-		else removeAddon(addonApi.id);
-	};
-
-	return { handleAddId, checked };
-};
-
 const useGetTotal = () => {
 	const { plan } = usePlanStore();
-	const { addons } = useAddonStore();
+	const { addons } = storeAddons();
 	const { annuality } = useAnnualityStore();
 	const { setStep } = useStepStore();
 	const navigate = useNavigate();
@@ -240,27 +185,10 @@ export type Plan = {
 	image: string;
 };
 
-export type AddonApi = {
-	_id: string;
-	title: string;
-	price: number;
-	annuality: string;
-	content: string;
-};
-
-export type Addon = {
-	id: string;
-	title: string;
-	price: number;
-	annuality: string;
-	content: string;
-};
-
 export {
 	useSwitchAnnuality,
 	useChangePlan,
 	useButton,
-	useAddonsId,
 	useGetPlans,
 	useGetAddons,
 	useGetTotal

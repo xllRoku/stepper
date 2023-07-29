@@ -1,12 +1,12 @@
 import thk from '../assets/images/icon-thank-you.svg';
 import styled from 'styled-components';
-import { Flex, Margin, Padding } from '../custom.styled.components';
-import { colors } from '../colors';
-import { ANNUALITY } from '../constans';
-import { When } from '../functional.component';
+import { Flex, Margin, Padding } from '../shared/custom.styled.components';
+import { colors } from '../shared/colors';
+import { ANNUALITY } from '../shared/constans';
+import { When } from '../shared/functional.component';
 import { useGetTotal } from '../hooks';
 import { useStepStore } from '../context/store';
-import { Annuality, Header } from '../iu/molecules';
+import { Annuality, Header } from '../shared/molecules';
 
 const Link = styled.a`
 	background: transparent;

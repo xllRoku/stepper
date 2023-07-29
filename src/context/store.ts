@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ANNUALITY } from '../constans';
+import { ANNUALITY } from '../shared/constans';
 
 const usePlanStore = create<PlanStore>()(
 	persist(
@@ -44,59 +44,12 @@ const useStepStore = create<StepStore>()(
 	)
 );
 
-const useAddonStore = create<AddonStore>()(
-	persist(
-		set => ({
-			addons: [],
-			addonsFromApi: [],
-			addAddons: addons => {
-				set(() => ({
-					addonsFromApi: addons
-				}));
-			},
-			setMonthlyPlan: newPlan => {
-				set(state => {
-					const newAddons = Array.isArray(newPlan)
-						? state.addons.map(selected => {
-								const addon = newPlan.find(
-									addon => addon.title === selected.title
-								);
-								return {
-									...selected,
-									id: addon?.id,
-									price: addon?.price
-								};
-						  })
-						: [...state.addons, newPlan];
-
-					return {
-						addons: newAddons,
-						addonsFromApi: state.addonsFromApi
-					};
-				});
-			},
-			removeAddon: (idToRemove: string | undefined) => {
-				set(state => ({
-					addons: state.addons.filter(
-						addon => addon?.id !== idToRemove
-					)
-				}));
-			}
-		}),
-		{
-			name: 'addons-store',
-			getStorage: () => localStorage
-		}
-	)
-);
-
 const resetAllStates = () => {
 	usePlanStore.setState(() => ({ plan: undefined, addon: [] }));
 	useAnnualityStore.setState(() => ({
 		annuality: ANNUALITY.MONTHLY
 	}));
 	useStepStore.setState(() => ({ step: 1, confirm: false }));
-	useAddonStore.setState(() => ({ addons: [], addonsFromApi: [] }));
 };
 
 type Plan = {
@@ -104,14 +57,6 @@ type Plan = {
 	title?: string;
 	annuality?: string;
 	price?: number;
-};
-
-type AddonStore = {
-	addons: Addon[];
-	addonsFromApi: Addon[];
-	addAddons: (addons: Addon[] | undefined) => void;
-	setMonthlyPlan: (newPlan: Addon | Addon[]) => void;
-	removeAddon: (idToRemove: string | undefined) => void;
 };
 
 type PlanStore = {
@@ -132,16 +77,4 @@ type AnnualityStore = {
 	setAnnuality: (annuality: string) => void;
 };
 
-export type Addon = {
-	id: string | undefined;
-	title: string | undefined;
-	price: number | undefined;
-};
-
-export {
-	usePlanStore,
-	useAnnualityStore,
-	useStepStore,
-	useAddonStore,
-	resetAllStates
-};
+export { usePlanStore, useAnnualityStore, useStepStore, resetAllStates };

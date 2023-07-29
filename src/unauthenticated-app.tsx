@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import obv from './assets/images/obvli.jpg';
-import { Flex, Grid, Padding } from './custom.styled.components';
-import { Else, If, Then, When } from './functional.component';
+import { Flex, Grid, Padding } from './shared/custom.styled.components';
+import { Else, If, Then, When } from './shared/functional.component';
 import { User as TypeUSer, useAuth } from './context/auth-contenxt';
 import styled from 'styled-components';
-import { colors } from './colors';
+import { colors } from './shared/colors';
 import {
 	Button,
 	ContainerForm,
@@ -14,7 +14,8 @@ import {
 	Password,
 	User
 } from './iu/atoms';
-import { InputPassword, InputText, Spinner } from './iu/molecules';
+import { InputPassword, InputText } from './iu/molecules';
+import { Spinner } from './shared/molecules';
 
 const FORM_NAMES = {
 	EMAIL: 'email',

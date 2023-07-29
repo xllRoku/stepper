@@ -1,10 +1,10 @@
-import { Flex, Padding, Text } from '../custom.styled.components';
-import { Else, If, Then } from '../functional.component';
+import { Flex, Padding, Text } from '../shared/custom.styled.components';
+import { Else, If, Then } from '../shared/functional.component';
 import { Plan, useChangePlan, useGetPlans } from '../hooks';
-import { colors } from '../colors';
+import { colors } from '../shared/colors';
 import { Img, PlanButton } from '../iu/atoms';
-import { Annuality, Header, Spinner } from '../iu/molecules';
 import { SwitchAnnuality } from '../iu/components';
+import { Annuality, Header, Spinner } from '../shared/molecules';
 
 type PlanObject = {
 	plan: Plan;

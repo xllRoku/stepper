@@ -1,13 +1,14 @@
 import { lazy, Suspense } from 'react';
-import { Flex, Padding } from './custom.styled.components';
+import { Flex, Padding } from './shared/custom.styled.components';
 import { useAuth } from './context/auth-contenxt';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import { Down, HomeContainer, Logout, Position, Section, Up } from './iu/atoms';
 import { Buttons } from './iu/components';
-import { Spinner, Steps } from './iu/molecules';
+import { Steps } from './iu/molecules';
+import { Spinner } from './shared/molecules';
 
 const PlanScreen = lazy(() => import('./screens/plans'));
-const AddonScreen = lazy(() => import('./screens/addons'));
+const AddonScreen = lazy(() => import('./addons/addons'));
 const SummaryScreen = lazy(() => import('./screens/summary'));
 
 const Layout = () => {
@@ -89,10 +90,6 @@ const Layout = () => {
 };
 
 const AuthenticatedApp = () => {
-	return <AppRoutes />;
-};
-
-const AppRoutes = () => {
 	return (
 		<Routes>
 			<Route element={<Layout />}>

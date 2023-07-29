@@ -1,45 +1,10 @@
 import { ReactNode } from 'react';
 import bg from '../../assets/images/bg-sidebar-desktop.svg';
 import bgMobile from '../../assets/images/bg-sidebar-mobile.svg';
-import {
-	ContainerStep,
-	Dimension,
-	Input,
-	Label,
-	LdsRing,
-	LdsRingChild,
-	StepContainers
-} from '../atoms';
-import {
-	Flex,
-	Grid,
-	Margin,
-	Padding,
-	Text
-} from '../../custom.styled.components';
-import { colors } from '../../colors';
-import { ANNUALITY, STEPS } from '../../constans';
+import { ContainerStep, Input, Label, StepContainers } from '../atoms';
+import { Flex, Grid, Padding } from '../../shared/custom.styled.components';
+import { STEPS } from '../../shared/constans';
 import { Step } from '../components';
-import { When } from '../../functional.component';
-
-const Header = ({ title, text }: { title: string; text: string }) => {
-	return (
-		<header>
-			<Margin width='100%' height='100%' marginTop='2rem'>
-				<Text
-					fontSize='2rem'
-					fontWeight='bold'
-					color={`${colors.MarineBlue}`}
-				>
-					{title}
-				</Text>
-				<Margin width='100%' height='100%' marginTop='1rem'>
-					<Text color={`${colors.CoolGray}`}>{text}</Text>
-				</Margin>
-			</Margin>
-		</header>
-	);
-};
 
 const InputPassword: React.FC<Input> = ({ name, value, icon }) => {
 	return (
@@ -122,48 +87,10 @@ const Steps = () => {
 	);
 };
 
-const Annuality = ({ annuality }: { annuality: string }) => {
-	return (
-		<>
-			<When predicate={annuality === ANNUALITY.MONTHLY}>/mo</When>
-			<When predicate={annuality === ANNUALITY.YEARLY}>/yr</When>
-		</>
-	);
-};
-
-const Spinner = ({ height, width, borderColor }: Dimension) => {
-	return (
-		<LdsRing className='lds-ring'>
-			<LdsRingChild
-				height={height}
-				width={width}
-				borderColor={borderColor}
-			></LdsRingChild>
-			<LdsRingChild
-				height={height}
-				width={width}
-				borderColor={borderColor}
-			></LdsRingChild>
-			<LdsRingChild
-				height={height}
-				width={width}
-				borderColor={borderColor}
-			></LdsRingChild>
-			<LdsRingChild
-				height={height}
-				width={width}
-				borderColor={borderColor}
-			>
-				{' '}
-			</LdsRingChild>
-		</LdsRing>
-	);
-};
-
 type Input = {
 	name: string;
 	value?: string;
 	icon: ReactNode;
 };
 
-export { InputPassword, InputText, Header, Annuality, Steps, Spinner };
+export { InputPassword, InputText, Steps };

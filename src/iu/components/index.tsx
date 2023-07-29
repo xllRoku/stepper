@@ -1,6 +1,11 @@
-import { colors } from '../../colors';
-import { Flex, Margin, Padding, Text } from '../../custom.styled.components';
-import { When } from '../../functional.component';
+import { colors } from '../../shared/colors';
+import {
+	Flex,
+	Margin,
+	Padding,
+	Text
+} from '../../shared/custom.styled.components';
+import { When } from '../../shared/functional.component';
 import { useButton, useSwitchAnnuality } from '../../hooks';
 import { useStepStore } from '../../context/store';
 import {
