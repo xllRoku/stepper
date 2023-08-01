@@ -27,19 +27,25 @@ Follow these steps to set up and run the Interactive Step-by-Step Order Builder 
 1. Clone the repository:
 
 ```bash
-git clone <https://github.com/xllRoku/stepper.git>
+git clone https://github.com/xllRoku/stepper.git
 ```
 
 2. Navigate to Project Directory
 
+```bash
 cd project-name
+```
 
 3. Install Dependencies
 
+```bash
 npm install
+```
 
 4. Start the Development Server
 
+```bash
 npm run dev
+```
 
 The project should now be running on http://localhost:5173.
