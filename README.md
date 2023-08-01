@@ -33,7 +33,7 @@ git clone https://github.com/xllRoku/stepper.git
 2. Navigate to Project Directory
 
 ```bash
-cd project-name
+cd multipe-step-form
 ```
 
 3. Install Dependencies
