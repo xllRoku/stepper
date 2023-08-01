@@ -19,6 +19,7 @@ export type AddonsStore = {
 
 export type AddonsActions = {
 	get: () => AddonWithId[] | undefined;
+	add: (addon: AddonWithId | AddonWithId[] | undefined) => void;
 	update: (addon: AddonWithId | AddonWithId[] | undefined) => void;
 	delete: (addon: AddonWithId | AddonWithId[] | undefined) => void;
 };

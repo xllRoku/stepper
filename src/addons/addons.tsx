@@ -1,15 +1,22 @@
-import { useState } from 'react';
-import { useGetAddons } from '../hooks';
 import { Flex, Padding } from '../shared/custom.styled.components';
 import { Else, If, Then } from '../shared/functional.component';
-import { AddonCheck, AddonContainer } from '../iu/atoms';
-import { AddonWithId } from './addon.model';
-import { Price, Text, Title } from './components/atoms';
+import { AddonWithId } from './addons.model';
+import { AddonCheck, AddonContainer, Price, Text, Title } from './ui/atoms';
 import { Annuality, Header, Spinner } from '../shared/molecules';
-import { useAddonsManagement } from './hooks';
+import { useAddonsManagement, useGetAddons } from './hooks';
+import { useEffect } from 'react';
+import { annualityStore } from '../annuality/annuality.store';
 
-const Addons = () => {
+function Addons() {
+	const { annuality } = annualityStore();
+	const { upgradeAddons } = useAddonsManagement();
 	const { data, isLoading: loading } = useGetAddons();
+
+	useEffect(() => {
+		if (data) {
+			upgradeAddons(data);
+		}
+	}, [annuality, data]);
 
 	return (
 		<Flex flexDirection='column' gap='1rem'>
@@ -35,18 +42,11 @@ const Addons = () => {
 			</If>
 		</Flex>
 	);
-};
+}
 
-const Addon: React.FC<{ addon: AddonWithId }> = ({ addon }) => {
+function Addon({ addon }: { addon: AddonWithId }) {
 	const { addAddon, getAddons } = useAddonsManagement();
-	const [checked, setChecked] = useState(false);
-
-	const handleCheckboxChange = () => {
-		setChecked(prevChecked => !prevChecked);
-		addAddon(addon);
-	};
-
-	console.log(getAddons());
+	let checked = !!getAddons()?.find(addonStore => addonStore.id === addon.id);
 
 	return (
 		<AddonContainer>
@@ -61,7 +61,7 @@ const Addon: React.FC<{ addon: AddonWithId }> = ({ addon }) => {
 							type='checkbox'
 							name={addon.id}
 							checked={checked}
-							onChange={handleCheckboxChange}
+							onChange={() => addAddon(addon)}
 						/>
 						<div>
 							<Title>{addon.title}</Title>
@@ -79,6 +79,6 @@ const Addon: React.FC<{ addon: AddonWithId }> = ({ addon }) => {
 			</Padding>
 		</AddonContainer>
 	);
-};
+}
 
 export default Addons;

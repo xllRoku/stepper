@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Token, User } from './context/auth-contenxt';
+import { Token, User } from './auth-contenxt';
 
 const localStorageKey = '__auth_provider_token__';
 const authURL = 'http://localhost:3000';

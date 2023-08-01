@@ -1,22 +1,24 @@
 import { Flex, Padding, Text } from '../shared/custom.styled.components';
 import { Else, If, Then } from '../shared/functional.component';
-import { Plan, useChangePlan, useGetPlans } from '../hooks';
 import { colors } from '../shared/colors';
-import { Img, PlanButton } from '../iu/atoms';
-import { SwitchAnnuality } from '../iu/components';
 import { Annuality, Header, Spinner } from '../shared/molecules';
+import { useGetPlans, usePlanManagement } from './hooks';
+import { Img, PlanButton } from './ui/atoms';
+import { PlanWithId } from './plans.models';
+import { SwitchAnnuality } from '../annuality/annuality';
+import { useEffect } from 'react';
+import { annualityStore } from '../annuality/annuality.store';
 
-type PlanObject = {
-	plan: Plan;
-};
+function PlanComponent({ plan }: { plan: PlanWithId }) {
+	const { addPlan, getPlan } = usePlanManagement();
 
-const PlanComponent = ({ plan }: PlanObject) => {
-	const { id, image, title, price, annuality } = plan;
-	let planToChange = { id, title, price };
-	const { handleOnClick, isPlanSelected } = useChangePlan(planToChange);
+	console.log(getPlan()?.id);
 
 	return (
-		<PlanButton onClick={handleOnClick} selected={isPlanSelected}>
+		<PlanButton
+			onClick={() => addPlan(plan)}
+			selected={getPlan()?.id === plan.id}
+		>
 			<Padding
 				width='100%'
 				height='100%'
@@ -37,14 +39,14 @@ const PlanComponent = ({ plan }: PlanObject) => {
 						}
 					}}
 				>
-					<Img src={image} alt='' />
+					<Img src={plan.image} alt='' />
 					<div style={{ textAlign: 'start' }}>
 						<Text
 							color={`${colors.MarineBlue}`}
 							fontWeight='bold'
 							textTransform='capitalize'
 						>
-							{title}
+							{plan.title}
 						</Text>
 						<span
 							style={{
@@ -52,18 +54,29 @@ const PlanComponent = ({ plan }: PlanObject) => {
 								fontWeight: 'bold'
 							}}
 						>
-							${price}
-							<Annuality annuality={annuality} key={annuality} />
+							${plan.price}
+							<Annuality
+								annuality={plan.annuality}
+								key={plan.annuality}
+							/>
 						</span>
 					</div>
 				</Flex>
 			</Padding>
 		</PlanButton>
 	);
-};
+}
 
-const Plans = () => {
+function Plans() {
+	const { annuality } = annualityStore();
+	const { upgradePlan } = usePlanManagement();
 	const { data, isLoading: loading } = useGetPlans();
+
+	useEffect(() => {
+		if (data) {
+			upgradePlan(data);
+		}
+	}, [annuality, data]);
 
 	return (
 		<Flex
@@ -96,8 +109,8 @@ const Plans = () => {
 							}
 						}}
 					>
-						{data?.map(p => (
-							<PlanComponent key={p.id} plan={p} />
+						{data?.map(plan => (
+							<PlanComponent key={plan.id} plan={plan} />
 						))}
 					</Flex>
 				</Else>
@@ -105,6 +118,6 @@ const Plans = () => {
 			<SwitchAnnuality />
 		</Flex>
 	);
-};
+}
 
 export default Plans;

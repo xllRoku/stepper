@@ -1,3 +1,5 @@
+export const apiURL = 'http://localhost:3000';
+
 const STEPS = [
 	{
 		id: '1',

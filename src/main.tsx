@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { AuthProvider } from './context/auth-contenxt';
+import { AuthProvider } from './auth/auth-contenxt';
 import { Grid } from './shared/custom.styled.components';
 import { BrowserRouter } from 'react-router-dom';
-import { Container } from './iu/atoms';
+import { Container } from './shared/ui/atoms';
 
 const queryClient = new QueryClient();
 

@@ -1,19 +1,12 @@
 import thk from '../assets/images/icon-thank-you.svg';
-import styled from 'styled-components';
 import { Flex, Margin, Padding } from '../shared/custom.styled.components';
 import { colors } from '../shared/colors';
 import { ANNUALITY } from '../shared/constans';
 import { When } from '../shared/functional.component';
-import { useGetTotal } from '../hooks';
-import { useStepStore } from '../context/store';
+import { useStepStore } from '../shared/store/store';
 import { Annuality, Header } from '../shared/molecules';
-
-const Link = styled.a`
-	background: transparent;
-	border-bottom: 2px solid black;
-	cursor: pointer;
-	color: ${colors.PurplishBlue};
-`;
+import { Link } from './ui/atoms';
+import { useGetTotal } from './hooks';
 
 const Summary = () => {
 	const { confirm } = useStepStore();
@@ -22,7 +15,7 @@ const Summary = () => {
 };
 
 const TotalScreen = () => {
-	const { annuality, data, move, addons, plan } = useGetTotal();
+	const { annuality, total, move, addons, plan } = useGetTotal();
 
 	return (
 		<div>
@@ -121,7 +114,7 @@ const TotalScreen = () => {
 							fontSize: '1.2rem'
 						}}
 					>
-						${data?.data}
+						${total}
 						<Annuality annuality={annuality} />
 					</span>
 				</Flex>

@@ -1,15 +1,16 @@
 import { lazy, Suspense } from 'react';
-import { Flex, Padding } from './shared/custom.styled.components';
-import { useAuth } from './context/auth-contenxt';
+import { Flex, Padding } from '../shared/custom.styled.components';
+import { useAuth } from './auth-contenxt';
 import { Routes, Route, Outlet } from 'react-router-dom';
-import { Down, HomeContainer, Logout, Position, Section, Up } from './iu/atoms';
-import { Buttons } from './iu/components';
-import { Steps } from './iu/molecules';
-import { Spinner } from './shared/molecules';
 
-const PlanScreen = lazy(() => import('./screens/plans'));
-const AddonScreen = lazy(() => import('./addons/addons'));
-const SummaryScreen = lazy(() => import('./screens/summary'));
+import { Spinner } from '../shared/molecules';
+import { Steps } from '../shared/ui/molecules';
+import { Buttons } from '../shared/ui/components';
+import { Down, HomeContainer, Logout, Position, Section, Up } from './ui/atoms';
+
+const PlanScreen = lazy(() => import('../plans/plans'));
+const AddonScreen = lazy(() => import('../addons/addons'));
+const SummaryScreen = lazy(() => import('../summary/summary'));
 
 const Layout = () => {
 	const { logout } = useAuth();

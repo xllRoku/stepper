@@ -1,21 +1,20 @@
 import { useState } from 'react';
-import obv from './assets/images/obvli.jpg';
-import { Flex, Grid, Padding } from './shared/custom.styled.components';
-import { Else, If, Then, When } from './shared/functional.component';
-import { User as TypeUSer, useAuth } from './context/auth-contenxt';
-import styled from 'styled-components';
-import { colors } from './shared/colors';
+import obv from '../assets/images/obvli.jpg';
+import { Flex, Grid, Padding } from '../shared/custom.styled.components';
+import { Else, If, Then, When } from '../shared/functional.component';
+import { User, useAuth } from './auth-contenxt';
+import { Spinner } from '../shared/molecules';
 import {
 	Button,
 	ContainerForm,
 	H1Form,
 	ObvImage,
 	ObvImageForm,
-	Password,
-	User
-} from './iu/atoms';
-import { InputPassword, InputText } from './iu/molecules';
-import { Spinner } from './shared/molecules';
+	PasswordIcon,
+	Submit,
+	UserIcon
+} from './ui/atoms';
+import { InputPassword, InputText } from './ui/molecules';
 
 const FORM_NAMES = {
 	EMAIL: 'email',
@@ -23,18 +22,8 @@ const FORM_NAMES = {
 };
 
 type Login = {
-	onSubmit: ({ email, password }: TypeUSer) => void;
+	onSubmit: ({ email, password }: User) => void;
 };
-
-const Submit = styled.button`
-	height: 2rem;
-	text-transform: capitalize;
-	border: none;
-	background: none;
-	cursor: pointer;
-	color: ${colors.PurplishBlue};
-	font-weight: bold;
-`;
 
 export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 	const { error, isLoading } = useAuth();
@@ -61,9 +50,9 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 			>
 				<Grid gridPlaceItems='center' gap='1rem'>
 					<H1Form>user login</H1Form>
-					<InputText icon={<User />} name={FORM_NAMES.EMAIL} />
+					<InputText icon={<UserIcon />} name={FORM_NAMES.EMAIL} />
 					<InputPassword
-						icon={<Password />}
+						icon={<PasswordIcon />}
 						name={FORM_NAMES.PASSWORD}
 					/>
 					<Button>
