@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, useEffect } from 'react';
 import { Suspense } from 'react';
 import { Spinner } from './shared/molecules';
 import { useAuth } from './auth/hooks';
