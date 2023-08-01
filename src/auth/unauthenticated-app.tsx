@@ -2,7 +2,6 @@ import { useState } from 'react';
 import obv from '../assets/images/obvli.jpg';
 import { Flex, Grid, Padding } from '../shared/custom.styled.components';
 import { Else, If, Then, When } from '../shared/functional.component';
-import { User, useAuth } from './auth-contenxt';
 import { Spinner } from '../shared/molecules';
 import {
 	Button,
@@ -15,6 +14,9 @@ import {
 	UserIcon
 } from './ui/atoms';
 import { InputPassword, InputText } from './ui/molecules';
+import { useAuth } from './hooks';
+import { useNavigate } from 'react-router-dom';
+import { User } from './auth';
 
 const FORM_NAMES = {
 	EMAIL: 'email',
@@ -22,11 +24,12 @@ const FORM_NAMES = {
 };
 
 type Login = {
-	onSubmit: ({ email, password }: User) => void;
+	onSubmit: (user: User) => void;
 };
 
 export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
-	const { error, isLoading } = useAuth();
+	const { getState } = useAuth();
+	const navigate = useNavigate();
 
 	const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -34,7 +37,13 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 		const email: string = event.currentTarget.email.value;
 		const password: string = event.currentTarget.password.value;
 
-		onSubmit({ email, password });
+		const user = {
+			email,
+			password
+		};
+
+		onSubmit(user);
+		navigate('/plans');
 	};
 
 	return (
@@ -61,8 +70,8 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 							justifyContent='center'
 							alignItems='center'
 						>
-							<When predicate={!isLoading}>sign up</When>
-							<When predicate={isLoading}>
+							<When predicate={!getState().loading}>sign up</When>
+							<When predicate={getState().loading}>
 								<Spinner
 									width='24px'
 									height='24px'
@@ -71,8 +80,8 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 							</When>
 						</Flex>
 					</Button>
-					<When predicate={error && !isLoading}>
-						<p style={{ color: 'red' }}>{error}</p>
+					<When predicate={getState().error && !getState().loading}>
+						<p style={{ color: 'red' }}>{getState().error}</p>
 					</When>
 				</Grid>
 			</Padding>

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { AuthProvider } from './auth/auth-contenxt';
 import { Grid } from './shared/custom.styled.components';
 import { BrowserRouter } from 'react-router-dom';
 import { Container } from './shared/ui/atoms';
@@ -16,9 +15,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 			<Container>
 				<Grid gridPlaceItems='center' height='100%'>
 					<BrowserRouter>
-						<AuthProvider>
-							<App />
-						</AuthProvider>
+						<App />
 					</BrowserRouter>
 				</Grid>
 			</Container>

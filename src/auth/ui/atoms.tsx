@@ -139,6 +139,7 @@ export const Position = styled.div`
 export const Section = styled.section`
 	background: white;
 	border-radius: 0.5rem;
+	height: 100%;
 `;
 
 export const Up = styled.div`
@@ -154,6 +155,7 @@ export const Up = styled.div`
 	@media (min-width: 1200px) {
 		max-width: 100%;
 		width: 100%;
+		height: 100%;
 		position: initial;
 		top: 0;
 		box-shadow: none;

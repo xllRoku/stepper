@@ -1,4 +1,5 @@
 export const apiURL = 'http://localhost:3000';
+export const authURL = 'http://localhost:3000';
 
 const STEPS = [
 	{

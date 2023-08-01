@@ -13,7 +13,7 @@ export const storePlan = create<PlanStore & PlanActions>()(
 			delete: () => set(() => ({ plan: undefined }))
 		}),
 		{
-			name: 'plan-store',
+			name: '__plan-store__',
 			getStorage: () => localStorage
 		}
 	)

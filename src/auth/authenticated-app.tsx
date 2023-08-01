@@ -1,12 +1,10 @@
 import { lazy, Suspense } from 'react';
 import { Flex, Padding } from '../shared/custom.styled.components';
-import { useAuth } from './auth-contenxt';
-import { Routes, Route, Outlet } from 'react-router-dom';
-
-import { Spinner } from '../shared/molecules';
+import { Routes, Route, Outlet, useNavigate } from 'react-router-dom';
 import { Steps } from '../shared/ui/molecules';
 import { Buttons } from '../shared/ui/components';
 import { Down, HomeContainer, Logout, Position, Section, Up } from './ui/atoms';
+import { useAuth } from './hooks';
 
 const PlanScreen = lazy(() => import('../plans/plans'));
 const AddonScreen = lazy(() => import('../addons/addons'));
@@ -14,10 +12,18 @@ const SummaryScreen = lazy(() => import('../summary/summary'));
 
 const Layout = () => {
 	const { logout } = useAuth();
+	const navigate = useNavigate();
 	return (
 		<HomeContainer>
 			<Position>
-				<Logout onClick={logout}>log out</Logout>
+				<Logout
+					onClick={() => {
+						logout();
+						navigate('/');
+					}}
+				>
+					log out
+				</Logout>
 			</Position>
 			<Padding
 				width='100%'
@@ -32,6 +38,7 @@ const Layout = () => {
 				<Flex
 					flexDirection='column'
 					alignItems='center'
+					height='100%'
 					media={{
 						'@media (min-width: 1200px)': {
 							flexDirection: 'row',
@@ -97,15 +104,7 @@ const AuthenticatedApp = () => {
 				<Route
 					path='/plans'
 					element={
-						<Suspense
-							fallback={
-								<Spinner
-									borderColor='black'
-									height='3rem'
-									width='3rem'
-								/>
-							}
-						>
+						<Suspense fallback={null}>
 							<PlanScreen />
 						</Suspense>
 					}
@@ -113,15 +112,7 @@ const AuthenticatedApp = () => {
 				<Route
 					path='/addons'
 					element={
-						<Suspense
-							fallback={
-								<Spinner
-									borderColor='black'
-									height='3rem'
-									width='3rem'
-								/>
-							}
-						>
+						<Suspense fallback={null}>
 							<AddonScreen />
 						</Suspense>
 					}
@@ -129,15 +120,7 @@ const AuthenticatedApp = () => {
 				<Route
 					path='/summary'
 					element={
-						<Suspense
-							fallback={
-								<Spinner
-									borderColor='black'
-									height='3rem'
-									width='3rem'
-								/>
-							}
-						>
+						<Suspense fallback={null}>
 							<SummaryScreen />
 						</Suspense>
 					}

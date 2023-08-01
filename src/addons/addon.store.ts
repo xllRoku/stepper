@@ -44,7 +44,7 @@ export const storeAddons = create<AddonsStore & AddonsActions>()(
 			}
 		}),
 		{
-			name: 'addons-store',
+			name: '__addons-store__',
 			getStorage: () => localStorage
 		}
 	)
