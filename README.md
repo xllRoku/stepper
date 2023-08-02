@@ -27,7 +27,7 @@ Follow these steps to set up and run the Interactive Step-by-Step Order Builder 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/xllRoku/stepper.git
+git clone https://github.com/xllRoku/example-redux.git
 ```
 
 2. Navigate to Project Directory

@@ -29,16 +29,13 @@ class HttpService {
 
 	private handleRequestError(error: AxiosError) {
 		if (error.response) {
-			// The request was made, and the server responded with a status code outside the range of 2xx
 			console.error('Request failed with response:', error.response.data);
 		} else if (error.request) {
-			// The request was made, but no response was received
 			console.error(
 				'Request was made, but no response was received:',
 				error.request
 			);
 		} else {
-			// Something happened in setting up the request that triggered an Error
 			console.error('Error setting up the request:', error.message);
 		}
 
