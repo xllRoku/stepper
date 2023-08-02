@@ -13,7 +13,11 @@ export const usePlanManagement = () => {
 
 	const { addPlan, getPlan, upgradePlan } = planManagement;
 
-	return { addPlan, getPlan, upgradePlan };
+	const store = {
+		planStore: getPlan()
+	};
+
+	return { addPlan, store, upgradePlan };
 };
 
 export const useGetPlans = () => {

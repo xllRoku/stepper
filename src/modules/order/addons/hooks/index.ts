@@ -12,7 +12,11 @@ export const useAddonsManagement = () => {
 	const addonManagement = useMemo(() => new AddonManagement(dispatch), []);
 	const { addAddon, getAddons, upgradeAddons } = addonManagement;
 
-	return { addAddon, getAddons, upgradeAddons };
+	const store = {
+		addons: getAddons()
+	};
+
+	return { addAddon, store, upgradeAddons };
 };
 
 export const useGetAddons = () => {

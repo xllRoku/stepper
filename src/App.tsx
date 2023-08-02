@@ -2,7 +2,8 @@ import { lazy, useEffect } from 'react';
 import { Suspense } from 'react';
 import { useAuth } from '@auth/hooks';
 import { Spinner } from '@shared/ui/molecules';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useNavigateTo } from '@shared/hooks';
 
 const Authenticated = lazy(() => import('@auth/ui/screens/authenticated-app'));
 const Unauthenticated = lazy(
@@ -14,11 +15,16 @@ function App() {
 		state: { token }
 	} = useAuth();
 
-	const navigate = useNavigate();
+	const { navigate } = useNavigateTo();
+	const location = useLocation();
 
 	useEffect(() => {
 		if (token) {
 			navigate('/plans');
+		} else {
+			if (location.pathname !== '/' && !token) {
+				navigate('/');
+			}
 		}
 	}, [token]);
 

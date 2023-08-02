@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks';
 import { User } from '@auth/auth.controller';
 import { Flex, Grid, Padding } from '@shared/custom.styled.components';
@@ -6,6 +5,7 @@ import { Button, H1Form, PasswordIcon, UserIcon } from '../atoms';
 import { InputPassword, InputText } from '../molecules';
 import { When } from '@shared/functional.component';
 import { Spinner } from '@shared/ui/molecules';
+import { useNavigateTo } from '@shared/hooks';
 
 const FORM_NAMES = {
 	EMAIL: 'email',
@@ -20,7 +20,7 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 	const {
 		state: { error, loading }
 	} = useAuth();
-	const navigate = useNavigate();
+	const { navigate } = useNavigateTo();
 
 	const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();

@@ -11,7 +11,7 @@ export const STEP = {
 
 export const useButton = () => {
 	const { step, setStep, setConfirm, confirm } = useStepStore();
-	const navigate = useNavigate();
+	const { navigate } = useNavigateTo();
 	const { plan } = storePlan();
 	const { addons } = storeAddons();
 
@@ -45,4 +45,10 @@ export const useButton = () => {
 	const showNext = !confirm;
 
 	return { step, nextStep, prevStep, confirm, showBack, showNext };
+};
+
+export const useNavigateTo = () => {
+	const navigate = useNavigate();
+
+	return { navigate };
 };

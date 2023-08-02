@@ -5,8 +5,11 @@ import { AddonCheck, AddonContainer, Price, Title } from '../atoms';
 import { Annuality } from '@shared/ui/molecules';
 
 export function Addon({ addon }: { addon: AddonWithId }) {
-	const { addAddon, getAddons } = useAddonsManagement();
-	let checked = !!getAddons()?.find(addonStore => addonStore.id === addon.id);
+	const {
+		addAddon,
+		store: { addons }
+	} = useAddonsManagement();
+	let checked = !!addons?.find(addonStore => addonStore.id === addon.id);
 
 	return (
 		<AddonContainer>

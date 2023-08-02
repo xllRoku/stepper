@@ -6,14 +6,15 @@ import { colors } from '@shared/colors';
 import { Annuality } from '@shared/ui/molecules';
 
 export function PlanCard({ plan }: { plan: PlanWithId }) {
-	const { addPlan, getPlan } = usePlanManagement();
-
-	console.log(getPlan()?.id);
+	const {
+		addPlan,
+		store: { planStore }
+	} = usePlanManagement();
 
 	return (
 		<PlanButton
 			onClick={() => addPlan(plan)}
-			selected={getPlan()?.id === plan.id}
+			selected={planStore?.id === plan.id}
 		>
 			<Padding
 				width='100%'

@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { storeAddons } from '../../addons/context/addon.store';
 import { annualityStore } from '../../annuality/context/annuality.store';
 import { storePlan } from '../../plans/context/plan.store';
@@ -6,7 +5,7 @@ import { useStepStore } from '@shared/store/store';
 import { useQuery } from 'react-query';
 import { apiURL } from '@shared/constans';
 import HttpService from '@shared/http';
-import { STEP } from '@shared/hooks';
+import { STEP, useNavigateTo } from '@shared/hooks';
 
 export const useGetTotal = () => {
 	const httpService = new HttpService(apiURL);
@@ -14,7 +13,7 @@ export const useGetTotal = () => {
 	const { addons } = storeAddons();
 	const { annuality } = annualityStore();
 	const { setStep } = useStepStore();
-	const navigate = useNavigate();
+	const { navigate } = useNavigateTo();
 
 	const addonsPrices = addons.map(addon => addon.price);
 	const prices = [plan?.price, addonsPrices];

@@ -1,13 +1,16 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useAuth } from '../../hooks';
 import { Down, HomeContainer, Logout, Position, Section, Up } from '../atoms';
 import { Flex, Padding } from '@shared/custom.styled.components';
 import { Steps } from '@shared/ui/molecules';
 import { Buttons } from '@shared/ui/components';
+import { useNavigateTo } from '@shared/hooks';
 
 export const Layout = () => {
-	const { logout } = useAuth();
-	const navigate = useNavigate();
+	const {
+		auth: { logout }
+	} = useAuth();
+	const { navigate } = useNavigateTo();
 	return (
 		<HomeContainer>
 			<Position>
