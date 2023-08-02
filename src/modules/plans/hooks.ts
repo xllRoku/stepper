@@ -4,8 +4,8 @@ import { storePlan } from './plan.store';
 import { annualityStore } from '../annuality/annuality.store';
 import { useQuery } from 'react-query';
 import { PlanFromApi, PlanWithId } from './plans.models';
-import { apiURL } from '../shared/constans';
-import HttpService from '../shared/http';
+import HttpService from '@shared/http';
+import { apiURL } from '@shared/constans';
 
 export const usePlanManagement = () => {
 	const dispatch = storePlan();

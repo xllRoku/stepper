@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { Flex, Padding } from '../../shared/custom.styled.components';
 import { Input, Label } from './atoms';
+import { Flex, Padding } from '@shared/custom.styled.components';
 
 export const InputPassword: React.FC<Input> = ({ name, value, icon }) => {
 	return (

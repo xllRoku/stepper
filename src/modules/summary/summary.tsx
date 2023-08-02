@@ -1,12 +1,12 @@
 import thk from '../assets/images/icon-thank-you.svg';
-import { Flex, Margin, Padding } from '../shared/custom.styled.components';
-import { colors } from '../shared/colors';
-import { ANNUALITY } from '../shared/constans';
-import { When } from '../shared/functional.component';
-import { useStepStore } from '../shared/store/store';
-import { Annuality, Header } from '../shared/molecules';
 import { Link } from './ui/atoms';
 import { useGetTotal } from './hooks';
+import { useStepStore } from '@shared/store/store';
+import { colors } from '@shared/colors';
+import { Flex, Margin, Padding } from '@shared/custom.styled.components';
+import { Annuality, Header } from '@shared/molecules';
+import { ANNUALITY } from '@shared/constans';
+import { When } from '@shared/functional.component';
 
 const Summary = () => {
 	const { confirm } = useStepStore();

@@ -4,8 +4,8 @@ import { AddonManagement } from './addon.management';
 import { annualityStore } from '../annuality/annuality.store';
 import { useQuery } from 'react-query';
 import { AddonFromApi, AddonWithId } from './addons.model';
-import { apiURL } from '../shared/constans';
-import HttpService from '../shared/http';
+import HttpService from '@shared/http';
+import { apiURL } from '@shared/constans';
 
 export const useAddonsManagement = () => {
 	const dispatch = storeAddons();

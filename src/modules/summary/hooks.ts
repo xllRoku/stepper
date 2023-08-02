@@ -2,11 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import { storeAddons } from '../addons/addon.store';
 import { annualityStore } from '../annuality/annuality.store';
 import { storePlan } from '../plans/plan.store';
-import { useStepStore } from '../shared/store/store';
+import { useStepStore } from '@shared/store/store';
 import { useQuery } from 'react-query';
-import { apiURL } from '../shared/constans';
-import HttpService from '../shared/http';
-import { STEP } from '../shared/hooks';
+import { apiURL } from '@shared/constans';
+import HttpService from '@shared/http';
+import { STEP } from '@shared/hooks';
 
 export const useGetTotal = () => {
 	const httpService = new HttpService(apiURL);

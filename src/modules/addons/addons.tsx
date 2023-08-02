@@ -1,11 +1,11 @@
-import { Flex, Padding } from '../shared/custom.styled.components';
-import { Else, If, Then } from '../shared/functional.component';
 import { AddonWithId } from './addons.model';
 import { AddonCheck, AddonContainer, Price, Text, Title } from './ui/atoms';
-import { Annuality, Header, Spinner } from '../shared/molecules';
 import { useAddonsManagement, useGetAddons } from './hooks';
 import { useEffect } from 'react';
 import { annualityStore } from '../annuality/annuality.store';
+import { Flex, Padding } from '@shared/custom.styled.components';
+import { Annuality, Header, Spinner } from '@shared/molecules';
+import { Else, If, Then } from '@shared/functional.component';
 
 function Addons() {
 	const { annuality } = annualityStore();

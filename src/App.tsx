@@ -1,10 +1,10 @@
-import { lazy, useEffect } from 'react';
+import { lazy } from 'react';
 import { Suspense } from 'react';
 import { Spinner } from './shared/molecules';
-import { useAuth } from './auth/hooks';
+import { useAuth } from '@auth/hooks';
 
-const Authenticated = lazy(() => import('./auth/authenticated-app'));
-const Unauthenticated = lazy(() => import('./auth/unauthenticated-app'));
+const Authenticated = lazy(() => import('@auth/authenticated-app'));
+const Unauthenticated = lazy(() => import('@auth/unauthenticated-app'));
 
 function App() {
 	const { getState } = useAuth();

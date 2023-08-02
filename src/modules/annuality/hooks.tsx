@@ -1,4 +1,4 @@
-import { ANNUALITY } from '../shared/constans';
+import { ANNUALITY } from '@shared/constans';
 import { annualityStore } from './annuality.store';
 
 export const useSwitchAnnuality = () => {

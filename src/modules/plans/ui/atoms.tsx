@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from '../../shared/colors';
+import { colors } from '@shared/colors';
 
 export const Img = styled.img`
 	width: 3rem;

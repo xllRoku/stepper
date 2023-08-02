@@ -1,5 +1,5 @@
-import { colors } from '../shared/colors';
-import { Flex, Padding } from '../shared/custom.styled.components';
+import { colors } from '@shared/colors';
+import { Flex, Padding } from '@shared/custom.styled.components';
 import { useSwitchAnnuality } from './hooks';
 import {
 	Circle,

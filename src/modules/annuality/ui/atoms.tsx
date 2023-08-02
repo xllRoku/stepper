@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { ANNUALITY } from '../../shared/constans';
-import { colors } from '../../shared/colors';
+import { ANNUALITY } from '@shared/constans';
+import { colors } from '@shared/colors';
 
 export const Monthly = styled.span`
 	text-transform: capitalize;

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ANNUALITY } from '../shared/constans';
+import { ANNUALITY } from '@shared/constans';
 import { persist } from 'zustand/middleware';
 
 type Annuality = {

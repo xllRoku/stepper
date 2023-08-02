@@ -1,8 +1,5 @@
 import { useState } from 'react';
 import obv from '../assets/images/obvli.jpg';
-import { Flex, Grid, Padding } from '../shared/custom.styled.components';
-import { Else, If, Then, When } from '../shared/functional.component';
-import { Spinner } from '../shared/molecules';
 import {
 	Button,
 	ContainerForm,
@@ -17,6 +14,9 @@ import { InputPassword, InputText } from './ui/molecules';
 import { useAuth } from './hooks';
 import { useNavigate } from 'react-router-dom';
 import { User } from './auth';
+import { Flex, Grid, Padding } from '@shared/custom.styled.components';
+import { Else, If, Then, When } from '@shared/functional.component';
+import { Spinner } from '@shared/molecules';
 
 const FORM_NAMES = {
 	EMAIL: 'email',

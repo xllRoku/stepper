@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from '../../shared/colors';
+import { colors } from '@shared/colors';
 
 export const Text = styled.p`
 	font-size: 0.8rem;

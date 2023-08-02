@@ -1,13 +1,13 @@
-import { Flex, Padding, Text } from '../shared/custom.styled.components';
-import { Else, If, Then } from '../shared/functional.component';
-import { colors } from '../shared/colors';
-import { Annuality, Header, Spinner } from '../shared/molecules';
 import { useGetPlans, usePlanManagement } from './hooks';
 import { Img, PlanButton } from './ui/atoms';
 import { PlanWithId } from './plans.models';
 import { SwitchAnnuality } from '../annuality/annuality';
 import { useEffect } from 'react';
 import { annualityStore } from '../annuality/annuality.store';
+import { Flex, Padding, Text } from '../../shared/custom.styled.components';
+import { colors } from '../../shared/colors';
+import { Annuality, Header, Spinner } from '../../shared/molecules';
+import { Else, If, Then } from '../../shared/functional.component';
 
 function PlanComponent({ plan }: { plan: PlanWithId }) {
 	const { addPlan, getPlan } = usePlanManagement();

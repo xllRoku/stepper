@@ -1,10 +1,10 @@
 import { lazy, Suspense } from 'react';
-import { Flex, Padding } from '../shared/custom.styled.components';
 import { Routes, Route, Outlet, useNavigate } from 'react-router-dom';
-import { Steps } from '../shared/ui/molecules';
-import { Buttons } from '../shared/ui/components';
 import { Down, HomeContainer, Logout, Position, Section, Up } from './ui/atoms';
 import { useAuth } from './hooks';
+import { Flex, Padding } from '@shared/custom.styled.components';
+import { Steps } from '@shared/ui/molecules';
+import { Buttons } from '@shared/ui/components';
 
 const PlanScreen = lazy(() => import('../plans/plans'));
 const AddonScreen = lazy(() => import('../addons/addons'));

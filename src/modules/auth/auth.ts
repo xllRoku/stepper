@@ -1,5 +1,5 @@
-import { authURL } from '../shared/constans';
-import HttpService from '../shared/http';
+import { authURL } from '@shared/constans';
+import HttpService from '@shared/http';
 import { AuthActions, AuthStore } from './auth.store';
 
 export type User = {
