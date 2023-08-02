@@ -1,13 +1,26 @@
-import { lazy } from 'react';
+import { lazy, useEffect } from 'react';
 import { Suspense } from 'react';
-import { Spinner } from './shared/molecules';
 import { useAuth } from '@auth/hooks';
+import { Spinner } from '@shared/ui/molecules';
+import { useNavigate } from 'react-router-dom';
 
-const Authenticated = lazy(() => import('@auth/authenticated-app'));
-const Unauthenticated = lazy(() => import('@auth/unauthenticated-app'));
+const Authenticated = lazy(() => import('@auth/ui/screens/authenticated-app'));
+const Unauthenticated = lazy(
+	() => import('@auth/ui/screens/unauthenticated-app')
+);
 
 function App() {
-	const { getState } = useAuth();
+	const {
+		state: { token }
+	} = useAuth();
+
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (token) {
+			navigate('/plans');
+		}
+	}, [token]);
 
 	return (
 		<Suspense
@@ -15,7 +28,7 @@ function App() {
 				<Spinner width='32px' borderColor='black' height='32px' />
 			}
 		>
-			{getState().token ? <Authenticated /> : <Unauthenticated />}
+			{token ? <Authenticated /> : <Unauthenticated />}
 		</Suspense>
 	);
 }
