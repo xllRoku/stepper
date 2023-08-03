@@ -7,13 +7,13 @@ import path from 'node:path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [react()],
+	plugins: [react({ fastRefresh: false })],
 	resolve: {
 		alias: {
 			'@shared': path.resolve(__dirname, './src/shared'),
-			'@auth': path.resolve(__dirname, './src/modules/auth'),
+			'@auth': path.resolve(__dirname, './src/apps/auth'),
 			'@assets': path.resolve(__dirname, './src/assets'),
-			'@annuality': path.resolve(__dirname, './src/moduels/annuality')
+			'@annuality': path.resolve(__dirname, './src/apps/annuality')
 		}
 	},
 	test: {

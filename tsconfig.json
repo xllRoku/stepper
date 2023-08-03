@@ -18,9 +18,9 @@
 		"baseUrl": "./",
 		"paths": {
 			"@shared/*": ["src/shared/*"],
-			"@auth/*": ["src/modules/auth/*"],
+			"@auth/*": ["src/apps/auth/*"],
 			"@assets/*": ["src/assets/*"],
-			"@annuality/*": ["src/modules/annuality/*"]
+			"@annuality/*": ["src/apps/annuality/*"]
 		}
 	},
 	"include": ["src"],

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useStepStore } from '../store/store';
-import { storePlan } from '../../modules/order/plans/context/plan.store';
-import { storeAddons } from '../../modules/order/addons/context/addon.store';
+import { storePlan } from '../../apps/order/plans/context/plan.store';
+import { storeAddons } from '../../apps/order/addons/context/addon.store';
 
 export const STEP = {
 	ONE: 1,

@@ -15,7 +15,7 @@ export const useGetTotal = () => {
 	const { setStep } = useStepStore();
 	const { navigate } = useNavigateTo();
 
-	const addonsPrices = addons.map(addon => addon.price);
+	const addonsPrices = addons.map((addon) => addon.price);
 	const prices = [plan?.price, addonsPrices];
 
 	const { data: total } = useQuery(['total', prices], () =>

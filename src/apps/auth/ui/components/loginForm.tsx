@@ -1,20 +1,11 @@
 import { useAuth } from '../../hooks';
-import { User } from '@auth/auth.controller';
+import { User } from '../../auth.controller';
 import { Flex, Grid, Padding } from '@shared/custom.styled.components';
 import { Button, H1Form, PasswordIcon, UserIcon } from '../atoms';
 import { InputPassword, InputText } from '../molecules';
 import { When } from '@shared/functional.component';
 import { Spinner } from '@shared/ui/molecules';
 import { useNavigateTo } from '@shared/hooks';
-
-const FORM_NAMES = {
-	EMAIL: 'email',
-	PASSWORD: 'password'
-};
-
-type Login = {
-	onSubmit: (user: User) => void;
-};
 
 export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 	const {
@@ -25,8 +16,9 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 	const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		const email: string = event.currentTarget.email.value;
-		const password: string = event.currentTarget.password.value;
+		const formData = new FormData(event.currentTarget);
+		const email = formData.get('email') as string;
+		const password = formData.get('password') as string;
 
 		const user = {
 			email,
@@ -50,11 +42,8 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 			>
 				<Grid gridPlaceItems='center' gap='1rem'>
 					<H1Form>user login</H1Form>
-					<InputText icon={<UserIcon />} name={FORM_NAMES.EMAIL} />
-					<InputPassword
-						icon={<PasswordIcon />}
-						name={FORM_NAMES.PASSWORD}
-					/>
+					<InputText icon={<UserIcon />} name='email' />
+					<InputPassword icon={<PasswordIcon />} name='password' />
 					<Button>
 						<Flex
 							width='100%'
@@ -71,11 +60,15 @@ export const LoginForm: React.FC<Login> = ({ onSubmit }) => {
 							</When>
 						</Flex>
 					</Button>
-					<When predicate={error && loading}>
+					<When predicate={error && !loading}>
 						<p style={{ color: 'red' }}>{error.message}</p>
 					</When>
 				</Grid>
 			</Padding>
 		</form>
 	);
+};
+
+type Login = {
+	onSubmit: (user: User) => void;
 };
